@@ -26,6 +26,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --font-sans: "Montserrat", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -64,16 +65,16 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.15 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.6 0.2 33);
+  --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
+  --muted: oklch(0.95 0.01 60);
   --muted-foreground: oklch(0.554 0.046 257.417);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
@@ -142,3 +143,12 @@
     color: var(--color-foreground);
   }
 }
+
+@keyframes rise { from { opacity:0; transform: translateY(40px);} to {opacity:1; transform:none;} }
+@keyframes bob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(10px);} }
+@keyframes zoomIn { from { transform: scale(1.15); opacity:0;} to { transform: scale(1); opacity:1;} }
+@utility animate-rise { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-bob { animation: bob 2s ease-in-out infinite; }
+@utility animate-zoom { animation: zoomIn 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@utility reveal { opacity:0; transform: translateY(50px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); &.is-visible { opacity:1; transform:none; } }
+@utility placeholder-img { background: repeating-linear-gradient(45deg, var(--muted), var(--muted) 14px, oklch(0.92 0.015 60) 14px, oklch(0.92 0.015 60) 28px); }
