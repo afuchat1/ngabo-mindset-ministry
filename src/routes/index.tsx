@@ -43,6 +43,33 @@ function Typewriter({ words }: { words: string[] }) {
   return <span>{text}<span className="ml-1 inline-block w-[3px] animate-pulse bg-primary align-middle" style={{ height: "0.9em" }} /></span>;
 }
 
+function ShrinkTitle() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => { raf = 0; setP(Math.min(window.scrollY / 300, 1)); };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+  }, []);
+  return (
+    <>
+      {/* spacer keeps the layout where the big title sits */}
+      <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
+        <div className="absolute inset-x-0 top-0 h-14 bg-background/90 shadow-sm backdrop-blur md:h-16" style={{ opacity: p }} />
+        <div className="animate-rise relative mt-16"><h1
+          className="relative origin-top text-7xl font-black leading-none tracking-tight text-primary md:text-9xl"
+          style={{ transform: `translateY(${-p * 52}px) scale(${1 - p * 0.6})` }}
+        >
+          NGABO
+        </h1></div>
+      </div>
+    </>
+  );
+}
+
 function Placeholder({ label, className = "" }: { label: string; className?: string }) {
   return (
     <div className={`placeholder-img flex items-center justify-center text-sm font-semibold uppercase tracking-widest text-muted-foreground ${className}`}>
@@ -70,7 +97,7 @@ function Index() {
 
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
-        <h1 className="animate-rise text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
+        <ShrinkTitle />
         <p className="animate-rise mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
         <div className="animate-zoom relative mt-10 w-full max-w-3xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
           <Placeholder label="Header image" className="aspect-[4/3]" />
