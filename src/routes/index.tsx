@@ -59,12 +59,12 @@ function ShrinkTitle() {
       <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
         <div className="absolute inset-x-0 top-0 h-14 bg-background/90 shadow-sm backdrop-blur md:h-16" style={{ opacity: p }} />
-        <h1
-          className="animate-rise relative mt-16 origin-top text-7xl font-black leading-none tracking-tight text-primary md:text-9xl"
+        <div className="animate-rise relative mt-16"><h1
+          className="relative origin-top text-7xl font-black leading-none tracking-tight text-primary md:text-9xl"
           style={{ transform: `translateY(${-p * 52}px) scale(${1 - p * 0.6})` }}
         >
           NGABO
-        </h1>
+        </h1></div>
       </div>
     </>
   );
