@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -28,6 +28,21 @@ function useReveal() {
   }, []);
 }
 
+function Typewriter({ words }: { words: string[] }) {
+  const [i, setI] = useState(0);
+  const [text, setText] = useState("");
+  const [del, setDel] = useState(false);
+  useEffect(() => {
+    const word = words[i % words.length] ?? "";
+    let t: ReturnType<typeof setTimeout>;
+    if (!del && text === word) t = setTimeout(() => setDel(true), 1600);
+    else if (del && text === "") { setDel(false); setI((n) => n + 1); return; }
+    else t = setTimeout(() => setText(del ? word.slice(0, text.length - 1) : word.slice(0, text.length + 1)), del ? 50 : 100);
+    return () => clearTimeout(t);
+  }, [text, del, i, words]);
+  return <span>{text}<span className="ml-1 inline-block w-[3px] animate-pulse bg-primary align-middle" style={{ height: "0.9em" }} /></span>;
+}
+
 function Placeholder({ label, className = "" }: { label: string; className?: string }) {
   return (
     <div className={`placeholder-img flex items-center justify-center text-sm font-semibold uppercase tracking-widest text-muted-foreground ${className}`}>
@@ -52,20 +67,11 @@ function Index() {
   useReveal();
   return (
     <main className="overflow-hidden bg-background font-sans text-foreground">
-      <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between bg-background/80 px-6 py-4 backdrop-blur md:px-20">
-        <a href="#top" className="text-lg font-black text-primary">NGABO (MMA)</a>
-        <div className="hidden gap-8 text-sm font-bold md:flex">
-          <a href="#about" className="hover:text-primary">About</a>
-          <a href="#conferences" className="hover:text-primary">Conferences</a>
-          <a href="#clients" className="hover:text-primary">Clients</a>
-          <a href="#contact" className="hover:text-primary">Contact</a>
-        </div>
-      </nav>
 
       {/* Hero */}
-      <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-28 text-center md:px-20">
+      <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <h1 className="animate-rise text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
-        <p className="animate-rise mt-2 text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}>(MMA) Net Work</p>
+        <p className="animate-rise mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
         <div className="animate-zoom relative mt-10 w-full max-w-3xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
           <Placeholder label="Header image" className="aspect-[4/3]" />
         </div>
