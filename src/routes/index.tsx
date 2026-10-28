@@ -33,7 +33,7 @@ function Typewriter({ words }: { words: string[] }) {
   const [text, setText] = useState("");
   const [del, setDel] = useState(false);
   useEffect(() => {
-    const word = words[i % words.length];
+    const word = words[i % words.length] ?? "";
     let t: ReturnType<typeof setTimeout>;
     if (!del && text === word) t = setTimeout(() => setDel(true), 1600);
     else if (del && text === "") { setDel(false); setI((n) => n + 1); return; }
