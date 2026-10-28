@@ -63,27 +63,19 @@ function Index() {
       </nav>
 
       {/* Hero */}
-      <header id="top" className="grid min-h-screen md:grid-cols-[55%_45%]">
-        <div className="relative flex flex-col justify-center px-6 pb-16 pt-28 md:px-20">
-          <h1 className="animate-rise text-6xl font-black leading-[0.9] tracking-tight text-primary md:text-8xl lg:text-9xl">
-            Ngabo<br />Alex
-          </h1>
-          <p className="animate-rise mt-8 max-w-md text-2xl font-extrabold leading-tight md:text-3xl" style={{ animationDelay: ".2s" }}>
-            Advance Your Mindset — In the Age of AI
-          </p>
-          <p className="animate-rise mt-6 max-w-md leading-relaxed" style={{ animationDelay: ".35s" }}>
-            <strong>Apostle. Coach. Teacher.</strong> Empowering ministers and encouraging societies to embrace social media in the advancing times of AI technology.
-          </p>
-          <a href="#contact" className="animate-rise mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-primary px-8 py-4 font-bold text-primary-foreground transition-transform hover:scale-105" style={{ animationDelay: ".5s" }}>
-            Book Apostle Ngabo <ArrowRight className="h-4 w-4" />
-          </a>
-          <a href="#about" aria-label="Scroll down" className="absolute bottom-8 right-8 hidden animate-bob md:block">
-            <ArrowDown className="h-10 w-10" strokeWidth={1} />
-          </a>
+      <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-28 text-center md:px-20">
+        <h1 className="animate-rise text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
+        <p className="animate-rise mt-2 text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}>(MMA) Net Work</p>
+        <div className="animate-zoom relative mt-10 w-full max-w-3xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
+          <Placeholder label="Header image" className="aspect-[4/3]" />
         </div>
-        <div className="relative min-h-[60vh] overflow-hidden">
-          <Placeholder label="Portrait photo" className="animate-zoom absolute inset-0" />
-        </div>
+        <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
+          <strong>Apostle. Coach. Teacher.</strong> Empowering ministers and encouraging societies to embrace social media in the advancing times of AI technology.
+        </p>
+        <a href="#contact" className="animate-rise mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 font-bold text-primary-foreground transition-transform hover:scale-105" style={{ animationDelay: ".6s" }}>
+          Book Apostle Ngabo <ArrowRight className="h-4 w-4" />
+        </a>
+        <a href="#about" aria-label="Scroll down" className="mt-10 animate-bob"><ArrowDown className="h-10 w-10" strokeWidth={1} /></a>
       </header>
 
       {/* About */}
@@ -96,7 +88,7 @@ function Index() {
             We specialize in empowering ministers and encouraging societies, so that they may embrace their usage of social media in the advancing times of AI technology that we are confronting.
           </p>
           <p className="mt-4 leading-relaxed text-muted-foreground">
-            Since 2011, Apostle Ngabo Alex has been innovating training and coaching leadership skills — so that a person's knowledge may allow their character to develop, improve, invest right and prosper in these days of internet, social media, knowledge and AI evolution.
+            Since 2011, Apostle Ngabo Alex has been innovating training and coaching leadership skills, so that a person's knowledge may allow their character to develop, improve, invest right and prosper in these days of internet, social media, knowledge and AI evolution.
           </p>
           <div className="mt-10 flex gap-12">
             <div><p className="text-5xl font-black text-primary">2011</p><p className="text-sm font-bold">Serving since</p></div>
@@ -129,7 +121,7 @@ function Index() {
         <div className="mt-16 grid gap-6 md:grid-cols-2">
           {["Sweden", "Uganda"].map((c) => (
             <div key={c} className="reveal group relative overflow-hidden rounded-3xl">
-              <Placeholder label={`Conference — ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
+              <Placeholder label={`Conference ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
               <span className="absolute bottom-6 left-6 rounded-full bg-primary px-5 py-2 font-bold text-primary-foreground">{c}</span>
             </div>
           ))}
@@ -165,7 +157,7 @@ function Index() {
       </Section>
 
       <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} NGABO (MMA) Network & Ministries
+        © 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries
       </footer>
     </main>
   );
