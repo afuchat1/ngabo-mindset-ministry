@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
+import heroImage from "@/assets/apostle-ngabo-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
