@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
+import heroImage from "@/assets/apostle-ngabo-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,16 +56,20 @@ function ShrinkTitle() {
   }, []);
   return (
     <>
-      {/* spacer keeps the layout where the big title sits */}
+      {/* spacers keep the layout where the big title sits */}
       <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
+      <div aria-hidden className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><span className="invisible">(MMA) NET WORK</span></div>
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
-        <div className="absolute inset-x-0 top-0 h-14 bg-background/90 shadow-sm backdrop-blur md:h-16" style={{ opacity: p }} />
-        <div className="animate-rise relative mt-16"><h1
-          className="relative origin-top text-7xl font-black leading-none tracking-tight text-primary md:text-9xl"
-          style={{ transform: `translateY(${-p * 52}px) scale(${1 - p * 0.6})` }}
-        >
-          NGABO
-        </h1></div>
+        <div className="absolute inset-x-0 top-0 h-20 bg-background/90 shadow-sm backdrop-blur" style={{ opacity: p }} />
+        <div className="animate-rise relative mt-16" style={{ animationDelay: ".2s" }}>
+          <div
+            className="relative origin-top"
+            style={{ transform: `translateY(${-p * 64}px) scale(${1 - p * 0.62})` }}
+          >
+            <h1 className="text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
+            <p className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -98,9 +103,12 @@ function Index() {
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <ShrinkTitle />
-        <p className="animate-rise mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
-        <div className="animate-zoom relative mt-10 w-full max-w-3xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
-          <Placeholder label="Header image" className="aspect-[4/3]" />
+        <div className="animate-zoom relative mt-10 w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
+          <img
+            src={heroImage.url}
+            alt="Apostle Ngabo Alex"
+            className="aspect-[3/4] w-full object-cover object-top"
+          />
         </div>
         <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
           <strong>Apostle. Coach. Teacher.</strong> Empowering ministers and encouraging societies to embrace social media in the advancing times of AI technology.
