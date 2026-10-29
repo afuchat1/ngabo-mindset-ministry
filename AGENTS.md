@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Place photos inside aspect-ratio wrappers with absolutely positioned, cover-fitted images so native image dimensions cannot change the layout.

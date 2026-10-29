@@ -2,6 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg.asset.json";
+import aboutImage from "@/assets/about.jpg.asset.json";
+import swedenImage from "@/assets/Sweden.jpg.asset.json";
+import ugandaImage from "@/assets/Uganda.jpg.asset.json";
+import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg.asset.json";
+import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg.asset.json";
+import clientImageThree from "@/assets/IMG-20261029-WA0000.jpg.asset.json";
+import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -75,10 +82,10 @@ function ShrinkTitle() {
   );
 }
 
-function Placeholder({ label, className = "" }: { label: string; className?: string }) {
+function Photo({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
-    <div className={`placeholder-img flex items-center justify-center text-sm font-semibold uppercase tracking-widest text-muted-foreground ${className}`}>
-      {label}
+    <div className={`relative overflow-hidden ${className}`}>
+      <img src={src} alt={alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
     </div>
   );
 }
@@ -103,11 +110,11 @@ function Index() {
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <ShrinkTitle />
-        <div className="animate-zoom relative mt-10 w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
+        <div className="animate-zoom relative mt-10 aspect-[3/4] w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
           <img
             src={heroImage.url}
             alt="Apostle Ngabo Alex"
-            className="aspect-[3/4] w-full object-cover object-top"
+            className="absolute inset-0 h-full w-full object-cover object-top"
           />
         </div>
         <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
@@ -121,7 +128,7 @@ function Index() {
 
       {/* About */}
       <Section id="about" className="grid items-center gap-16 md:grid-cols-2">
-        <Placeholder label="About photo" className="reveal aspect-[4/5] rounded-3xl" />
+        <Photo src={aboutImage.url} alt="Apostle Ngabo Alex with young people" className="reveal aspect-[4/5] rounded-3xl" />
         <div className="reveal">
           <p className="font-bold uppercase tracking-widest text-primary">About</p>
           <h2 className="mt-4 text-4xl font-black leading-tight md:text-6xl">NGABO (MMA) Network & Ministries</h2>
@@ -160,9 +167,9 @@ function Index() {
           <p className="mt-6 text-lg">Holding conferences that transform schools in Sweden and Uganda.</p>
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-2">
-          {["Sweden", "Uganda"].map((c) => (
+          {[{ name: "Sweden", image: swedenImage }, { name: "Uganda", image: ugandaImage }].map(({ name: c, image }) => (
             <div key={c} className="reveal group relative overflow-hidden rounded-3xl">
-              <Placeholder label={`Conference ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
+              <Photo src={image.url} alt={`Apostle Ngabo teaching in ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
               <span className="absolute bottom-6 left-6 rounded-full bg-primary px-5 py-2 font-bold text-primary-foreground">{c}</span>
             </div>
           ))}
@@ -184,7 +191,12 @@ function Index() {
           ))}
         </div>
         <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {[1, 2, 3, 4].map((n) => <Placeholder key={n} label={`Photo ${n}`} className="reveal aspect-square rounded-2xl" />)}
+          {[
+            { image: clientImageOne, alt: "Apostle Ngabo with a group around a laptop" },
+            { image: clientImageTwo, alt: "Apostle Ngabo interviewing community members" },
+            { image: clientImageThree, alt: "Apostle Ngabo visiting a community venue" },
+            { image: clientImageFour, alt: "Apostle Ngabo in a group discussion" },
+          ].map(({ image, alt }) => <Photo key={image.asset_id} src={image.url} alt={alt} className="reveal aspect-square rounded-2xl" />)}
         </div>
       </Section>
 
@@ -192,7 +204,7 @@ function Index() {
       <Section id="contact" className="text-center">
         <h2 className="reveal text-5xl font-black leading-[0.95] text-primary md:text-8xl">Let's advance<br />together</h2>
         <p className="reveal mx-auto mt-8 max-w-xl text-lg">Book Apostle Ngabo Alex for counseling, ministering, teaching, coaching or your next conference.</p>
-        <a href="mailto:info@example.com" className="reveal mt-10 inline-flex items-center gap-3 rounded-full bg-primary px-10 py-5 text-lg font-bold text-primary-foreground transition-transform hover:scale-105">
+        <a href="mailto:apostlengabo@gmail.com" className="reveal mt-10 inline-flex items-center gap-3 rounded-full bg-primary px-10 py-5 text-lg font-bold text-primary-foreground transition-transform hover:scale-105">
           Get in touch <ArrowRight className="h-5 w-5" />
         </a>
       </Section>
