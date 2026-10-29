@@ -60,11 +60,11 @@ function ShrinkTitle() {
       <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
       <div aria-hidden className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><span className="invisible">(MMA) NET WORK</span></div>
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
-        <div className="absolute inset-x-0 top-0 h-14 bg-background/90 shadow-sm backdrop-blur md:h-16" style={{ opacity: p }} />
+        <div className="absolute inset-x-0 top-0 h-20 bg-background/90 shadow-sm backdrop-blur" style={{ opacity: p }} />
         <div className="animate-rise relative mt-16" style={{ animationDelay: ".2s" }}>
           <div
             className="relative origin-top"
-            style={{ transform: `translateY(${-p * 52}px) scale(${1 - p * 0.6})` }}
+            style={{ transform: `translateY(${-p * 64}px) scale(${1 - p * 0.62})` }}
           >
             <h1 className="text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
             <p className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
