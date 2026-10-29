@@ -98,8 +98,9 @@ const clients = ["Students", "Teachers", "Organizations", "Ministers", "Business
 const services = [
   { t: "Counseling", d: "Personal guidance that helps your mindset advance." },
   { t: "Ministering & Teaching", d: "Imparting knowledge that edifies and transforms." },
-  { t: "Business Coaching", d: "Skills of exchange for building and growing." },
-  { t: "Investing in the AI Era", d: "Teaching communities how to invest right in these times." },
+  { t: "Business Coaching", d: "Equipping, building and growing the cultural skills of exchange, accountability, responsibility and marketing." },
+  { t: "Investing in the AI Era", d: "Teaching communities how to invest right in these times of social media, AI and take knowledge generation." },
+  { t: "Networking & Shareholding", d: "Bringing together and uniting the collective and cooperative energies, investments and resources of our community, society etc." },
 ];
 
 function Index() {
