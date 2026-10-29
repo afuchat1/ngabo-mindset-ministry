@@ -100,8 +100,12 @@ function Index() {
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <ShrinkTitle />
         <p className="animate-rise mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl" style={{ animationDelay: ".2s" }}><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
-        <div className="animate-zoom relative mt-10 w-full max-w-3xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
-          <Placeholder label="Header image" className="aspect-[4/3]" />
+        <div className="animate-zoom relative mt-10 w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
+          <img
+            src={heroImage.url}
+            alt="Apostle Ngabo Alex"
+            className="aspect-[3/4] w-full object-cover object-top"
+          />
         </div>
         <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
           <strong>Apostle. Coach. Teacher.</strong> Empowering ministers and encouraging societies to embrace social media in the advancing times of AI technology.
