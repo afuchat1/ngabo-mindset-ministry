@@ -2,12 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg";
-import aboutImage from "@/assets/about.jpg";
+import aboutImage from "@/assets/about-conference.jpg";
 import swedenImage from "@/assets/Sweden.jpg";
 import ugandaImage from "@/assets/Uganda.jpg";
 import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg";
 import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg";
-import clientImageThree from "@/assets/IMG-20261029-WA0000.jpg";
+import clientImageThree from "@/assets/client-portrait.jpg";
 import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 
 export const Route = createFileRoute("/")({
@@ -96,10 +96,10 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
 
 const clients = ["Students", "Teachers", "Organizations", "Ministers", "Businesses", "Churches"];
 const services = [
-  { t: "Counseling", d: "Personal guidance that helps your mindset advance." },
-  { t: "Ministering & Teaching", d: "Imparting knowledge that edifies and transforms." },
+  { t: "Counseling", d: "Giving personal guidance that helps one's mindset and inner consciousness (awareness) to advance via the art of taking knowledge.", extra: "Enabling and empowering one's capacity to utilize technology as a capital resource for life development, improvement, prosperity, success etc." },
+  { t: "Ministering & Teaching", d: "Imparting knowledge that edifies and transforms the negative habitual traits, so that one's attitude, capability to do exchange and replicated ID, may reflect his / her positive goal settings, (Knowledge of MI) etc.", subtitle: "Seasons & Times", extra: "Allowing our clients to tap and connect into the energy (HF777, God's calendar) which unveils their monthly frequencies that prospers their investments and secures their legacy." },
   { t: "Business Coaching", d: "Equipping, building and growing the cultural skills of exchange, accountability, responsibility and marketing." },
-  { t: "Investing in the AI Era", d: "Teaching communities how to invest right in these times of social media, AI and take knowledge generation." },
+  { t: "Investing in the AI Era", d: "Teaching communities how to invest right during these times of social media, AI and take knowledge generation or era." },
   { t: "Networking & Shareholding", d: "Bringing together and uniting the collective and cooperative energies, investments and resources of our community, society etc." },
 ];
 
@@ -129,12 +129,12 @@ function Index() {
 
       {/* About */}
       <Section id="about" className="grid items-center gap-16 md:grid-cols-2">
-        <Photo src={aboutImage} alt="Apostle Ngabo Alex with young people" className="reveal aspect-[4/5] rounded-3xl" />
+        <Photo src={aboutImage} alt="Apostle Ngabo Alex at conferences and community gatherings" className="reveal aspect-[4/5] rounded-3xl" />
         <div className="reveal">
           <p className="font-bold uppercase tracking-widest text-primary">About</p>
           <h2 className="mt-4 text-4xl font-black leading-tight md:text-6xl">NGABO (MMA) Network & Ministries</h2>
           <p className="mt-6 text-lg leading-relaxed">
-            We specialize in empowering ministers and encouraging societies, so that they may embrace their usage of social media in the advancing times of AI technology that we are confronting.
+            We specialize in empowering ministers and encouraging societies, so that they may embrace their Right usage of social media, during these advancing times of AI, and Era of take knowledge or (technology) that we are confronting.
           </p>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             Since 2011, Apostle Ngabo Alex has been innovating training and coaching leadership skills, so that a person's knowledge may allow their character to develop, improve, invest right and prosper in these days of internet, social media, knowledge and AI evolution.
@@ -148,13 +148,15 @@ function Index() {
 
       {/* Services */}
       <Section className="bg-primary text-primary-foreground">
-        <h2 className="reveal max-w-3xl text-4xl font-black leading-tight md:text-6xl">Services that move your mindset forward</h2>
+        <h2 className="reveal max-w-3xl text-4xl font-black leading-tight md:text-6xl">Our Services</h2>
         <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-primary-foreground/20 md:grid-cols-2">
           {services.map((s, i) => (
             <div key={s.t} className="reveal bg-primary p-10 transition-colors hover:bg-primary-foreground/10" style={{ transitionDelay: `${i * 0.1}s` }}>
               <p className="text-sm font-bold opacity-70">0{i + 1}</p>
               <h3 className="mt-3 text-2xl font-extrabold">{s.t}</h3>
               <p className="mt-3 opacity-90">{s.d}</p>
+              {s.subtitle && <h4 className="mt-6 text-xl font-extrabold">{s.subtitle}</h4>}
+              {s.extra && <p className="mt-3 opacity-90">{s.extra}</p>}
             </div>
           ))}
         </div>
@@ -195,7 +197,7 @@ function Index() {
           {[
             { image: clientImageOne, alt: "Apostle Ngabo with a group around a laptop" },
             { image: clientImageTwo, alt: "Apostle Ngabo interviewing community members" },
-            { image: clientImageThree, alt: "Apostle Ngabo visiting a community venue" },
+            { image: clientImageThree, alt: "Portrait of Apostle Ngabo Alex" },
             { image: clientImageFour, alt: "Apostle Ngabo in a group discussion" },
           ].map(({ image, alt }) => <Photo key={image} src={image} alt={alt} className="reveal aspect-square rounded-2xl" />)}
         </div>
