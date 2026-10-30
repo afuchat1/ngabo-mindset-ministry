@@ -1,0 +1,3 @@
+- [x] Update About and all five service descriptions, including Seasons & Times.
+- [x] Replace About with the conference collage and the community-venue gallery image with the portrait.
+- [x] Verify the updated page and all photos in the browser.
