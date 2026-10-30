@@ -10,6 +10,7 @@ import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg";
 import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg";
 import clientImageThree from "@/assets/client-portrait.jpg";
 import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
+import footerImage from "@/assets/footer-network.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -215,7 +216,8 @@ function Index() {
       </Section>
 
       <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
-        © 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries
+        <Photo src={footerImage} alt="NGABO (MMA) Network: Soul, Body, Mindset and Spirit, with steps toward success" className="mx-auto mb-8 aspect-[768/849] w-full max-w-sm rounded-lg" />
+        <p>© 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries</p>
       </footer>
     </main>
   );
