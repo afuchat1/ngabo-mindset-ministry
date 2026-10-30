@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Place photos inside aspect-ratio wrappers with absolutely positioned, cover-fitted images so native image dimensions cannot change the layout.
+- Import site photos as bundled local image files so photo delivery does not depend on the preview asset proxy; retain existing CDN pointers for earlier deployments.
