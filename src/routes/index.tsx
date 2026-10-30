@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
-import heroImage from "@/assets/apostle-ngabo-hero.jpg.asset.json";
-import aboutImage from "@/assets/about.jpg.asset.json";
-import swedenImage from "@/assets/Sweden.jpg.asset.json";
-import ugandaImage from "@/assets/Uganda.jpg.asset.json";
-import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg.asset.json";
-import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg.asset.json";
-import clientImageThree from "@/assets/IMG-20261029-WA0000.jpg.asset.json";
-import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg.asset.json";
+import heroImage from "@/assets/apostle-ngabo-hero.jpg";
+import aboutImage from "@/assets/about.jpg";
+import swedenImage from "@/assets/Sweden.jpg";
+import ugandaImage from "@/assets/Uganda.jpg";
+import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg";
+import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg";
+import clientImageThree from "@/assets/IMG-20261029-WA0000.jpg";
+import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,7 +113,7 @@ function Index() {
         <ShrinkTitle />
         <div className="animate-zoom relative mt-10 aspect-[3/4] w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
           <img
-            src={heroImage.url}
+            src={heroImage}
             alt="Apostle Ngabo Alex"
             className="absolute inset-0 h-full w-full object-cover object-top"
           />
@@ -129,7 +129,7 @@ function Index() {
 
       {/* About */}
       <Section id="about" className="grid items-center gap-16 md:grid-cols-2">
-        <Photo src={aboutImage.url} alt="Apostle Ngabo Alex with young people" className="reveal aspect-[4/5] rounded-3xl" />
+        <Photo src={aboutImage} alt="Apostle Ngabo Alex with young people" className="reveal aspect-[4/5] rounded-3xl" />
         <div className="reveal">
           <p className="font-bold uppercase tracking-widest text-primary">About</p>
           <h2 className="mt-4 text-4xl font-black leading-tight md:text-6xl">NGABO (MMA) Network & Ministries</h2>
@@ -170,7 +170,7 @@ function Index() {
         <div className="mt-16 grid gap-6 md:grid-cols-2">
           {[{ name: "Sweden", image: swedenImage }, { name: "Uganda", image: ugandaImage }].map(({ name: c, image }) => (
             <div key={c} className="reveal group relative overflow-hidden rounded-3xl">
-              <Photo src={image.url} alt={`Apostle Ngabo teaching in ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
+              <Photo src={image} alt={`Apostle Ngabo teaching in ${c}`} className="aspect-[4/3] transition-transform duration-700 group-hover:scale-105" />
               <span className="absolute bottom-6 left-6 rounded-full bg-primary px-5 py-2 font-bold text-primary-foreground">{c}</span>
             </div>
           ))}
@@ -197,7 +197,7 @@ function Index() {
             { image: clientImageTwo, alt: "Apostle Ngabo interviewing community members" },
             { image: clientImageThree, alt: "Apostle Ngabo visiting a community venue" },
             { image: clientImageFour, alt: "Apostle Ngabo in a group discussion" },
-          ].map(({ image, alt }) => <Photo key={image.asset_id} src={image.url} alt={alt} className="reveal aspect-square rounded-2xl" />)}
+          ].map(({ image, alt }) => <Photo key={image} src={image} alt={alt} className="reveal aspect-square rounded-2xl" />)}
         </div>
       </Section>
 
