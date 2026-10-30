@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg";
 import aboutImage from "@/assets/about-conference.jpg";
+import aboutDiscussionImage from "@/assets/about-discussion.jpg";
 import swedenImage from "@/assets/Sweden.jpg";
 import ugandaImage from "@/assets/Uganda.jpg";
 import clientImageOne from "@/assets/IMG-20261028-WA0002.jpg";
@@ -144,6 +145,11 @@ function Index() {
             <div><p className="text-5xl font-black text-primary">2</p><p className="text-sm font-bold">Countries</p></div>
           </div>
         </div>
+      </Section>
+
+      {/* About discussion photo */}
+      <Section className="pt-0 md:pt-0">
+        <Photo src={aboutDiscussionImage} alt="Apostle Ngabo in discussion with community members" className="reveal aspect-video rounded-3xl" />
       </Section>
 
       {/* Services */}
