@@ -137,6 +137,7 @@ function Index() {
           <p className="mt-6 text-lg leading-relaxed">
             We specialize in empowering ministers and encouraging societies, so that they may embrace their Right usage of social media, during these advancing times of AI, and Era of take knowledge or (technology) that we are confronting.
           </p>
+          <Photo src={aboutDiscussionImage} alt="Apostle Ngabo in discussion with community members" className="mt-6 aspect-video rounded-3xl" />
           <p className="mt-4 leading-relaxed text-muted-foreground">
             Since 2011, Apostle Ngabo Alex has been innovating training and coaching leadership skills, so that a person's knowledge may allow their character to develop, improve, invest right and prosper in these days of internet, social media, knowledge and AI evolution.
           </p>
@@ -145,11 +146,6 @@ function Index() {
             <div><p className="text-5xl font-black text-primary">2</p><p className="text-sm font-bold">Countries</p></div>
           </div>
         </div>
-      </Section>
-
-      {/* About discussion photo */}
-      <Section className="pt-0 md:pt-0">
-        <Photo src={aboutDiscussionImage} alt="Apostle Ngabo in discussion with community members" className="reveal aspect-video rounded-3xl" />
       </Section>
 
       {/* Services */}
