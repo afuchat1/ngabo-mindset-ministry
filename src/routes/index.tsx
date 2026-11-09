@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { EventsCard, activeEventsOptions } from '@/components/events-card';
+import { EventsCard } from '@/components/events-card';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
