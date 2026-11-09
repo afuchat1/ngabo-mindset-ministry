@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { EventsCard, activeEventsOptions } from '@/components/events-card';
+import { Button } from '@/components/ui/button';
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg";
@@ -13,6 +15,7 @@ import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 import footerImage from "@/assets/footer-network.jpg";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(activeEventsOptions),
   head: () => ({
     meta: [
       { title: "Apostle Ngabo Alex | NGABO (MMA) Network & Ministries" },
@@ -113,6 +116,7 @@ function Index() {
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <ShrinkTitle />
+        <EventsCard />
         <div className="animate-zoom relative mt-10 aspect-[3/4] w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
           <img
             src={heroImage}
@@ -218,6 +222,7 @@ function Index() {
       <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
         <Photo src={footerImage} alt="NGABO (MMA) Network: Soul, Body, Mindset and Spirit, with steps toward success" className="mx-auto mb-8 aspect-[768/849] w-full max-w-sm rounded-lg" />
         <p>© 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries</p>
+        <Button asChild variant="link" size="sm" className="mt-3"><Link to="/admin">Admin</Link></Button>
       </footer>
     </main>
   );

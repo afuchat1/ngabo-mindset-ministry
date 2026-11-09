@@ -1,0 +1,56 @@
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { useServerFn } from '@tanstack/react-start';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, type FormEvent } from 'react';
+import { Plus, Pencil, Trash2, LogOut, ArrowLeft, Save, X, ExternalLink } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { EventIcon } from '@/components/event-icon';
+import { EventDatePicker } from '@/components/event-date-picker';
+import { supabase } from '@/integrations/supabase/client';
+import { listAdminEvents, saveEvent, deleteEvent } from '@/lib/events.functions';
+import { eventIcons, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from '@/lib/events';
+
+export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Event dashboard | Ngabo ministries' }, { name: 'description', content: 'Manage Ngabo events, schedules, icons and destination links.' }, { property: 'og:title', content: 'Event dashboard | Ngabo ministries' }, { property: 'og:description', content: 'Manage scheduled Ngabo announcements.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), component: AdminPage });
+
+function AdminPage() {
+  const load = useServerFn(listAdminEvents), save = useServerFn(saveEvent), remove = useServerFn(deleteEvent);
+  const client = useQueryClient(); const navigate = useNavigate();
+  const events = useQuery({ queryKey: ['admin-events'], queryFn: () => load(), refetchInterval: 15000 });
+  const [editing, setEditing] = useState<EventRecord | null>(null);
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(''), [schedule, setSchedule] = useState(''), [url, setUrl] = useState('');
+  const [icon, setIcon] = useState<(typeof eventIcons)[number]>('calendar');
+  const [start, setStart] = useState<Date>(), [end, setEnd] = useState<Date>();
+  const [startTime, setStartTime] = useState('00:00'), [endTime, setEndTime] = useState('23:59');
+  const [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const [deleting, setDeleting] = useState<EventRecord | null>(null);
+  function show(event: EventRecord | null) {
+    setEditing(event); setTitle(event?.title ?? ''); setSchedule(event?.schedule_text ?? ''); setUrl(event?.destination_url ?? '');
+    setIcon(eventIcons.find(value => value === event?.icon) ?? 'calendar');
+    const local = (value: string | null | undefined) => value ? new Date(new Date(value).toLocaleString('en-US', { timeZone: 'Africa/Kampala' })) : undefined;
+    const s = local(event?.starts_at), e = local(event?.ends_at);
+    setStart(s); setEnd(e);
+    const time = (date: Date | undefined, fallback: string) => date ? `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}` : fallback;
+    setStartTime(time(s, '00:00')); setEndTime(time(e, '23:59')); setError(''); setOpen(true);
+  }
+  async function refresh() { await client.invalidateQueries({ queryKey: ['admin-events'] }); await client.invalidateQueries({ queryKey: ['public-events'] }); }
+  async function submit(event: FormEvent) {
+    event.preventDefault(); setError('');
+    if (!start || !end) { setError('Choose a start and end date.'); return; }
+    setBusy(true);
+    try { const input = eventSchema.parse({ id: editing?.id, title, schedule_text: schedule, icon, destination_url: url, starts_at: kampalaTimestamp(start, startTime), ends_at: kampalaTimestamp(end, endTime) }); await save({ data: input }); await refresh(); setOpen(false); toast.success('Event saved'); }
+    catch (err) { setError(err instanceof Error ? err.message : 'Could not save event'); }
+    finally { setBusy(false); }
+  }
+  async function signOut() { await client.cancelQueries(); client.clear(); await supabase.auth.signOut(); await navigate({ to: '/auth', replace: true }); }
+  async function confirmDelete() { if (!deleting) return; setBusy(true); try { await remove({ data: { id: deleting.id } }); await refresh(); setDeleting(null); toast.success('Event deleted'); } catch { toast.error('Could not delete event'); } finally { setBusy(false); } }
+  const rows = events.data ?? [];
+  return <main className="min-h-screen bg-background"><header className="border-b px-6 py-5"><div className="mx-auto flex max-w-5xl items-center justify-between gap-4"><Link to="/" className="text-2xl font-black text-primary">NGABO</Link><Button variant="outline" onClick={signOut}><LogOut />Sign out</Button></div></header><section className="mx-auto max-w-5xl px-6 py-10"><Button asChild variant="link" className="mb-6 px-0"><Link to="/"><ArrowLeft />View website</Link></Button><div className="flex flex-wrap items-center justify-between gap-4"><div><p className="text-sm font-bold uppercase text-primary">Ministries & network</p><h1 className="mt-2 text-3xl font-extrabold">Ngabo's events!</h1></div><Button onClick={() => show(null)}><Plus />Add event</Button></div><div className="mt-8 flex flex-wrap gap-8 border-y py-5 text-sm"><span><strong className="text-2xl text-primary">{rows.filter(e => isEventActive(e)).length}</strong> Active</span><span><strong className="text-2xl">{rows.filter(e => e.starts_at && Date.parse(e.starts_at) > Date.now()).length}</strong> Scheduled</span><span><strong className="text-2xl">{rows.filter(e => !e.starts_at).length}</strong> Unscheduled</span></div>{events.isPending ? <p className="py-12">Loading events…</p> : events.error ? <div role="alert" className="py-12"><p>Could not load events.</p><Button className="mt-3" onClick={() => events.refetch()}>Try again</Button></div> : rows.length === 0 ? <p className="py-12 text-muted-foreground">No events yet.</p> : <div className="divide-y">{rows.map(event => <article key={event.id} className="flex items-start gap-4 py-6"><EventIcon name={event.icon} className="mt-1 size-6 shrink-0 text-primary" /><div className="min-w-0 flex-1"><h2 className="break-words font-bold">{event.title}</h2><p className="mt-1 text-sm text-muted-foreground">{event.schedule_text}</p><p className="mt-2 text-xs font-semibold text-primary">{isEventActive(event) ? 'Active' : !event.starts_at ? 'Unscheduled' : Date.parse(event.starts_at) > Date.now() ? 'Scheduled' : 'Expired'}</p>{event.starts_at && event.ends_at && <p className="mt-1 text-xs text-muted-foreground">{new Date(event.starts_at).toLocaleString('en-GB', { timeZone: 'Africa/Kampala' })} to {new Date(event.ends_at).toLocaleString('en-GB', { timeZone: 'Africa/Kampala' })} · Kampala</p>}{event.destination_url && <Button asChild variant="link" className="mt-1 h-auto px-0 text-xs"><a href={event.destination_url} target="_blank" rel="noopener noreferrer"><ExternalLink />Destination</a></Button>}</div><div className="flex shrink-0 flex-col gap-1 sm:flex-row"><Button size="icon" variant="ghost" title={`Edit ${event.title}`} aria-label={`Edit ${event.title}`} onClick={() => show(event)}><Pencil /></Button><Button size="icon" variant="ghost" title={`Delete ${event.title}`} aria-label={`Delete ${event.title}`} onClick={() => setDeleting(event)}><Trash2 className="text-destructive" /></Button></div></article>)}</div>}</section>
+    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-lg"><DialogHeader><DialogTitle>{editing ? 'Edit event' : 'Add event'}</DialogTitle></DialogHeader><form onSubmit={submit} className="space-y-5"><div className="space-y-2"><Label htmlFor="event-title">Event title</Label><Input id="event-title" required maxLength={120} value={title} onChange={e => setTitle(e.target.value)} /></div><div className="space-y-2"><Label htmlFor="event-schedule">Event date or recurring schedule</Label><Input id="event-schedule" maxLength={180} placeholder="Monday to Friday" value={schedule} onChange={e => setSchedule(e.target.value)} /></div><div className="space-y-2"><Label htmlFor="event-url">Destination link</Label><Input id="event-url" type="url" required placeholder="https://" value={url} onChange={e => setUrl(e.target.value)} /></div><fieldset><legend className="mb-2 text-sm font-medium">Event icon</legend><div className="flex flex-wrap gap-2">{eventIcons.map(value => <Button key={value} type="button" variant={icon === value ? 'default' : 'outline'} size="icon" aria-label={`${value} icon`} aria-pressed={icon === value} title={value} onClick={() => setIcon(value)}><EventIcon name={value} /></Button>)}</div></fieldset><fieldset className="space-y-3"><legend className="text-sm font-medium">Display schedule · Kampala (UTC+3)</legend><div className="grid grid-cols-2 gap-3"><div className="space-y-2"><Label>Display start</Label><EventDatePicker label="Choose start date" value={start} onChange={setStart} /><Input type="time" aria-label="Start time" required value={startTime} onChange={e => setStartTime(e.target.value)} /></div><div className="space-y-2"><Label>Display end</Label><EventDatePicker label="Choose end date" value={end} onChange={setEnd} /><Input type="time" aria-label="End time" required value={endTime} onChange={e => setEndTime(e.target.value)} /></div></div></fieldset>{error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}<div className="flex justify-end gap-2"><Button type="button" variant="outline" onClick={() => setOpen(false)}><X />Cancel</Button><Button disabled={busy}><Save />{busy ? 'Saving…' : 'Save event'}</Button></div></form></DialogContent></Dialog>
+    <Dialog open={Boolean(deleting)} onOpenChange={value => { if (!value) setDeleting(null); }}><DialogContent><DialogHeader><DialogTitle>Delete {deleting?.title}?</DialogTitle></DialogHeader><div className="flex justify-end gap-2"><Button variant="outline" onClick={() => setDeleting(null)}>Cancel</Button><Button variant="destructive" disabled={busy} onClick={confirmDelete}><Trash2 />Delete event</Button></div></DialogContent></Dialog>
+  </main>;
+}
