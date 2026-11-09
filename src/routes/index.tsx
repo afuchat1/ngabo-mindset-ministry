@@ -15,7 +15,6 @@ import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 import footerImage from "@/assets/footer-network.jpg";
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(activeEventsOptions),
   head: () => ({
     meta: [
       { title: "Apostle Ngabo Alex | NGABO (MMA) Network & Ministries" },
