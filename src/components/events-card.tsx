@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { ArrowUpRight } from 'lucide-react';
-import { listActiveEvents } from '@/lib/events.functions';
+import { supabase } from '@/integrations/supabase/client';
 import { eventDisplayState } from '@/lib/events';
 import { EventIcon } from './event-icon';
 
-export const activeEventsOptions = queryOptions({ queryKey: ['public-events'], queryFn: () => listActiveEvents(), refetchInterval: 15000, staleTime: 0 });
+export const activeEventsOptions = queryOptions({ queryKey: ['public-events'], queryFn: async () => { const { data, error } = await supabase.from('events').select('id,title,schedule_text,icon,destination_url,starts_at,ends_at').order('starts_at').order('id'); if (error) throw error; return data ?? []; }, refetchInterval: 15000, staleTime: 0 });
 export function EventsCard() {
   const { data, isError } = useQuery(activeEventsOptions);
   const [now, setNow] = useState(Date.now());
