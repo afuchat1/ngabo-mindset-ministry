@@ -1,14 +1,14 @@
-import { z } from 'zod';
+import { enum as zEnum, object, string } from 'zod';
 
 export const eventIcons = ['mountain', 'palm', 'store', 'calendar', 'radio', 'users', 'church', 'book', 'heart', 'mic'] as const;
-export const eventSchema = z.object({
-  id: z.string().uuid().optional(),
-  title: z.string().trim().min(1).max(120),
-  schedule_text: z.string().trim().max(180),
-  icon: z.enum(eventIcons),
-  destination_url: z.string().url().refine(value => /^https?:\/\//i.test(value), 'Use an HTTP or HTTPS link'),
-  starts_at: z.string().datetime(),
-  ends_at: z.string().datetime(),
+export const eventSchema = object({
+  id: string().uuid().optional(),
+  title: string().trim().min(1).max(120),
+  schedule_text: string().trim().max(180),
+  icon: zEnum(eventIcons),
+  destination_url: string().url().refine(value => /^https?:\/\//i.test(value), 'Use an HTTP or HTTPS link'),
+  starts_at: string().datetime(),
+  ends_at: string().datetime(),
 }).refine(value => Date.parse(value.ends_at) > Date.parse(value.starts_at), { message: 'End must be after start', path: ['ends_at'] });
 
 export type EventRecord = { id: string; title: string; schedule_text: string; icon: string; destination_url: string | null; starts_at: string | null; ends_at: string | null };
