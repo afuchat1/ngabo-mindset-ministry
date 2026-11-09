@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import { ArrowUpRight } from 'lucide-react';
 import { listActiveEvents } from '@/lib/events.functions';
 import { eventDisplayState } from '@/lib/events';
@@ -7,7 +7,7 @@ import { EventIcon } from './event-icon';
 
 export const activeEventsOptions = queryOptions({ queryKey: ['public-events'], queryFn: () => listActiveEvents(), refetchInterval: 15000, staleTime: 0 });
 export function EventsCard() {
-  const { data } = useSuspenseQuery(activeEventsOptions);
+  const { data, isError } = useQuery(activeEventsOptions);
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
     const update = () => setNow(Date.now());
@@ -15,6 +15,8 @@ export function EventsCard() {
     window.addEventListener('focus', update);
     return () => { clearInterval(timer); window.removeEventListener('focus', update); };
   }, []);
+  if (isError) return <aside role="status" aria-label="Events temporarily unavailable" className="mt-8 w-full max-w-2xl rounded-lg border border-primary/25 bg-card px-5 py-4 text-left text-sm text-muted-foreground">Event announcements are temporarily unavailable.</aside>;
+  if (!data) return null;
   const { active, visible, scrollable } = eventDisplayState(data, now);
   if (!visible) return null;
   return <aside aria-label="Ngabo's events" className="mt-8 w-full max-w-2xl overflow-hidden rounded-lg border border-primary/25 bg-card text-left shadow-sm">

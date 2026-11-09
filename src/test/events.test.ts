@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { assertAdmin, eventDisplayState, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from '@/lib/events';
+import { getSupabaseServerConfig } from '@/integrations/supabase/server-config';
 
 const event: EventRecord = { id: 'test', title: 'Counseling', schedule_text: '', icon: 'mountain', destination_url: 'https://example.com/event', starts_at: '2026-11-09T10:00:00Z', ends_at: '2026-11-09T11:00:00Z' };
 describe('Ngabo event rules', () => {
@@ -12,4 +13,19 @@ describe('Ngabo event rules', () => {
   it('retains destination links and rejects unsafe schemes', () => { const data = { ...event, id: undefined }; expect(eventSchema.parse(data).destination_url).toBe('https://example.com/event'); expect(eventSchema.safeParse({ ...data, destination_url: 'javascript:alert(1)' }).success).toBe(false); });
   it('requires end after start', () => { expect(eventSchema.safeParse({ ...event, id: undefined, ends_at: event.starts_at }).success).toBe(false); });
   it('converts Kampala schedule to UTC', () => { expect(kampalaTimestamp(new Date(2026, 10, 9), '13:08')).toBe('2026-11-09T10:08:00.000Z'); });
+  it('uses the direct Supabase config when Vercel has no variables', () => {
+    const config = getSupabaseServerConfig({});
+    expect(config.url).toMatch(/^https:\/\/.+\.supabase\.co$/);
+    expect(config.publishableKey).toMatch(/^sb_publishable_/);
+  });
+  it('uses explicitly configured Supabase server variables when available', () => {
+    const config = getSupabaseServerConfig({
+      SUPABASE_URL: 'https://override.supabase.co',
+      SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_override',
+    });
+    expect(config).toEqual({
+      url: 'https://override.supabase.co',
+      publishableKey: 'sb_publishable_override',
+    });
+  });
 });

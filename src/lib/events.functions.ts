@@ -2,13 +2,12 @@ import { createServerFn } from '@tanstack/react-start';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
+import { getSupabaseServerConfig } from '@/integrations/supabase/server-config';
 import type { Database } from '@/integrations/supabase/types';
 import { assertAdmin, eventSchema } from './events';
 
 export const listActiveEvents = createServerFn({ method: 'GET' }).handler(async () => {
-  const url = process.env['SUPABASE_URL'];
-  const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
-  if (!url || !key) throw new Error('Events service unavailable');
+  const { url, publishableKey: key } = getSupabaseServerConfig();
   const client = createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: { fetch: (input, init) => {
