@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 - Place photos inside aspect-ratio wrappers with absolutely positioned, cover-fitted images so native image dimensions cannot change the layout.
+- Keep the floating WhatsApp contact in a standalone homepage control with semantic brand color tokens so it remains independent of page layout.
 - Import site photos as bundled local image files so photo delivery does not depend on the preview asset proxy; retain existing CDN pointers for earlier deployments.
 - Store event announcements in Supabase with time-window public read policies and protected user_roles; all management server functions verify the caller's role using the user-scoped client so private schedules cannot leak.
 - Schedule announcement visibility in Africa/Kampala time and persist UTC timestamps; enforce dates and safe links in both server validation and database triggers.

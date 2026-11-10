@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EventsCard } from '@/components/events-card';
+import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
@@ -111,6 +112,7 @@ function Index() {
   useReveal();
   return (
     <main className="overflow-hidden bg-background font-sans text-foreground">
+      <WhatsAppContact />
 
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
