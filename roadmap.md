@@ -1,6 +1,10 @@
 - [x] Update About and all five service descriptions, including Seasons & Times.
 - [x] Replace About with the conference collage and the community-venue gallery image with the portrait.
 - [x] Verify the updated page and all photos in the browser.
-- [ ] Add secure scheduled events storage and administrator access.
-- [ ] Add the public events card and event management dashboard.
-- [ ] Verify scheduling, links, overflow, empty state, and admin workflow.
+- [x] Add secure scheduled events storage and administrator access.
+- [x] Add the public events card and event management dashboard.
+- [ ] Verify authenticated event management end-to-end; blocked by unavailable managed session for external Supabase.
+- [x] Add secure product management with cover URLs and external links.
+- [x] Add the scrolling cover strip and two refresh-randomized previews below the booking arrow.
+- [x] Verify product selection, empty state, link validation, and signed-out administration protection.
+- [ ] Verify product creation, editing, and removal end-to-end as admin; blocked by unavailable managed session for external Supabase.

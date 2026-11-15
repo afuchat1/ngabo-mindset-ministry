@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EventsCard } from '@/components/events-card';
+import { ProductShowcase } from '@/components/product-showcase';
+import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, type ReactNode } from "react";
@@ -16,6 +18,7 @@ import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 import footerImage from "@/assets/footer-network.jpg";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsOptions),
   head: () => ({
     meta: [
       { title: "Apostle Ngabo Alex | NGABO (MMA) Network & Ministries" },
@@ -133,6 +136,7 @@ function Index() {
         </a>
         <a href="#about" aria-label="Scroll down" className="mt-10 animate-bob"><ArrowDown className="h-10 w-10" strokeWidth={1} /></a>
       </header>
+      <ProductShowcase />
 
       {/* About */}
       <Section id="about" className="grid items-center gap-16 md:grid-cols-2">

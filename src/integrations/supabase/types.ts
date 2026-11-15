@@ -50,6 +50,36 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          cover_url: string
+          created_at: string
+          description: string
+          destination_url: string
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cover_url: string
+          created_at?: string
+          description: string
+          destination_url: string
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cover_url?: string
+          created_at?: string
+          description?: string
+          destination_url?: string
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

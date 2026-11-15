@@ -15,3 +15,6 @@
 - Store event announcements in Supabase with time-window public read policies and protected user_roles; all management server functions verify the caller's role using the user-scoped client so private schedules cannot leak.
 - Schedule announcement visibility in Africa/Kampala time and persist UTC timestamps; enforce dates and safe links in both server validation and database triggers.
 - Keep one root auth transition listener and function bearer middleware; admin pages live under the client-only authenticated layout because sessions are browser-owned.
+- Keep products in a public-readable, admin-write table; product mutations verify roles through authenticated server functions to prevent unauthorized changes.
+- Product covers use administrator-provided HTTPS URLs as an explicit exception to bundled site photos; stable aspect-ratio wrappers and failure states protect layout.
+- Choose distinct initial product previews after hydration and replace only the first on selection so refresh randomness cannot cause hydration mismatches or change the second preview.
