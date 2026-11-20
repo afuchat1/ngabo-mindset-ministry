@@ -8,3 +8,4 @@
 - [x] Add the scrolling cover strip and two refresh-randomized previews below the booking arrow.
 - [x] Verify product selection, empty state, link validation, and signed-out administration protection.
 - [ ] Verify product creation, editing, and removal end-to-end as admin; blocked by unavailable managed session for external Supabase.
+- [x] Separate top slider products and bottom-only products in the dashboard and homepage; verify placement rules.

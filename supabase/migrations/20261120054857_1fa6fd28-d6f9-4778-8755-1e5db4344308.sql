@@ -1,0 +1,1 @@
+ALTER TABLE public.products ADD COLUMN placement text NOT NULL DEFAULT 'top' CONSTRAINT products_placement_check CHECK (placement IN ('top', 'bottom'));

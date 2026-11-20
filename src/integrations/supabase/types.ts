@@ -57,6 +57,7 @@ export type Database = {
           description: string
           destination_url: string
           id: string
+          placement: string
           title: string
           updated_at: string
         }
@@ -66,6 +67,7 @@ export type Database = {
           description: string
           destination_url: string
           id?: string
+          placement?: string
           title: string
           updated_at?: string
         }
@@ -75,6 +77,7 @@ export type Database = {
           description?: string
           destination_url?: string
           id?: string
+          placement?: string
           title?: string
           updated_at?: string
         }
