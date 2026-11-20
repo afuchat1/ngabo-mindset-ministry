@@ -16,6 +16,7 @@ import clientImageTwo from "@/assets/IMG-20261028-WA0003.jpg";
 import clientImageThree from "@/assets/client-portrait.jpg";
 import clientImageFour from "@/assets/IMG-20261029-WA0006.jpg";
 import footerImage from "@/assets/footer-network.jpg";
+import logoImage from "@/assets/ngabo-logo.jpg";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(productsOptions),
@@ -116,6 +117,9 @@ function Index() {
   return (
     <main className="overflow-hidden bg-background font-sans text-foreground">
       <WhatsAppContact />
+      <a href="#top" aria-label="NGABO (MMA) home" className="fixed left-4 top-4 z-50 md:left-6 md:top-5">
+        <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
+      </a>
 
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
@@ -225,6 +229,7 @@ function Index() {
       </Section>
 
       <footer className="border-t px-6 py-8 text-center text-sm text-muted-foreground">
+        <img src={logoImage} alt="NGABO (MMA) logo" className="mx-auto mb-6 h-20 w-20 rounded-full object-cover shadow-md" />
         <Photo src={footerImage} alt="NGABO (MMA) Network: Soul, Body, Mindset and Spirit, with steps toward success" className="mx-auto mb-8 aspect-[768/849] w-full max-w-sm rounded-lg" />
         <p>© 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries</p>
         <Button asChild variant="link" size="sm" className="mt-3"><Link to="/admin">Admin</Link></Button>
