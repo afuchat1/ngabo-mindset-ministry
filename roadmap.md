@@ -9,3 +9,4 @@
 - [x] Verify product selection, empty state, link validation, and signed-out administration protection.
 - [ ] Verify product creation, editing, and removal end-to-end as admin; blocked by unavailable managed session for external Supabase.
 - [x] Separate top slider products and bottom-only products in the dashboard and homepage; verify placement rules.
+- [x] Add and verify Coming soon Login and scroll-revealed Register buttons around the homepage title.

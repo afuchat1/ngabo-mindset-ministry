@@ -4,6 +4,7 @@ import { ProductShowcase } from '@/components/product-showcase';
 import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg";
@@ -62,6 +63,7 @@ function Typewriter({ words }: { words: string[] }) {
 
 function ShrinkTitle() {
   const [p, setP] = useState(0);
+  const compact = p > 0.05;
   useEffect(() => {
     let raf = 0;
     const update = () => { raf = 0; setP(Math.min(window.scrollY / 300, 1)); };
@@ -72,6 +74,11 @@ function ShrinkTitle() {
   }, []);
   return (
     <>
+      <a href="#top" aria-label="NGABO (MMA) home" className={`fixed left-4 top-4 z-50 transition-opacity duration-200 motion-reduce:transition-none md:left-6 md:top-5 ${compact ? 'pointer-events-none opacity-0' : 'opacity-100'}`} tabIndex={compact ? -1 : 0} aria-hidden={compact}>
+        <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
+      </a>
+      <Button size="sm" onClick={() => toast('Coming soon')} className="fixed right-4 top-6 z-[60] h-9 md:right-6 md:top-7">Login</Button>
+      <Button size="sm" variant="outline" onClick={() => toast('Coming soon')} className={`fixed left-4 top-6 z-[60] h-9 transition-all duration-200 motion-reduce:transition-none md:left-6 md:top-7 ${compact ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`} tabIndex={compact ? 0 : -1} aria-hidden={!compact}>Register</Button>
       {/* spacers keep the layout where the big title sits */}
       <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
       <div aria-hidden className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><span className="invisible">(MMA) NET WORK</span></div>
@@ -80,7 +87,7 @@ function ShrinkTitle() {
         <div className="animate-rise relative mt-16" style={{ animationDelay: ".2s" }}>
           <div
             className="relative origin-top"
-            style={{ transform: `translateY(${-p * 64}px) scale(${1 - p * 0.62})` }}
+             style={{ transform: `translateY(${-Math.max(0, p - 0.5) * 128}px) scale(${1 - p * 0.62})` }}
           >
             <h1 className="text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
             <p className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
@@ -117,9 +124,6 @@ function Index() {
   return (
     <main className="overflow-hidden bg-background font-sans text-foreground">
       <WhatsAppContact />
-      <a href="#top" aria-label="NGABO (MMA) home" className="fixed left-4 top-4 z-50 md:left-6 md:top-5">
-        <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
-      </a>
 
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
