@@ -50,6 +50,30 @@ export type Database = {
         }
         Relationships: []
       }
+      hero_images: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          image_url: string
+          updated_at: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          id?: string
+          image_url: string
+          updated_at?: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           cover_url: string

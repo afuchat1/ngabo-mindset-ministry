@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EventsCard } from '@/components/events-card';
 import { ProductShowcase } from '@/components/product-showcase';
+import { HeroSlideshow } from '@/components/hero-slideshow';
 import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
-import heroImage from "@/assets/apostle-ngabo-hero.jpg";
 import aboutImage from "@/assets/about-conference.jpg";
 import aboutDiscussionImage from "@/assets/about-discussion.jpg";
 import swedenImage from "@/assets/Sweden.jpg";
@@ -129,13 +129,7 @@ function Index() {
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
         <ShrinkTitle />
         <EventsCard />
-        <div className="animate-zoom relative mt-10 aspect-[3/4] w-full max-w-2xl overflow-hidden rounded-t-[50%] rounded-b-3xl" style={{ animationDelay: ".35s" }}>
-          <img
-            src={heroImage}
-            alt="Apostle Ngabo Alex"
-            className="absolute inset-0 h-full w-full object-cover object-top"
-          />
-        </div>
+        <HeroSlideshow />
         <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
           <strong>Apostle. Coach. Teacher.</strong> Empowering ministers and encouraging societies to embrace social media in the advancing times of AI technology.
         </p>

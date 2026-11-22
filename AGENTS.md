@@ -18,3 +18,4 @@
 - Keep products in a public-readable, admin-write table; product mutations verify roles through authenticated server functions to prevent unauthorized changes.
 - Product covers use administrator-provided HTTPS URLs as an explicit exception to bundled site photos; stable aspect-ratio wrappers and failure states protect layout.
 - Store product placement as top or bottom in the products table and render separate admin sections; only top products enter the slider, and each large preview randomly selects from its own group after hydration so selecting a cover never changes the bottom preview.
+- Keep the original bundled hero photo as the first and fallback image; admin-managed HTTPS photo links are stored in hero_images with public reads and role-verified mutations, and only successfully loaded photos enter the client-side crossfade rotation so loading failures cannot blank the hero.
