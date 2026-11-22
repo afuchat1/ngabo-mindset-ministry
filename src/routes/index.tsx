@@ -5,7 +5,7 @@ import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/apostle-ngabo-hero.jpg";
 import aboutImage from "@/assets/about-conference.jpg";
@@ -74,24 +74,24 @@ function ShrinkTitle() {
   }, []);
   return (
     <>
-      <a href="#top" aria-label="NGABO (MMA) home" className={`fixed left-4 top-4 z-50 transition-opacity duration-200 motion-reduce:transition-none md:left-6 md:top-5 ${compact ? 'pointer-events-none opacity-0' : 'opacity-100'}`} tabIndex={compact ? -1 : 0} aria-hidden={compact}>
-        <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
-      </a>
-      <Button size="sm" onClick={() => toast('Coming soon')} className="fixed right-4 top-6 z-[60] h-9 md:right-6 md:top-7">Login</Button>
-      <Button size="sm" variant="outline" onClick={() => toast('Coming soon')} className={`fixed left-4 top-6 z-[60] h-9 transition-all duration-200 motion-reduce:transition-none md:left-6 md:top-7 ${compact ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`} tabIndex={compact ? 0 : -1} aria-hidden={!compact}>Register</Button>
       {/* spacers keep the layout where the big title sits */}
-      <div aria-hidden className="text-7xl font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
-      <div aria-hidden className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><span className="invisible">(MMA) NET WORK</span></div>
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
-        <div className="absolute inset-x-0 top-0 h-20 bg-background/90 shadow-sm backdrop-blur" style={{ opacity: p }} />
-        <div className="animate-rise relative mt-16" style={{ animationDelay: ".2s" }}>
-          <div
-            className="relative origin-top"
-             style={{ transform: `translateY(${-Math.max(0, p - 0.5) * 128}px) scale(${1 - p * 0.62})` }}
-          >
-            <h1 className="text-7xl font-black leading-none tracking-tight text-primary md:text-9xl">NGABO</h1>
-            <p className="mt-2 min-h-[1.2em] text-2xl font-extrabold uppercase md:text-5xl"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
+      <div aria-hidden className="text-[40px] font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
+      <div aria-hidden className="mt-2 min-h-[1.2em] text-xs font-extrabold uppercase md:text-5xl"><span className="invisible">(MMA) NET WORK</span></div>
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50">
+        <div className="absolute inset-x-0 top-0 h-24 bg-background/90 shadow-sm backdrop-blur" style={{ opacity: p }} />
+        <div
+          className="relative grid grid-cols-[76px_minmax(0,1fr)_76px] items-center gap-x-1 px-4 md:grid-cols-[96px_minmax(0,1fr)_96px] md:px-6"
+          style={{ top: 64 - p * 48, '--header-progress': p } as CSSProperties}
+        >
+          <div className="relative flex h-12 items-center md:h-14">
+            <a href="#top" aria-label="NGABO (MMA) home" className={`pointer-events-auto absolute left-0 transition-opacity duration-200 motion-reduce:transition-none ${compact ? 'pointer-events-none opacity-0' : 'opacity-100'}`} tabIndex={compact ? -1 : 0} aria-hidden={compact}>
+              <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
+            </a>
+            <Button size="sm" variant="outline" onClick={() => toast('Coming soon')} className={`pointer-events-auto absolute left-0 h-9 px-2 transition-all duration-200 motion-reduce:transition-none md:px-3 ${compact ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`} tabIndex={compact ? 0 : -1} aria-hidden={!compact}>Register</Button>
           </div>
+          <h1 className="text-[length:calc(40px*(1-var(--header-progress)*0.2))] font-black leading-none text-primary md:text-[length:calc(128px*(1-var(--header-progress)*0.62))]">NGABO</h1>
+          <Button size="sm" onClick={() => toast('Coming soon')} className="pointer-events-auto h-9 justify-self-end">Login</Button>
+          <p className="col-start-2 mt-2 min-h-[1.2em] whitespace-nowrap text-[length:calc(12px*(1-var(--header-progress)*0.2))] font-extrabold uppercase md:text-[length:calc(48px*(1-var(--header-progress)*0.62))]"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
         </div>
       </div>
     </>
