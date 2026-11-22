@@ -5,7 +5,6 @@ import { HeroSlideshow } from '@/components/hero-slideshow';
 import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import aboutImage from "@/assets/about-conference.jpg";
@@ -87,10 +86,10 @@ function ShrinkTitle() {
             <a href="#top" aria-label="NGABO (MMA) home" className={`pointer-events-auto absolute left-0 transition-opacity duration-200 motion-reduce:transition-none ${compact ? 'pointer-events-none opacity-0' : 'opacity-100'}`} tabIndex={compact ? -1 : 0} aria-hidden={compact}>
               <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover shadow-md transition-transform hover:scale-105 md:h-14 md:w-14" />
             </a>
-            <Button size="sm" variant="outline" onClick={() => toast('Coming soon')} className={`pointer-events-auto absolute left-0 h-9 px-2 transition-all duration-200 motion-reduce:transition-none md:px-3 ${compact ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`} tabIndex={compact ? 0 : -1} aria-hidden={!compact}>Register</Button>
+            <Button asChild size="sm" variant="outline" className={`pointer-events-auto absolute left-0 h-9 px-2 transition-all duration-200 motion-reduce:transition-none md:px-3 ${compact ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`} tabIndex={compact ? 0 : -1} aria-hidden={!compact}><Link to="/auth">Register</Link></Button>
           </div>
           <h1 className="text-[length:calc(40px*(1-var(--header-progress)*0.2))] font-black leading-none text-primary md:text-[length:calc(128px*(1-var(--header-progress)*0.62))]">NGABO</h1>
-          <Button size="sm" onClick={() => toast('Coming soon')} className="pointer-events-auto h-9 justify-self-end">Login</Button>
+          <Button asChild size="sm" className="pointer-events-auto h-9 justify-self-end"><Link to="/auth">Login</Link></Button>
           <p className="col-start-2 mt-2 min-h-[1.2em] whitespace-nowrap text-[length:calc(12px*(1-var(--header-progress)*0.2))] font-extrabold uppercase md:text-[length:calc(48px*(1-var(--header-progress)*0.62))]"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
         </div>
       </div>
