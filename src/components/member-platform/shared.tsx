@@ -71,7 +71,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
           <div>
             <p className="mp-brand-name">NGABO</p>
-            <p className="mp-brand-subtitle">Member workspace</p>
+            <p className="mp-brand-subtitle">Member</p>
           </div>
           <button
             type="button"
@@ -108,7 +108,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
         </nav>
         <div className="mp-sidebar-note">
           <div className="mp-note-icon"><ShieldCheck size={17} /></div>
-          <p>Grow with purpose.<br /><span>Learn at your own pace.</span></p>
+          <p>Learning · Community · Service</p>
         </div>
         <div className="mp-sidebar-foot">
           <div className="mp-avatar">{initials || "N"}</div>
@@ -157,7 +157,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <span className="mp-breadcrumb-current">{title}</span>
           </div>
           <div className="mp-topbar-right">
-            <span className="mp-topbar-welcome">Ministries · Learning · Service</span>
+            
             <div className="mp-avatar mp-avatar-small">{initials || "N"}</div>
           </div>
         </header>
@@ -169,13 +169,13 @@ export function MemberWorkspace({ active, title, kicker, description, children }
               {description && <p className="mp-page-description">{description}</p>}
             </div>
             {profile?.email_verified_at && profile?.approval_status === "approved" && (
-              <div className="mp-member-badge"><ShieldCheck size={15} /> Member access active</div>
+              <div className="mp-member-badge"><ShieldCheck size={15} /> Verified member</div>
             )}
           </div>
           {children}
           <footer className="mp-footer">
             <span>NGABO Ministries &amp; Missions of Africa</span>
-            <span>Learning together, growing in service.</span>
+            
           </footer>
         </div>
       </main>
@@ -270,9 +270,9 @@ export function MemberWelcome() {
   return (
     <div className="mp-welcome-banner">
       <div className="mp-welcome-copy">
-        <span className="mp-welcome-overline">YOUR NEXT CHAPTER</span>
+        <span className="mp-welcome-overline">NGABO MEMBER</span>
         <h2>Welcome back, {first}.</h2>
-        <p>Small steps, thoughtful learning, a stronger you. Pick up where your curiosity leads.</p>
+        <p>Your learning and activity, all in one place.</p>
       </div>
       <div className="mp-welcome-stamp" aria-hidden="true">
         <div className="mp-stamp-ring"><span>NGABO<br />GROWTH</span><BookOpen size={25} /></div>
