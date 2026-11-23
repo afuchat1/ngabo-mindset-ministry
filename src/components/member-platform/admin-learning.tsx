@@ -42,6 +42,7 @@ import {
 import { EmptyState, ErrorState, LoadingState, SectionHeading, StatusPill } from "./shared";
 import { formatCoursePrice, type Course, type MemberProfile, type SupportTicket } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
+import logoImage from "@/assets/ngabo-logo.jpg";
 import "./workspace.css";
 
 type AdminTicket = SupportTicket & {
@@ -110,7 +111,7 @@ export function AdminLearning() {
       <div className="mp-admin-inner">
         <header className="mp-admin-top">
           <div className="mp-admin-brand">
-            <div className="mp-brand-mark">N</div>
+            <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
             <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Learning workspace</p></div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
