@@ -112,7 +112,7 @@ export function AdminLearning() {
         <header className="mp-admin-top">
           <div className="mp-admin-brand">
             <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
-            <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Learning workspace</p></div>
+            <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Administration</p></div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Link to="/admin" className="text-xs font-semibold text-[#52705c] underline-offset-4 hover:underline">
@@ -123,7 +123,7 @@ export function AdminLearning() {
           </div>
         </header>
         <div className="mp-admin-title">
-          <div><p className="mp-kicker">MEMBERS, LEARNING &amp; CARE</p><h1>Learning overview</h1><p>Review member access and tend to the learning community from one calm workspace.</p></div>
+          <div><p className="mp-kicker">NGABO ADMIN</p><h1>Learning administration</h1></div>
         </div>
         {query.isPending ? (
           <LoadingState label="Loading learning administration" />
@@ -160,7 +160,7 @@ export function AdminLearning() {
             {section === "quizzes" && <QuizManagement quizzes={data.quizzes} courses={data.courses} />}
           </>
         ) : null}
-        <footer className="mp-footer"><span>NGABO Ministries &amp; Missions of Africa</span><span>Supporting people who serve and grow.</span></footer>
+        <footer className="mp-footer"><span>NGABO (MMA)</span><span></span></footer>
       </div>
     </main>
   );
