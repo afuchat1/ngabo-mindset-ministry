@@ -15,7 +15,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useMemberDashboard } from "./use-platform";
@@ -72,7 +72,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </div>
           <div>
             <p className="mp-brand-name">NGABO</p>
-            <p className="mp-brand-subtitle">Member learning</p>
+            <p className="mp-brand-subtitle">Member workspace</p>
           </div>
           <button
             type="button"
@@ -83,12 +83,12 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <X size={18} />
           </button>
         </div>
-        <p className="mp-nav-label">YOUR SPACE</p>
+        <p className="mp-nav-label">WORKSPACE</p>
         <nav aria-label="Member navigation" className="mp-navigation">
           {memberNavigation.map(({ to, label, icon: Icon }) => (
-            <a
+            <Link
               key={to}
-              href={to}
+              to={to}
               onClick={() => setMobileMenuOpen(false)}
               className={`mp-nav-link ${active === to ? "is-active" : ""}`}
               aria-current={active === to ? "page" : undefined}
@@ -104,7 +104,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
                 </span>
               )}
               {active === to && <span className="mp-nav-indicator" />}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="mp-sidebar-note">
@@ -117,7 +117,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <p className="truncate text-sm font-semibold text-[#283b36]">{name}</p>
             <p className="truncate text-xs text-[#78847d]">NGABO member</p>
           </div>
-          <a href="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
+          <Link to="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
             <Settings2 size={17} />
           </a>
           <Button
@@ -153,12 +153,12 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </button>
           <div className="mp-breadcrumb">
             <Compass size={15} />
-            <span>Member space</span>
+            <span>Workspace</span>
             <span className="mp-breadcrumb-slash">/</span>
             <span className="mp-breadcrumb-current">{title}</span>
           </div>
           <div className="mp-topbar-right">
-            <span className="mp-topbar-welcome">A place to learn and flourish</span>
+            <span className="mp-topbar-welcome">Ministries · Learning · Service</span>
             <div className="mp-avatar mp-avatar-small">{initials || "N"}</div>
           </div>
         </header>
@@ -287,9 +287,9 @@ export function PageLink({
   children,
   className = "",
 }: {
-  to: string;
+  to: "/dashboard" | "/dashboard/courses" | "/dashboard/quizzes" | "/dashboard/support" | "/dashboard/profile";
   children: ReactNode;
   className?: string;
 }) {
-  return <a href={to} className={`mp-text-link ${className}`}>{children}<ArrowRight size={15} /></a>;
+  return <Link to={to} className={`mp-text-link ${className}`}>{children}<ArrowRight size={15} /></Link>;
 }
