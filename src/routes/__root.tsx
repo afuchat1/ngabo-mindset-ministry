@@ -81,13 +81,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NGABO (MMA) Network & Ministries" },
-      { name: "description", content: "Apostle Ngabo Alex — ministry, coaching and conferences in Sweden and Uganda." },
+      { title: "NGABO (MMA) Network & Ministries | Apostle Ngabo Alex" },
+      { name: "description", content: "Official website of Apostle Ngabo Alex and NGABO (MMA) Network & Ministries. Explore ministry, leadership coaching, teaching and conferences in Uganda and Sweden." },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "googlebot", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "application-name", content: "NGABO (MMA) Network & Ministries" },
       { name: "author", content: "NGABO (MMA) Network & Ministries" },
-      { property: "og:title", content: "NGABO (MMA) Network & Ministries" },
-      { property: "og:description", content: "Apostle Ngabo Alex — ministry, coaching and conferences in Sweden and Uganda." },
+      { property: "og:title", content: "NGABO (MMA) Network & Ministries | Apostle Ngabo Alex" },
+      { property: "og:description", content: "Official website of Apostle Ngabo Alex and NGABO (MMA) Network & Ministries. Ministry, leadership coaching, teaching and conferences in Uganda and Sweden." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "NGABO (MMA) Network & Ministries | Apostle Ngabo Alex" },
+      { name: "twitter:description", content: "Official website of Apostle Ngabo Alex. Ministry, leadership coaching, teaching and conferences in Uganda and Sweden." },
       
     ],
     links: [
