@@ -95,9 +95,8 @@ export function MemberDashboard() {
   return (
     <MemberPageFrame
       active="/dashboard"
-      title="Your learning space"
-      kicker="MEMBER OVERVIEW"
-      description="A welcoming place to keep growing, one good lesson at a time."
+      title="Overview"
+      kicker="MEMBER"
     >
       {dashboard.isPending ? (
         <LoadingState label="Loading your member overview" />
@@ -175,7 +174,7 @@ export function MemberDashboard() {
                 <div className="mp-journey-icon"><ShieldCheck size={18} /></div>
                 <div>
                   <p className="m-0 text-xs font-bold text-[#43584a]">Your member space is ready</p>
-                  <p className="mt-1 mb-0 text-[10px] text-[#8a948b]">Courses, quizzes, and personal support are all in one place.</p>
+                  <p className="mt-1 mb-0 text-[12px] text-[#8a948b]">Courses, quizzes, and personal support are all in one place.</p>
                 </div>
               </div>
               <PageLink to="/dashboard/support">Talk to our team</PageLink>
@@ -230,8 +229,8 @@ export function MemberCourses() {
     <MemberPageFrame
       active="/dashboard/courses"
       title="Courses"
-      kicker="LEARN AT YOUR PACE"
-      description="Thoughtful learning paths for personal growth, leadership, and service."
+      kicker="LEARNING"
+      description="Explore available courses and continue learning."
     >
       <div className="mp-filter-row">
         <div className="mp-tabs" role="tablist" aria-label="Filter courses">
@@ -282,7 +281,7 @@ export function MemberCourses() {
         </div>
       )}
       {actionError && <p className="mp-form-error mt-4" role="alert">{actionError}</p>}
-      <div className="mt-5 rounded-xl border border-[#e8eadf] bg-[#f4f2e8] p-4 text-[10px] leading-6 text-[#758176]">
+      <div className="mt-5 rounded-xl border border-[#e8eadf] bg-[#f4f2e8] p-4 text-[12px] leading-6 text-[#758176]">
         <strong className="text-[#546550]">A note on paid courses</strong><br />
         Some learning paths may have a fee. Checkout is planned, and paid enrollment is not available yet. You can still join any course marked free.
       </div>
@@ -314,8 +313,8 @@ export function MemberQuizzes() {
     <MemberPageFrame
       active="/dashboard/quizzes"
       title="Quizzes"
-      kicker="PAUSE & REFLECT"
-      description="Check in with what you have learned. Your results are here to encourage progress, not perfection."
+      kicker="ASSESSMENT"
+      description="Review your quizzes and results."
     >
       <SectionHeading title="Ready when you are" detail="Each quiz is a chance to revisit a useful idea." />
       {query.isPending ? (
@@ -419,7 +418,7 @@ function QuizTaking({ quiz, onBack }: { quiz: QuizListItem; onBack: () => void }
       ) : (
         <form className="grid gap-4" onSubmit={onSubmit}>
           <div className="mp-panel flex flex-wrap items-center justify-between gap-3">
-            <div><p className="m-0 text-sm font-bold text-[#40574a]">{quiz.title}</p><p className="mt-1 mb-0 text-[10px] text-[#88938a]">{questions.length} {questions.length === 1 ? "question" : "questions"} · choose one answer for each</p></div>
+            <div><p className="m-0 text-sm font-bold text-[#40574a]">{quiz.title}</p><p className="mt-1 mb-0 text-[12px] text-[#88938a]">{questions.length} {questions.length === 1 ? "question" : "questions"} · choose one answer for each</p></div>
             <span className="mp-status mp-status-open"><Clock3 size={12} /> At your own pace</span>
           </div>
           {questions.map((question, index) => (
@@ -429,7 +428,7 @@ function QuizTaking({ quiz, onBack }: { quiz: QuizListItem; onBack: () => void }
               </legend>
               <div className="grid gap-2">
                 {question.choices.map((choice, choiceIndex) => (
-                  <label key={`${question.id}-${choiceIndex}`} className={`flex cursor-pointer items-start gap-3 rounded-lg border px-3 py-3 text-[10px] leading-5 transition-colors ${answers[question.id] === choiceIndex ? "border-[#93ae96] bg-[#f1f6ee] text-[#3f5d48]" : "border-[#e8ebe4] bg-[#fffefa] text-[#718078] hover:bg-[#f7f9f4]"}`}>
+                  <label key={`${question.id}-${choiceIndex}`} className={`flex cursor-pointer items-start gap-3 rounded-lg border px-3 py-3 text-[12px] leading-5 transition-colors ${answers[question.id] === choiceIndex ? "border-[#93ae96] bg-[#f1f6ee] text-[#3f5d48]" : "border-[#e8ebe4] bg-[#fffefa] text-[#718078] hover:bg-[#f7f9f4]"}`}>
                     <input type="radio" name={question.id} value={choiceIndex} checked={answers[question.id] === choiceIndex} onChange={() => setAnswers((current) => ({ ...current, [question.id]: choiceIndex }))} className="mt-1 accent-[#315c4c]" />
                     <span>{choice}</span>
                   </label>
@@ -439,7 +438,7 @@ function QuizTaking({ quiz, onBack }: { quiz: QuizListItem; onBack: () => void }
           ))}
           {submitError && <p role="alert" className="mp-form-error">{submitError}</p>}
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-[10px] text-[#89948a]">{answered} of {questions.length} answered</span>
+            <span className="text-[12px] text-[#89948a]">{answered} of {questions.length} answered</span>
             <Button className="mp-btn-primary" disabled={answered !== questions.length || submit.isPending}>
               {submit.isPending ? "Sending answers…" : "Submit reflection"} <Send size={14} />
             </Button>
@@ -496,8 +495,8 @@ export function MemberSupport() {
     <MemberPageFrame
       active="/dashboard/support"
       title="Member support"
-      kicker="WE’RE HERE WITH YOU"
-      description="Ask a question, share a concern, or continue a conversation with the NGABO team."
+      kicker="SUPPORT"
+      description="Contact the NGABO team and follow your requests."
     >
       <SectionHeading
         title="Your conversations"
@@ -541,7 +540,7 @@ export function MemberSupport() {
                 )) : <p className="py-8 text-center text-xs text-[#88938a]">Your conversation is ready. Send a reply below to add a detail.</p>}
               </div>
               {active.status === "resolved" ? (
-                <div className="rounded-lg bg-[#f3f5ef] p-3 text-[10px] text-[#738078]">This conversation is marked resolved. If you still need help, you can open a new request.</div>
+                <div className="rounded-lg bg-[#f3f5ef] p-3 text-[12px] text-[#738078]">This conversation is marked resolved. If you still need help, you can open a new request.</div>
               ) : (
                 <form className="mp-inline-form" onSubmit={sendReply}>
                   <div className="mp-field"><Label htmlFor="member-support-reply">Continue the conversation</Label><Textarea id="member-support-reply" required maxLength={5000} placeholder="Write a reply…" value={replyText} onChange={(event) => setReplyText(event.target.value)} /></div>
@@ -629,8 +628,7 @@ export function MemberProfile() {
     <MemberPageFrame
       active="/dashboard/profile"
       title="My profile"
-      kicker="YOUR DETAILS"
-      description="Keep your information current so our team can support your learning and participation."
+      kicker="PROFILE"
     >
       {query.isPending ? (
         <LoadingState label="Loading your profile" />
@@ -661,7 +659,7 @@ export function MemberProfile() {
             {error && <p className="mp-form-error" role="alert">{error}</p>}
             {saved && <p className="mp-form-success" role="status">Your profile has been saved.</p>}
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ece5] pt-4">
-              <p className="m-0 text-[9px] text-[#929a92]">Your details are only used to support your member experience.</p>
+              <p className="m-0 text-[12px] text-[#929a92]">Your details are only used to support your member experience.</p>
               <Button className="mp-btn-primary" disabled={update.isPending}>{update.isPending ? "Saving…" : "Save changes"} <Check size={14} /></Button>
             </div>
           </form>

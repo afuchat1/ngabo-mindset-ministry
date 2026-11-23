@@ -15,12 +15,13 @@ import {
   LogOut,
 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useMemberDashboard } from "./use-platform";
 import { displayName } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
+import logoImage from "@/assets/ngabo-logo.jpg";
 import "./workspace.css";
 
 const memberNavigation = [
@@ -67,12 +68,10 @@ export function MemberWorkspace({ active, title, kicker, description, children }
     <div className="mp-workspace min-h-[100dvh]">
       <aside className={`mp-sidebar ${mobileMenuOpen ? "mp-sidebar-open" : ""}`}>
         <div className="mp-brand">
-          <div className="mp-brand-mark" aria-hidden="true">
-            N
-          </div>
+          <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
           <div>
             <p className="mp-brand-name">NGABO</p>
-            <p className="mp-brand-subtitle">Member learning</p>
+            <p className="mp-brand-subtitle">Member</p>
           </div>
           <button
             type="button"
@@ -83,12 +82,12 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <X size={18} />
           </button>
         </div>
-        <p className="mp-nav-label">YOUR SPACE</p>
+        <p className="mp-nav-label">WORKSPACE</p>
         <nav aria-label="Member navigation" className="mp-navigation">
           {memberNavigation.map(({ to, label, icon: Icon }) => (
-            <a
+            <Link
               key={to}
-              href={to}
+              to={to}
               onClick={() => setMobileMenuOpen(false)}
               className={`mp-nav-link ${active === to ? "is-active" : ""}`}
               aria-current={active === to ? "page" : undefined}
@@ -97,19 +96,19 @@ export function MemberWorkspace({ active, title, kicker, description, children }
               <span>{label}</span>
               {(navigationCounts[to] ?? 0) > 0 && (
                 <span
-                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[10px] font-bold leading-4 text-[#935a3e]"
+                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[12px] font-bold leading-4 text-[#935a3e]"
                   aria-label={`${navigationCounts[to]} ${label.toLowerCase()} notifications`}
                 >
                   {(navigationCounts[to] ?? 0) > 99 ? "99+" : navigationCounts[to]}
                 </span>
               )}
               {active === to && <span className="mp-nav-indicator" />}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="mp-sidebar-note">
           <div className="mp-note-icon"><ShieldCheck size={17} /></div>
-          <p>Grow with purpose.<br /><span>Learn at your own pace.</span></p>
+          <p>Learning · Community · Service</p>
         </div>
         <div className="mp-sidebar-foot">
           <div className="mp-avatar">{initials || "N"}</div>
@@ -117,9 +116,9 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <p className="truncate text-sm font-semibold text-[#283b36]">{name}</p>
             <p className="truncate text-xs text-[#78847d]">NGABO member</p>
           </div>
-          <a href="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
+          <Link to="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
             <Settings2 size={17} />
-          </a>
+          </Link>
           <Button
             type="button"
             variant="ghost"
@@ -153,12 +152,12 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </button>
           <div className="mp-breadcrumb">
             <Compass size={15} />
-            <span>Member space</span>
+            <span>Workspace</span>
             <span className="mp-breadcrumb-slash">/</span>
             <span className="mp-breadcrumb-current">{title}</span>
           </div>
           <div className="mp-topbar-right">
-            <span className="mp-topbar-welcome">A place to learn and flourish</span>
+            
             <div className="mp-avatar mp-avatar-small">{initials || "N"}</div>
           </div>
         </header>
@@ -170,13 +169,13 @@ export function MemberWorkspace({ active, title, kicker, description, children }
               {description && <p className="mp-page-description">{description}</p>}
             </div>
             {profile?.email_verified_at && profile?.approval_status === "approved" && (
-              <div className="mp-member-badge"><ShieldCheck size={15} /> Member access active</div>
+              <div className="mp-member-badge"><ShieldCheck size={15} /> Verified member</div>
             )}
           </div>
           {children}
           <footer className="mp-footer">
             <span>NGABO Ministries &amp; Missions of Africa</span>
-            <span>Learning together, growing in service.</span>
+            
           </footer>
         </div>
       </main>
@@ -271,9 +270,9 @@ export function MemberWelcome() {
   return (
     <div className="mp-welcome-banner">
       <div className="mp-welcome-copy">
-        <span className="mp-welcome-overline">YOUR NEXT CHAPTER</span>
+        <span className="mp-welcome-overline">NGABO MEMBER</span>
         <h2>Welcome back, {first}.</h2>
-        <p>Small steps, thoughtful learning, a stronger you. Pick up where your curiosity leads.</p>
+        <p>Your learning and activity, all in one place.</p>
       </div>
       <div className="mp-welcome-stamp" aria-hidden="true">
         <div className="mp-stamp-ring"><span>NGABO<br />GROWTH</span><BookOpen size={25} /></div>
@@ -287,9 +286,9 @@ export function PageLink({
   children,
   className = "",
 }: {
-  to: string;
+  to: "/dashboard" | "/dashboard/courses" | "/dashboard/quizzes" | "/dashboard/support" | "/dashboard/profile";
   children: ReactNode;
   className?: string;
 }) {
-  return <a href={to} className={`mp-text-link ${className}`}>{children}<ArrowRight size={15} /></a>;
+  return <Link to={to} className={`mp-text-link ${className}`}>{children}<ArrowRight size={15} /></Link>;
 }

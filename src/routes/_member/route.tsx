@@ -9,7 +9,8 @@ export const Route = createFileRoute('/_member')({
     if (!data.user.email_confirmed_at) throw redirect({ to: '/pending-approval' });
 
     const role = await supabase.rpc('has_role', { _user_id: data.user.id, _role: 'admin' });
-    if (!role.error && role.data) throw redirect({ to: '/admin' });
+    if (role.error) throw new Error('Could not verify account permissions. Please try again.');
+    if (role.data) throw redirect({ to: '/admin' });
 
     const profile = await supabase
       .from('member_profiles')
