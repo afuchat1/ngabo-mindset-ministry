@@ -96,7 +96,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
               <span>{label}</span>
               {(navigationCounts[to] ?? 0) > 0 && (
                 <span
-                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[10px] font-bold leading-4 text-[#935a3e]"
+                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[12px] font-bold leading-4 text-[#935a3e]"
                   aria-label={`${navigationCounts[to]} ${label.toLowerCase()} notifications`}
                 >
                   {(navigationCounts[to] ?? 0) > 99 ? "99+" : navigationCounts[to]}
