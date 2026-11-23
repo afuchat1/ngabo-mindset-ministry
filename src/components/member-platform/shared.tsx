@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { useMemberDashboard } from "./use-platform";
 import { displayName } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
+import logoImage from "@/assets/ngabo-logo.jpg";
 import "./workspace.css";
 
 const memberNavigation = [
@@ -67,9 +68,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
     <div className="mp-workspace min-h-[100dvh]">
       <aside className={`mp-sidebar ${mobileMenuOpen ? "mp-sidebar-open" : ""}`}>
         <div className="mp-brand">
-          <div className="mp-brand-mark" aria-hidden="true">
-            N
-          </div>
+          <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
           <div>
             <p className="mp-brand-name">NGABO</p>
             <p className="mp-brand-subtitle">Member workspace</p>
