@@ -11,5 +11,9 @@
 - [x] Separate top slider products and bottom-only products in the dashboard and homepage; verify placement rules.
 - [x] Add and verify Coming soon Login and scroll-revealed Register buttons around the homepage title.
 - [x] Align the homepage logo, title, and Login in one row while preserving scroll behavior.
-- [ ] Add secure multiple homepage-photo management and random crossfade rotation, preserving the original first photo.
-- [ ] Verify photo rotation, failures and admin forms; authenticated live checks depend on external Supabase access.
+- [ ] Replace unfinished photo work with verified member signup, stepped profile collection, and administrator approval tickets.
+- [ ] Add member dashboard, profile, courses, quizzes, purchases, support tickets and notification counts.
+- [ ] Add administrator member approvals, course pricing/content management, support and purchase oversight with counts.
+- [ ] Connect Resend for branded verification and ticket/update emails.
+- [ ] Configure course payment handling after the payment method is chosen.
+- [ ] Test access rules and member/admin workflows; record external-service blockers.
