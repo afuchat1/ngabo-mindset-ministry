@@ -119,7 +119,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </div>
           <Link to="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
             <Settings2 size={17} />
-          </a>
+          </Link>
           <Button
             type="button"
             variant="ghost"

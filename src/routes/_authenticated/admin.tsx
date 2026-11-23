@@ -12,6 +12,7 @@ import { AdminProducts } from '@/components/admin-products';
 import { AdminHeroImages } from '@/components/admin-hero-images';
 import { EventDatePicker } from '@/components/event-date-picker';
 import { supabase } from '@/integrations/supabase/client';
+import '@/components/member-platform/workspace.css';
 import { eventIcons, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from '@/lib/events';
 
 export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Events & resources dashboard | Ngabo ministries' }, { name: 'description', content: 'Manage ministry events, announcements and featured resources.' }, { property: 'og:title', content: 'Events & products dashboard | Ngabo ministries' }, { property: 'og:description', content: 'Manage scheduled ministry announcements and featured resources.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), component: AdminPage });

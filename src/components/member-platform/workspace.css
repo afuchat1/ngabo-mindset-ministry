@@ -310,3 +310,11 @@
 @media (prefers-reduced-motion: reduce) {
   .mp-nav-link, .mp-sidebar, .mp-skeleton:after { animation: none !important; transition: none !important; }
 }
+
+.mp-admin-events h1 { color: var(--ngabo-forest-deep); font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
+.mp-admin-events > section > .flex { gap: 18px; }
+.mp-admin-events > section > .flex h1 { line-height: 1.12; }
+.mp-admin-events > section > .flex .text-primary { color: var(--ngabo-rust); }
+.mp-admin-events .border-y { border-color: #e7e9df; }
+.mp-admin-events .border-b { border-color: #e7e9df; }
+.mp-admin-events .bg-background { background: var(--ngabo-paper); }
