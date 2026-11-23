@@ -95,9 +95,8 @@ export function MemberDashboard() {
   return (
     <MemberPageFrame
       active="/dashboard"
-      title="Your learning space"
-      kicker="MEMBER OVERVIEW"
-      description="A welcoming place to keep growing, one good lesson at a time."
+      title="Overview"
+      kicker="MEMBER"
     >
       {dashboard.isPending ? (
         <LoadingState label="Loading your member overview" />
@@ -230,8 +229,8 @@ export function MemberCourses() {
     <MemberPageFrame
       active="/dashboard/courses"
       title="Courses"
-      kicker="LEARN AT YOUR PACE"
-      description="Thoughtful learning paths for personal growth, leadership, and service."
+      kicker="LEARNING"
+      description="Explore available courses and continue learning."
     >
       <div className="mp-filter-row">
         <div className="mp-tabs" role="tablist" aria-label="Filter courses">
@@ -314,8 +313,8 @@ export function MemberQuizzes() {
     <MemberPageFrame
       active="/dashboard/quizzes"
       title="Quizzes"
-      kicker="PAUSE & REFLECT"
-      description="Check in with what you have learned. Your results are here to encourage progress, not perfection."
+      kicker="ASSESSMENT"
+      description="Review your quizzes and results."
     >
       <SectionHeading title="Ready when you are" detail="Each quiz is a chance to revisit a useful idea." />
       {query.isPending ? (
@@ -496,8 +495,8 @@ export function MemberSupport() {
     <MemberPageFrame
       active="/dashboard/support"
       title="Member support"
-      kicker="WE’RE HERE WITH YOU"
-      description="Ask a question, share a concern, or continue a conversation with the NGABO team."
+      kicker="SUPPORT"
+      description="Contact the NGABO team and follow your requests."
     >
       <SectionHeading
         title="Your conversations"
@@ -629,8 +628,7 @@ export function MemberProfile() {
     <MemberPageFrame
       active="/dashboard/profile"
       title="My profile"
-      kicker="YOUR DETAILS"
-      description="Keep your information current so our team can support your learning and participation."
+      kicker="PROFILE"
     >
       {query.isPending ? (
         <LoadingState label="Loading your profile" />
