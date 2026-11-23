@@ -531,3 +531,76 @@
   .mp-admin-shell *,
   .mp-admin-events * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+
+/* Staff administration shell: consistent SaaS layout and typography. */
+.mp-admin-shell { min-height: 100dvh; background: #faf9f7; color: #242321; font-family: "Montserrat", sans-serif; }
+.mp-admin-inner { width: min(1240px, 100%); margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px) 28px; }
+.mp-admin-top { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #e9e6e1; background: #fff; }
+.mp-admin-brand { display: flex; align-items: center; gap: 12px; }
+.mp-admin-title { padding: 34px 0 24px; }
+.mp-admin-title h1 { margin: 6px 0 8px; color: #242321; font: 800 clamp(30px, 3vw, 38px)/1.15 "Montserrat", sans-serif; letter-spacing: -.04em; }
+.mp-admin-title p:last-child { max-width: 680px; margin: 0; color: #6e6963; font-size: 14px; line-height: 1.65; }
+.mp-admin-stats { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 12px; margin-bottom: 25px; }
+.mp-admin-stat { min-width: 0; padding: 17px; border: 1px solid #e9e6e1; border-radius: 10px; background: #fff; box-shadow: none; }
+.mp-admin-stat > div > span { color: #77716b; font-size: 12px; font-weight: 600; }
+.mp-admin-stat svg { color: var(--primary) !important; }
+.mp-admin-stat strong { color: #242321; font: 800 26px/1.2 "Montserrat", sans-serif; }
+.mp-tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; border-bottom: 1px solid #e9e6e1; }
+.mp-tab { display: inline-flex; align-items: center; gap: 5px; min-height: 43px; padding: 0 14px; border-bottom: 2px solid transparent; color: #68625c; font: 600 13px "Montserrat", sans-serif; }
+.mp-tab:hover { color: var(--primary); background: #faf6f2; }
+.mp-tab[aria-selected="true"] { border-bottom-color: var(--primary); color: var(--primary); }
+.mp-admin-panel { min-width: 0; padding: 22px; border: 1px solid #e9e6e1; border-radius: 10px; background: #fff; }
+.mp-admin-panel .mp-section-heading { margin: 0 0 18px; }
+.mp-admin-panel .mp-section-heading h2 { color: #242321; font: 700 18px/1.3 "Montserrat", sans-serif; }
+.mp-admin-panel .mp-section-heading p { color: #77716b; font-size: 13px; }
+.mp-admin-badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #efdfd4; border-radius: 999px; background: #fbf0e9; color: var(--primary); padding: 7px 11px; font-size: 11px; font-weight: 700; }
+.mp-admin-table-wrap { overflow-x: auto; width: 100%; }
+.mp-admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.mp-admin-table th { padding: 12px 14px; background: #faf9f7; color: #77716b; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.mp-admin-table td { padding: 14px; border-top: 1px solid #eeeae5; color: #4d4842; vertical-align: middle; }
+.mp-admin-table td strong { color: #242321; font-weight: 700; }
+.mp-admin-table td [class*="text-[#"] { color: #77716b !important; }
+.mp-admin-table td [class*="text-[#55795f"] { color: var(--primary) !important; }
+.mp-admin-actions { display: flex; align-items: center; gap: 7px; }
+.mp-admin-action { display: inline-grid; width: 34px; height: 34px; place-items: center; border-radius: 7px; color: #68625c; }
+.mp-admin-action:hover { background: #faf0e9; color: var(--primary); }
+.mp-admin-action.danger { color: #b54736; }
+.mp-filter-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+.mp-pagination-note { color: #77716b; font-size: 12px; }
+.mp-search { display: flex; align-items: center; gap: 8px; width: min(340px, 100%); border: 1px solid #ded9d3; border-radius: 8px; background: #fff; padding: 0 11px; color: #77716b; }
+.mp-search input { width: 100%; min-width: 0; height: 39px; border: 0; outline: 0; color: #242321; font: 13px "Montserrat", sans-serif; }
+.mp-ticket-list { border: 1px solid #e9e6e1; border-radius: 9px; }
+.mp-ticket-row { width: 100%; padding: 14px; border-bottom: 1px solid #eeeae5; text-align: left; }
+.mp-ticket-row:last-child { border-bottom: 0; }
+.mp-ticket-row.is-selected { background: #fbf3ee; box-shadow: inset 3px 0 var(--primary); }
+.mp-ticket-row strong { display: block; color: #292622; font-size: 13px; }
+.mp-ticket-row > span { display: block; margin-top: 5px; color: #77716b; font-size: 11px; }
+.mp-message { margin: 10px 0; border-radius: 9px; background: #f7f5f2; padding: 13px; }
+.mp-message.is-staff { background: #fbf0e9; }
+.mp-message-meta { display: flex; justify-content: space-between; gap: 10px; color: #77716b; font-size: 11px; }
+.mp-message-meta strong { color: #292622; }
+.mp-message p { margin: 8px 0 0; color: #403b36; font-size: 13px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.mp-status { display: inline-flex; align-items: center; border: 1px solid #e9e1da; border-radius: 999px; background: #f8f5f2; color: #615b55; padding: 4px 9px; font-size: 11px; font-weight: 700; }
+.mp-status-approved,.mp-status-active { border-color: #efdfd4; background: #fbf0e9; color: var(--primary); }
+.mp-status-rejected,.mp-status-archived,.mp-status-unverified { border-color: #e8e2dc; background: #f5f3f0; color: #77716b; }
+.mp-admin-shell [class*="text-[#52705c"],
+.mp-admin-shell [class*="text-[#60816a"],
+.mp-admin-shell [class*="text-[#50745a"],
+.mp-admin-shell [class*="text-[#55795f"] { color: var(--primary) !important; }
+.mp-admin-shell [class*="bg-[#f2f5ee"] { background: #f7f5f2 !important; }
+.mp-admin-shell .mp-form-error { color: #a33d32; background: #fbefed; }
+.mp-admin-shell .mp-form-success { color: var(--primary); }
+.mp-admin-shell :where(button,input,textarea,select) { font-family: "Montserrat", sans-serif; }
+@media (max-width: 900px) {
+  .mp-admin-stats { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 620px) {
+  .mp-admin-inner { padding: 0 16px 22px; }
+  .mp-admin-top { align-items: flex-start; flex-direction: column; padding: 16px 0; }
+  .mp-admin-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .mp-admin-panel { padding: 16px; }
+  .mp-admin-table { min-width: 720px; }
+  .mp-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .mp-tab { flex: none; }
+}
