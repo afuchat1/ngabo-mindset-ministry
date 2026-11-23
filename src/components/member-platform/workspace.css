@@ -604,3 +604,16 @@
   .mp-tabs { overflow-x: auto; flex-wrap: nowrap; }
   .mp-tab { flex: none; }
 }
+
+/* Original NGABO logo asset — never substitute an initial or generated mark. */
+.mp-brand-logo {
+  display: block;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+.mp-admin-brand .mp-brand-logo { width: 46px; height: 46px; flex-basis: 46px; }
+.mp-brand-logo-events { width: 48px; height: 48px; flex-basis: 48px; }
