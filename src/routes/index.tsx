@@ -229,7 +229,6 @@ function Index() {
         <img src={logoImage} alt="NGABO (MMA) logo" className="mx-auto mb-6 h-20 w-20 rounded-full object-cover shadow-md" />
         <Photo src={footerImage} alt="NGABO (MMA) Network: Soul, Body, Mindset and Spirit, with steps toward success" className="mx-auto mb-8 aspect-[768/849] w-full max-w-sm rounded-lg" />
         <p>© 2011 to {new Date().getFullYear()} NGABO (MMA) Network & Ministries</p>
-        <Button asChild variant="link" size="sm" className="mt-3"><Link to="/admin">Admin</Link></Button>
       </footer>
     </main>
   );
