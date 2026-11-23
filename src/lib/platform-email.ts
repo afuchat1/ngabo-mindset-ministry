@@ -6,12 +6,12 @@ type PlatformEmail = {
 
 export type EmailDelivery = { sent: true } | {
   sent: false;
-  reason: 'missing_configuration' | 'provider_rejected';
+  reason: 'missing_configuration' | 'provider_rejected' | 'recipient_not_found';
 };
 
 export async function sendPlatformEmail({ to, subject, message }: PlatformEmail): Promise<EmailDelivery> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL;
+  const apiKey = process.env['RESEND_API_KEY'];
+  const from = process.env['RESEND_FROM_EMAIL'];
   if (!apiKey || !from) return { sent: false, reason: 'missing_configuration' };
 
   const response = await fetch('https://api.resend.com/emails', {

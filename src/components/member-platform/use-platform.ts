@@ -18,6 +18,7 @@ import {
   submitMemberQuiz,
   updateMemberProfile,
 } from "@/lib/member-platform.functions";
+import type { CourseInput, MemberProfileInput, QuizInput } from "@/lib/member-platform";
 
 export const platformKeys = {
   dashboard: ["member-platform", "dashboard"] as const,
@@ -59,7 +60,7 @@ export function useAdminPlatformData() {
 export function useUpdateMemberProfile() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (data: Parameters<typeof updateMemberProfile>[0]["data"]) =>
+    mutationFn: (data: MemberProfileInput) =>
       updateMemberProfile({ data }),
     onSuccess: async () => {
       await client.invalidateQueries({ queryKey: platformKeys.dashboard });
@@ -136,7 +137,7 @@ export function useReviewMemberApproval() {
 export function useSaveAdminCourse() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (input: Parameters<typeof saveAdminCourse>[0]["data"]) =>
+    mutationFn: (input: CourseInput) =>
       saveAdminCourse({ data: input }),
     onSuccess: async () => {
       await Promise.all([
@@ -163,7 +164,7 @@ export function useArchiveAdminCourse() {
 export function useSaveAdminQuiz() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: (input: Parameters<typeof saveAdminQuiz>[0]["data"]) =>
+    mutationFn: (input: QuizInput) =>
       saveAdminQuiz({ data: input }),
     onSuccess: async () => {
       await Promise.all([

@@ -6,6 +6,7 @@ import {
   CircleHelp,
   ClipboardList,
   LifeBuoy,
+  LogOut,
   MailCheck,
   MessageCircle,
   Pencil,
@@ -16,6 +17,8 @@ import {
   UsersRound,
   X,
 } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,6 +41,7 @@ import {
 } from "./use-platform";
 import { EmptyState, ErrorState, LoadingState, SectionHeading, StatusPill } from "./shared";
 import { formatCoursePrice, type Course, type MemberProfile, type SupportTicket } from "@/lib/member-platform";
+import { supabase } from "@/integrations/supabase/client";
 import "./workspace.css";
 
 type AdminTicket = SupportTicket & {
@@ -84,6 +88,8 @@ export function AdminLearning() {
   const query = useAdminPlatformData();
   const [section, setSection] = useState<Section>("members");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const data = query.data as AdminData | undefined;
   const sectionLabels: Array<{ key: Section; label: string; icon: typeof UsersRound }> = [
     { key: "members", label: "Member review", icon: UsersRound },
@@ -91,6 +97,13 @@ export function AdminLearning() {
     { key: "courses", label: "Courses", icon: BookOpen },
     { key: "quizzes", label: "Quizzes", icon: CircleHelp },
   ];
+
+  async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <main className="mp-admin-shell">
@@ -100,7 +113,13 @@ export function AdminLearning() {
             <div className="mp-brand-mark">N</div>
             <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Learning workspace</p></div>
           </div>
-          <div className="mp-admin-badge"><ShieldCheck size={14} /> Staff administration</div>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link to="/admin" className="text-xs font-semibold text-[#52705c] underline-offset-4 hover:underline">
+              Events &amp; products
+            </Link>
+            <div className="mp-admin-badge"><ShieldCheck size={14} /> Staff administration</div>
+            <Button size="sm" variant="outline" onClick={() => void signOut()}><LogOut size={14} /> Sign out</Button>
+          </div>
         </header>
         <div className="mp-admin-title">
           <div><p className="mp-kicker">MEMBERS, LEARNING &amp; CARE</p><h1>Learning overview</h1><p>Review member access and tend to the learning community from one calm workspace.</p></div>
@@ -119,12 +138,20 @@ export function AdminLearning() {
               <AdminStat icon={CircleHelp} value={data.counts.activeQuizzes} label="Active quizzes" />
             </div>
             <nav className="mp-tabs" role="tablist" aria-label="Admin learning sections">
-              {sectionLabels.map(({ key, label, icon: Icon }) => (
+              {sectionLabels.map(({ key, label, icon: Icon }) => {
+                const count = key === "members"
+                  ? data.counts.pendingApprovals
+                  : key === "support"
+                    ? data.counts.openTickets
+                    : key === "courses"
+                      ? data.counts.activeCourses
+                      : data.counts.activeQuizzes;
+                return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
-                  {key === "members" && data.counts.pendingApprovals > 0 ? <span className="ml-1 rounded-full bg-[#f7e8dc] px-1.5 py-0.5 text-[8px] text-[#a55f3f]">{data.counts.pendingApprovals}</span> : null}
+                  {count > 0 ? <span className="ml-1 rounded-full bg-[#f7e8dc] px-1.5 py-0.5 text-[8px] text-[#a55f3f]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
-              ))}
+              );})}
             </nav>
             {section === "members" && <MemberReview data={data} search={search} setSearch={setSearch} />}
             {section === "support" && <AdminSupport tickets={data.tickets} />}

@@ -78,7 +78,7 @@ function MemberPageFrame({
   active: string;
   title: string;
   kicker: string;
-  description?: string;
+  description?: string | undefined;
   children: ReactNode;
 }) {
   return (

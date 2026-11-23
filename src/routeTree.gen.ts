@@ -11,8 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminLearningRouteImport } from './routes/_authenticated/admin-learning'
+import { Route as MemberDashboardRouteRouteImport } from './routes/_member/dashboard/route'
+import { Route as MemberDashboardIndexRouteImport } from './routes/_member/dashboard/index'
+import { Route as MemberDashboardCoursesRouteImport } from './routes/_member/dashboard/courses'
+import { Route as MemberDashboardProfileRouteImport } from './routes/_member/dashboard/profile'
+import { Route as MemberDashboardQuizzesRouteImport } from './routes/_member/dashboard/quizzes'
+import { Route as MemberDashboardSupportRouteImport } from './routes/_member/dashboard/support'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,9 +32,18 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MemberRouteRoute = MemberRouteRouteImport.update({
+  id: '/_member',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingApprovalRoute = PendingApprovalRouteImport.update({
+  id: '/pending-approval',
+  path: '/pending-approval',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -33,36 +51,133 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminLearningRoute =
+  AuthenticatedAdminLearningRouteImport.update({
+    id: '/admin-learning',
+    path: '/admin-learning',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const MemberDashboardRouteRoute = MemberDashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const MemberDashboardIndexRoute = MemberDashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
+const MemberDashboardCoursesRoute = MemberDashboardCoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
+const MemberDashboardProfileRoute = MemberDashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
+const MemberDashboardQuizzesRoute = MemberDashboardQuizzesRouteImport.update({
+  id: '/quizzes',
+  path: '/quizzes',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
+const MemberDashboardSupportRoute = MemberDashboardSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/pending-approval': typeof PendingApprovalRoute
+  '/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
+  '/admin-learning': typeof AuthenticatedAdminLearningRoute
+  '/dashboard/courses': typeof MemberDashboardCoursesRoute
+  '/dashboard/profile': typeof MemberDashboardProfileRoute
+  '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
+  '/dashboard/support': typeof MemberDashboardSupportRoute
+  '/dashboard/': typeof MemberDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/pending-approval': typeof PendingApprovalRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/admin-learning': typeof AuthenticatedAdminLearningRoute
+  '/dashboard/courses': typeof MemberDashboardCoursesRoute
+  '/dashboard/profile': typeof MemberDashboardProfileRoute
+  '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
+  '/dashboard/support': typeof MemberDashboardSupportRoute
+  '/dashboard': typeof MemberDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_member': typeof MemberRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/pending-approval': typeof PendingApprovalRoute
+  '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin-learning': typeof AuthenticatedAdminLearningRoute
+  '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
+  '/_member/dashboard/profile': typeof MemberDashboardProfileRoute
+  '/_member/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
+  '/_member/dashboard/support': typeof MemberDashboardSupportRoute
+  '/_member/dashboard/': typeof MemberDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/admin'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/pending-approval'
+    | '/dashboard'
+    | '/admin'
+    | '/admin-learning'
+    | '/dashboard/courses'
+    | '/dashboard/profile'
+    | '/dashboard/quizzes'
+    | '/dashboard/support'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/admin'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/admin'
+  to:
+    | '/'
+    | '/auth'
+    | '/pending-approval'
+    | '/admin'
+    | '/admin-learning'
+    | '/dashboard/courses'
+    | '/dashboard/profile'
+    | '/dashboard/quizzes'
+    | '/dashboard/support'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_member'
+    | '/auth'
+    | '/pending-approval'
+    | '/_member/dashboard'
+    | '/_authenticated/admin'
+    | '/_authenticated/admin-learning'
+    | '/_member/dashboard/courses'
+    | '/_member/dashboard/profile'
+    | '/_member/dashboard/quizzes'
+    | '/_member/dashboard/support'
+    | '/_member/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  MemberRouteRoute: typeof MemberRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  PendingApprovalRoute: typeof PendingApprovalRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -81,11 +196,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_member': {
+      id: '/_member'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MemberRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending-approval': {
+      id: '/pending-approval'
+      path: '/pending-approval'
+      fullPath: '/pending-approval'
+      preLoaderRoute: typeof PendingApprovalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -95,24 +224,108 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin-learning': {
+      id: '/_authenticated/admin-learning'
+      path: '/admin-learning'
+      fullPath: '/admin-learning'
+      preLoaderRoute: typeof AuthenticatedAdminLearningRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_member/dashboard': {
+      id: '/_member/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof MemberDashboardRouteRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/_member/dashboard/': {
+      id: '/_member/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof MemberDashboardIndexRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
+    '/_member/dashboard/courses': {
+      id: '/_member/dashboard/courses'
+      path: '/courses'
+      fullPath: '/dashboard/courses'
+      preLoaderRoute: typeof MemberDashboardCoursesRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
+    '/_member/dashboard/profile': {
+      id: '/_member/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof MemberDashboardProfileRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
+    '/_member/dashboard/quizzes': {
+      id: '/_member/dashboard/quizzes'
+      path: '/quizzes'
+      fullPath: '/dashboard/quizzes'
+      preLoaderRoute: typeof MemberDashboardQuizzesRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
+    '/_member/dashboard/support': {
+      id: '/_member/dashboard/support'
+      path: '/support'
+      fullPath: '/dashboard/support'
+      preLoaderRoute: typeof MemberDashboardSupportRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminLearningRoute: typeof AuthenticatedAdminLearningRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminLearningRoute: AuthenticatedAdminLearningRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface MemberDashboardRouteRouteChildren {
+  MemberDashboardCoursesRoute: typeof MemberDashboardCoursesRoute
+  MemberDashboardProfileRoute: typeof MemberDashboardProfileRoute
+  MemberDashboardQuizzesRoute: typeof MemberDashboardQuizzesRoute
+  MemberDashboardSupportRoute: typeof MemberDashboardSupportRoute
+  MemberDashboardIndexRoute: typeof MemberDashboardIndexRoute
+}
+
+const MemberDashboardRouteRouteChildren: MemberDashboardRouteRouteChildren = {
+  MemberDashboardCoursesRoute: MemberDashboardCoursesRoute,
+  MemberDashboardProfileRoute: MemberDashboardProfileRoute,
+  MemberDashboardQuizzesRoute: MemberDashboardQuizzesRoute,
+  MemberDashboardSupportRoute: MemberDashboardSupportRoute,
+  MemberDashboardIndexRoute: MemberDashboardIndexRoute,
+}
+
+const MemberDashboardRouteRouteWithChildren =
+  MemberDashboardRouteRoute._addFileChildren(MemberDashboardRouteRouteChildren)
+
+interface MemberRouteRouteChildren {
+  MemberDashboardRouteRoute: typeof MemberDashboardRouteRouteWithChildren
+}
+
+const MemberRouteRouteChildren: MemberRouteRouteChildren = {
+  MemberDashboardRouteRoute: MemberDashboardRouteRouteWithChildren,
+}
+
+const MemberRouteRouteWithChildren = MemberRouteRoute._addFileChildren(
+  MemberRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  MemberRouteRoute: MemberRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  PendingApprovalRoute: PendingApprovalRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

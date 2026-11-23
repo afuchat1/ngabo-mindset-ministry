@@ -57,8 +57,12 @@ export const getMemberDashboard = createServerFn({ method: 'GET' })
       context.supabase.from('quizzes').select('id').eq('is_active', true),
       context.supabase.from('support_tickets').select('id,status').eq('user_id', context.userId),
     ]);
-    const results = [courses, enrollments, quizzes, tickets];
-    if (results.some(result => result.error)) throw new Error('Could not load dashboard summary.');
+    if (
+      courses.error || !courses.data
+      || enrollments.error || !enrollments.data
+      || quizzes.error || !quizzes.data
+      || tickets.error || !tickets.data
+    ) throw new Error('Could not load dashboard summary.');
     return {
       profile,
       counts: {
@@ -245,7 +249,14 @@ export const getAdminPlatformData = createServerFn({ method: 'POST' })
       context.supabase.from('support_tickets').select('*').order('updated_at', { ascending: false }),
       context.supabase.from('course_enrollments').select('id'),
     ]);
-    if ([profileResult, approvalResult, courseResult, quizResult, ticketResult, enrollmentResult].some(result => result.error)) {
+    if (
+      profileResult.error || !profileResult.data
+      || approvalResult.error || !approvalResult.data
+      || courseResult.error || !courseResult.data
+      || quizResult.error || !quizResult.data
+      || ticketResult.error || !ticketResult.data
+      || enrollmentResult.error || !enrollmentResult.data
+    ) {
       throw new Error('Could not load administration data.');
     }
     const approvalByUser = new Map(approvalResult.data.map(approval => [approval.user_id, approval]));
@@ -381,14 +392,18 @@ export const replyToSupportTicketAsAdmin = createServerFn({ method: 'POST' })
       .select('user_id,subject')
       .eq('id', data.ticket_id)
       .single();
-    const profile = ticket && !ticketError ? await loadProfile(context.supabase, ticket.user_id) : null;
-    let email: EmailDelivery = { sent: false, reason: 'missing_configuration' };
-    if (profile?.email) {
-      email = await sendPlatformEmail({
-        to: profile.email,
-        subject: `New reply: ${ticket.subject}`,
-        message: 'The support team replied to your request. Sign in to your NGABO dashboard to read the message and continue the conversation.',
-      });
+    if (ticketError || !ticket) {
+      return { id: messageId, email: { sent: false as const, reason: 'recipient_not_found' as const } };
     }
+    const profile = await loadProfile(context.supabase, ticket.user_id);
+    let email: EmailDelivery = { sent: false, reason: 'missing_configuration' };
+    if (!profile?.email) {
+      return { id: messageId, email: { sent: false as const, reason: 'recipient_not_found' as const } };
+    }
+    email = await sendPlatformEmail({
+      to: profile.email,
+      subject: `New reply: ${ticket.subject}`,
+      message: 'The support team replied to your request. Sign in to your NGABO dashboard to read the message and continue the conversation.',
+    });
     return { id: messageId, email };
   });

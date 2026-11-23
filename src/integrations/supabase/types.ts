@@ -542,7 +542,7 @@ export type Database = {
         Args: {
           p_course_id: string
           p_description: string
-          p_id: string
+          p_id: string | null
           p_is_active: boolean
           p_questions: Json
           p_title: string

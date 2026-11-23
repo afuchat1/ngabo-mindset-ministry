@@ -17,6 +17,7 @@ export const memberProfileSchema = z.object({
   age: z.coerce.number().int().min(1).max(120),
   gender: z.enum(['female', 'male', 'non_binary', 'other', 'prefer_not_to_say']),
 });
+export type MemberProfileInput = z.infer<typeof memberProfileSchema>;
 
 export const signupSchema = memberProfileSchema.extend({
   email: z.string().trim().email().max(254),
@@ -31,6 +32,7 @@ export const courseSchema = z.object({
   currency: z.string().trim().toUpperCase().regex(/^[A-Z]{3}$/),
   is_active: z.boolean(),
 });
+export type CourseInput = z.infer<typeof courseSchema>;
 
 export const quizQuestionSchema = z.object({
   prompt: z.string().trim().min(1).max(1000),
@@ -49,6 +51,7 @@ export const quizSchema = z.object({
   is_active: z.boolean(),
   questions: z.array(quizQuestionSchema).min(1).max(100),
 });
+export type QuizInput = z.infer<typeof quizSchema>;
 
 export const supportTicketSchema = z.object({
   subject: z.string().trim().min(1).max(160),

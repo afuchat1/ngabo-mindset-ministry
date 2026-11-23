@@ -12,11 +12,15 @@ import {
   ShieldCheck,
   UserRound,
   X,
+  LogOut,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useMemberDashboard } from "./use-platform";
 import { displayName } from "@/lib/member-platform";
+import { supabase } from "@/integrations/supabase/client";
 import "./workspace.css";
 
 const memberNavigation = [
@@ -31,18 +35,33 @@ type WorkspaceProps = {
   active: string;
   title: string;
   kicker: string;
-  description?: string;
+  description?: string | undefined;
   children: ReactNode;
 };
 
 export function MemberWorkspace({ active, title, kicker, description, children }: WorkspaceProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
   const profile = profileQuery.data?.profile;
+  const counts = profileQuery.data?.counts;
+  const navigationCounts: Record<string, number | undefined> = {
+    "/dashboard/courses": counts?.courses,
+    "/dashboard/quizzes": counts?.quizzes,
+    "/dashboard/support": counts?.support,
+  };
   const name = profile ? displayName(profile) : "Member";
   const initials = profile
     ? `${profile.first_name?.[0] ?? ""}${profile.last_name?.[0] ?? ""}`.toUpperCase()
     : "N";
+
+  async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <div className="mp-workspace min-h-[100dvh]">
@@ -76,6 +95,14 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             >
               <Icon size={18} strokeWidth={1.8} />
               <span>{label}</span>
+              {(navigationCounts[to] ?? 0) > 0 && (
+                <span
+                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[10px] font-bold leading-4 text-[#935a3e]"
+                  aria-label={`${navigationCounts[to]} ${label.toLowerCase()} notifications`}
+                >
+                  {(navigationCounts[to] ?? 0) > 99 ? "99+" : navigationCounts[to]}
+                </span>
+              )}
               {active === to && <span className="mp-nav-indicator" />}
             </a>
           ))}
@@ -93,6 +120,17 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           <a href="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
             <Settings2 size={17} />
           </a>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="mp-icon-button"
+            aria-label="Sign out"
+            title="Sign out"
+            onClick={() => void signOut()}
+          >
+            <LogOut size={17} />
+          </Button>
         </div>
       </aside>
       {mobileMenuOpen && (
@@ -186,8 +224,8 @@ export function ErrorState({
   message = "Your work is safe. Try again in a moment.",
   onRetry,
 }: {
-  title?: string;
-  message?: string;
+  title?: string | undefined;
+  message?: string | undefined;
   onRetry: () => void;
 }) {
   return (

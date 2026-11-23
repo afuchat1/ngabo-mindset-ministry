@@ -14,4 +14,18 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it.each([
+    "/dashboard",
+    "/dashboard/courses",
+    "/dashboard/quizzes",
+    "/dashboard/support",
+    "/dashboard/profile",
+    "/admin-learning",
+  ])("matches the protected platform page at %s", (path) => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const matches = router.matchRoutes(path);
+
+    expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
+  });
 });

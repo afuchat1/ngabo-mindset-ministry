@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { ArrowLeft, CheckCircle2, LogIn, UserPlus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -33,6 +33,47 @@ function AuthPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    async function continueVerifiedSession() {
+      const { data, error: sessionError } = await supabase.auth.getSession();
+      if (!active || sessionError) return;
+      const user = data.session?.user;
+      if (!user) return;
+
+      const role = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
+      if (!active) return;
+      if (role.error) {
+        setError('Could not check account access. Please try again.');
+        return;
+      }
+      if (role.data) {
+        await navigate({ to: '/admin', replace: true });
+        return;
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from('member_profiles')
+        .select('approval_status,email_verified_at')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (!active) return;
+      if (profileError) {
+        setError('Could not load your member status. Please try again.');
+        return;
+      }
+      await navigate({
+        to: user.email_confirmed_at && profile?.email_verified_at && profile.approval_status === 'approved'
+          ? '/dashboard'
+          : '/pending-approval',
+        replace: true,
+      });
+    }
+
+    void continueVerifiedSession();
+    return () => { active = false; };
+  }, [navigate]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
