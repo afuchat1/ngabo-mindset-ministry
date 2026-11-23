@@ -23,10 +23,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Apostle Ngabo Alex | NGABO (MMA) Network & Ministries" },
+      { name: "description", content: "Visit the official website of Apostle Ngabo Alex and NGABO (MMA) Network & Ministries for ministry, leadership coaching, teaching and conferences in Uganda and Sweden." },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
       { name: "description", content: "Ministering, coaching and conferences empowering ministers, schools and businesses in Sweden and Uganda for the age of AI." },
       { property: "og:title", content: "Apostle Ngabo Alex | NGABO (MMA)" },
       { property: "og:description", content: "Empowering ministers and societies to embrace social media and AI. Conferences in Sweden and Uganda." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://ngabomma.org/" },
+      { property: "og:site_name", content: "NGABO (MMA) Network & Ministries" },
+      
+      { name: "twitter:title", content: "Apostle Ngabo Alex | NGABO (MMA) Network & Ministries" },
+      { name: "twitter:description", content: "Official website of Apostle Ngabo Alex and NGABO (MMA) Network & Ministries in Uganda and Sweden." },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
