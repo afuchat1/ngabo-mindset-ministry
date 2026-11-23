@@ -318,3 +318,216 @@
 .mp-admin-events .border-y { border-color: #e7e9df; }
 .mp-admin-events .border-b { border-color: #e7e9df; }
 .mp-admin-events .bg-background { background: var(--ngabo-paper); }
+
+
+/* NGABO workspace visual correction: follow the public site's orange + neutral system. */
+:root {
+  --ngabo-forest: var(--primary);
+  --ngabo-forest-deep: oklch(0.43 0.12 33);
+  --ngabo-rust: var(--primary);
+  --ngabo-cream: var(--background);
+  --ngabo-paper: #ffffff;
+  --ngabo-sage: oklch(0.97 0.008 75);
+  --ngabo-ink: oklch(0.22 0.012 55);
+}
+.mp-workspace,
+.mp-admin-shell,
+.mp-admin-events {
+  --mp-ink: #242321;
+  --mp-muted: #77736e;
+  --mp-line: #e9e6e1;
+  --mp-canvas: #faf9f7;
+  --mp-paper: #ffffff;
+  --mp-green: var(--primary);
+  --mp-green-dark: oklch(0.43 0.12 33);
+  --mp-orange: var(--primary);
+  --mp-sage: #f4f2ef;
+  --mp-cream: #f7f5f1;
+  color: #242321;
+  background: #faf9f7;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.mp-workspace :where(h1,h2,h3,h4),
+.mp-admin-shell :where(h1,h2,h3,h4),
+.mp-admin-events :where(h1,h2,h3,h4) {
+  color: #242321;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.035em;
+}
+.mp-workspace .mp-sidebar,
+.mp-admin-shell .mp-sidebar {
+  background: #fff;
+  border-right: 1px solid #e9e6e1;
+}
+.mp-workspace .mp-brand-mark,
+.mp-admin-shell .mp-brand-mark { background: var(--primary); color: #fff; }
+.mp-workspace .mp-brand-name,
+.mp-admin-shell .mp-brand-name { color: #242321; letter-spacing: .04em; }
+.mp-workspace .mp-nav-link,
+.mp-admin-shell .mp-nav-link { color: #66615c; font-size: 13px; font-weight: 600; }
+.mp-workspace .mp-nav-link:hover,
+.mp-admin-shell .mp-nav-link:hover { background: #f6eee9; color: var(--primary); }
+.mp-workspace .mp-nav-link.is-active,
+.mp-admin-shell .mp-nav-link.is-active { background: #fbf0e9; color: var(--primary); font-weight: 700; }
+.mp-workspace .mp-nav-indicator,
+.mp-admin-shell .mp-nav-indicator { background: var(--primary); }
+.mp-workspace .mp-sidebar-note,
+.mp-admin-shell .mp-sidebar-note { background: #faf8f5; border-color: #eee9e3; }
+.mp-workspace .mp-note-icon,
+.mp-admin-shell .mp-note-icon { background: #f7eae2; color: var(--primary); }
+.mp-workspace .mp-sidebar-note p,
+.mp-admin-shell .mp-sidebar-note p { color: #46413c; }
+.mp-workspace .mp-avatar,
+.mp-admin-shell .mp-avatar { background: #f4e8e0; color: var(--primary); }
+.mp-workspace .mp-topbar,
+.mp-admin-shell .mp-topbar { background: rgba(255,255,255,.96); border-color: #e9e6e1; }
+.mp-workspace .mp-breadcrumb-current,
+.mp-admin-shell .mp-breadcrumb-current { color: #292622; }
+.mp-workspace .mp-breadcrumb svg,
+.mp-admin-shell .mp-breadcrumb svg { color: var(--primary); }
+.mp-workspace .mp-kicker,
+.mp-admin-shell .mp-kicker { color: var(--primary); font-size: 11px; letter-spacing: .12em; }
+.mp-workspace .mp-page-heading h1,
+.mp-admin-shell .mp-page-heading h1 { color: #242321; font-size: clamp(30px, 3vw, 38px); font-weight: 800; line-height: 1.15; }
+.mp-workspace .mp-page-description,
+.mp-admin-shell .mp-page-description { color: #6e6963; font-size: 14px; line-height: 1.65; }
+.mp-workspace .mp-section-heading h2,
+.mp-admin-shell .mp-section-heading h2,
+.mp-workspace .mp-panel-title h3,
+.mp-admin-shell .mp-panel-title h3 { color: #292622; font-family: "Montserrat", sans-serif; font-size: 18px; font-weight: 700; }
+.mp-workspace .mp-section-heading p,
+.mp-admin-shell .mp-section-heading p,
+.mp-workspace .mp-panel-title p,
+.mp-admin-shell .mp-panel-title p { color: #77716b; font-size: 12px; }
+.mp-workspace .mp-footer,
+.mp-admin-shell .mp-footer { color: #8a847d; font-size: 11px; border-color: #e9e6e1; }
+.mp-workspace .mp-text-link,
+.mp-admin-shell .mp-text-link { color: var(--primary); font-size: 13px; }
+.mp-workspace .mp-text-link:hover,
+.mp-admin-shell .mp-text-link:hover { color: oklch(0.43 0.12 33); }
+.mp-workspace .mp-welcome-banner,
+.mp-admin-shell .mp-welcome-banner {
+  background: #f7eee8;
+  color: #242321;
+  border: 1px solid #f0e2d8;
+  border-radius: 12px;
+}
+.mp-workspace .mp-welcome-copy h2,
+.mp-admin-shell .mp-welcome-copy h2 { color: #242321; font-family: "Montserrat", sans-serif; font-weight: 800; }
+.mp-workspace .mp-welcome-overline,
+.mp-admin-shell .mp-welcome-overline { color: var(--primary); }
+.mp-workspace .mp-welcome-copy p,
+.mp-admin-shell .mp-welcome-copy p { color: #625b55; font-size: 13px; }
+.mp-workspace .mp-welcome-stamp,
+.mp-admin-shell .mp-welcome-stamp { color: var(--primary); border-color: #e8cbb9; }
+.mp-workspace .mp-stamp-ring,
+.mp-admin-shell .mp-stamp-ring { border-color: #e8cbb9; }
+.mp-workspace .mp-stat-card,
+.mp-admin-shell .mp-stat-card,
+.mp-workspace .mp-panel,
+.mp-admin-shell .mp-panel,
+.mp-workspace .mp-learning-card,
+.mp-admin-shell .mp-learning-card {
+  background: #fff;
+  border: 1px solid #e9e6e1;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.mp-workspace .mp-stat-icon,
+.mp-admin-shell .mp-stat-icon,
+.mp-workspace .mp-stat-icon.warm,
+.mp-admin-shell .mp-stat-icon.warm { background: #f7eee8; color: var(--primary); }
+.mp-workspace .mp-stat-card strong,
+.mp-admin-shell .mp-stat-card strong,
+.mp-workspace .mp-course-text strong,
+.mp-admin-shell .mp-course-text strong { color: #292622; font-family: "Montserrat", sans-serif; font-weight: 700; }
+.mp-workspace .mp-stat-card span,
+.mp-admin-shell .mp-stat-card span,
+.mp-workspace .mp-course-text span,
+.mp-admin-shell .mp-course-text span { color: #77716b; font-size: 12px; }
+.mp-workspace .mp-field label,
+.mp-admin-shell .mp-field label,
+.mp-workspace .mp-label,
+.mp-admin-shell .mp-label { color: #403b36; font-size: 12px; }
+.mp-workspace .mp-field input,
+.mp-workspace .mp-field textarea,
+.mp-workspace .mp-field select,
+.mp-workspace .mp-input,
+.mp-workspace .mp-textarea,
+.mp-workspace .mp-select,
+.mp-admin-shell .mp-field input,
+.mp-admin-shell .mp-field textarea,
+.mp-admin-shell .mp-field select,
+.mp-admin-shell .mp-input,
+.mp-admin-shell .mp-textarea,
+.mp-admin-shell .mp-select {
+  background: #fff;
+  border-color: #ded9d3;
+  color: #292622;
+  font: inherit;
+  font-size: 14px;
+}
+.mp-workspace .mp-field input:focus,
+.mp-workspace .mp-field textarea:focus,
+.mp-workspace .mp-field select:focus,
+.mp-workspace .mp-input:focus,
+.mp-workspace .mp-textarea:focus,
+.mp-workspace .mp-select:focus,
+.mp-admin-shell .mp-field input:focus,
+.mp-admin-shell .mp-field textarea:focus,
+.mp-admin-shell .mp-field select:focus,
+.mp-admin-shell .mp-input:focus,
+.mp-admin-shell .mp-textarea:focus,
+.mp-admin-shell .mp-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent); }
+.mp-workspace .mp-btn-primary,
+.mp-admin-shell .mp-btn-primary { border-color: var(--primary) !important; background: var(--primary) !important; color: #fff !important; }
+.mp-workspace .mp-btn-primary:hover,
+.mp-admin-shell .mp-btn-primary:hover { filter: brightness(.94); }
+.mp-workspace .mp-btn-soft,
+.mp-admin-shell .mp-btn-soft { border-color: #e9e2dc !important; background: #faf6f2 !important; color: #49423c !important; }
+.mp-workspace .mp-btn-warm,
+.mp-admin-shell .mp-btn-warm { border-color: #efdfd4 !important; background: #fbf0e9 !important; color: var(--primary) !important; }
+.mp-workspace .mp-state-symbol,
+.mp-workspace .mp-empty-art,
+.mp-admin-shell .mp-state-symbol,
+.mp-admin-shell .mp-empty-art { background: #f7eee8; color: var(--primary); }
+.mp-workspace .mp-state-card h2,
+.mp-workspace .mp-empty-state h3,
+.mp-admin-shell .mp-state-card h2,
+.mp-admin-shell .mp-empty-state h3 { color: #292622; font-family: "Montserrat", sans-serif; font-weight: 700; }
+.mp-workspace .mp-state-card p,
+.mp-workspace .mp-empty-state p,
+.mp-admin-shell .mp-state-card p,
+.mp-admin-shell .mp-empty-state p { color: #6e6963; font-size: 13px; }
+.mp-workspace .mp-journey-panel,
+.mp-admin-shell .mp-journey-panel { background: #faf6f2; }
+.mp-workspace .mp-journey-icon,
+.mp-admin-shell .mp-journey-icon { background: #f7eae2; color: var(--primary); }
+.mp-workspace .mp-journey-panel h3,
+.mp-admin-shell .mp-journey-panel h3 { color: #292622; font-family: "Montserrat", sans-serif; font-weight: 700; }
+.mp-workspace .mp-journey-panel p,
+.mp-admin-shell .mp-journey-panel p { color: #6e6963; font-size: 13px; }
+.mp-admin-events { color: #292622; font-family: "Montserrat", sans-serif; }
+.mp-admin-events header { background: #fff; border-color: #e9e6e1; }
+.mp-admin-events h1 { font-size: clamp(30px, 3vw, 38px); font-weight: 800; }
+.mp-admin-events h2 { font-weight: 700; }
+.mp-admin-events .text-primary { color: var(--primary); }
+.mp-admin-events .bg-primary { background: var(--primary); }
+.mp-admin-events .border-primary { border-color: var(--primary); }
+.mp-admin-events .text-muted-foreground { color: #77716b; }
+.mp-admin-events :where(p, label, input, button, a, span) { font-family: "Montserrat", sans-serif; }
+.mp-admin-events :where(p) { line-height: 1.6; }
+.mp-admin-events :where(input, button) { font-size: 14px; }
+@media (max-width: 900px) {
+  .mp-workspace .mp-sidebar,
+  .mp-admin-shell .mp-sidebar { background: #fff; }
+  .mp-workspace .mp-content,
+  .mp-admin-shell .mp-content { padding: 26px 20px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-workspace *,
+  .mp-admin-shell *,
+  .mp-admin-events * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
