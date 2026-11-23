@@ -69,19 +69,19 @@
   --whatsapp: oklch(0.48 0.14 152);
   --whatsapp-foreground: oklch(1 0 0);
   --background: oklch(0.985 0.012 95);
-  --foreground: oklch(0.27 0.025 155);
+  --foreground: oklch(0.22 0.012 55);
   --card: oklch(0.998 0.006 95);
-  --card-foreground: oklch(0.27 0.025 155);
+  --card-foreground: oklch(0.22 0.012 55);
   --popover: oklch(0.998 0.006 95);
-  --popover-foreground: oklch(0.27 0.025 155);
+  --popover-foreground: oklch(0.22 0.012 55);
   --primary: oklch(0.6 0.2 33);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.025 145);
-  --secondary-foreground: oklch(0.34 0.055 155);
+  --secondary: oklch(0.955 0.006 70);
+  --secondary-foreground: oklch(0.32 0.012 55);
   --muted: oklch(0.955 0.015 95);
   --muted-foreground: oklch(0.53 0.025 150);
-  --accent: oklch(0.94 0.025 145);
-  --accent-foreground: oklch(0.34 0.055 155);
+  --accent: oklch(0.955 0.006 70);
+  --accent-foreground: oklch(0.32 0.012 55);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.90 0.018 105);
@@ -93,11 +93,11 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.22 0.012 55);
+  --sidebar-primary: oklch(0.6 0.2 33);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.955 0.006 70);
+  --sidebar-accent-foreground: oklch(0.22 0.012 55);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
@@ -160,11 +160,11 @@
 
 /* NGABO (MMA) brand foundations — shared by public and authenticated pages. */
 :root {
-  --ngabo-forest: #315c4c;
-  --ngabo-forest-deep: #24483b;
-  --ngabo-rust: #c86a42;
-  --ngabo-cream: #f7f8f2;
-  --ngabo-paper: #fffefa;
-  --ngabo-sage: #e8eee3;
-  --ngabo-ink: #283b36;
+  --ngabo-forest: var(--primary);
+  --ngabo-forest-deep: oklch(0.43 0.12 33);
+  --ngabo-rust: var(--primary);
+  --ngabo-cream: var(--background);
+  --ngabo-paper: #ffffff;
+  --ngabo-sage: oklch(0.97 0.008 75);
+  --ngabo-ink: oklch(0.22 0.012 55);
 }
