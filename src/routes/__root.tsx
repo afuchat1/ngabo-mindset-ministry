@@ -82,12 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "NGABO (MMA) Network & Ministries" },
       { name: "description", content: "Apostle Ngabo Alex — ministry, coaching and conferences in Sweden and Uganda." },
-      { name: "author", content: "Lovable" },
+      { name: "author", content: "NGABO (MMA) Network & Ministries" },
       { property: "og:title", content: "NGABO (MMA) Network & Ministries" },
       { property: "og:description", content: "Apostle Ngabo Alex — ministry, coaching and conferences in Sweden and Uganda." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      
     ],
     links: [
       {
