@@ -115,7 +115,7 @@ export function AdminLearning() {
             <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Administration</p></div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <Link to="/admin" className="text-xs font-semibold text-[#52705c] underline-offset-4 hover:underline">
+            <Link to="/admin" className="text-xs font-semibold text-[#a65c3c] underline-offset-4 hover:underline">
               Events &amp; products
             </Link>
             <div className="mp-admin-badge"><ShieldCheck size={14} /> Staff administration</div>
@@ -150,7 +150,7 @@ export function AdminLearning() {
                 return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
-                  {count > 0 ? <span className="ml-1 rounded-full bg-[#f7e8dc] px-1.5 py-0.5 text-[8px] text-[#a55f3f]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
+                  {count > 0 ? <span className="ml-1 rounded-full bg-[#f7e8dc] px-1.5 py-0.5 text-[11px] text-[#a55f3f]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
               );})}
             </nav>
@@ -206,9 +206,9 @@ function MemberReview({ data, search, setSearch }: { data: AdminData; search: st
             <tbody>
               {members.map((member) => (
                 <tr key={member.user_id}>
-                  <td><strong>{memberName(member)}</strong><div className="mt-1 text-[9px] text-[#98a098]">{member.email}</div></td>
+                  <td><strong>{memberName(member)}</strong><div className="mt-1 text-[12px] text-[#98a098]">{member.email}</div></td>
                   <td>{member.country || "—"}</td>
-                  <td>{member.email_verified_at ? <span className="inline-flex items-center gap-1 text-[#55795f]"><MailCheck size={13} /> Verified</span> : <StatusPill status="unverified" />}</td>
+                  <td>{member.email_verified_at ? <span className="inline-flex items-center gap-1 text-[#a65c3c]"><MailCheck size={13} /> Verified</span> : <StatusPill status="unverified" />}</td>
                   <td><StatusPill status={member.approval_status} /></td>
                   <td>{formatDate(member.created_at)}</td>
                   <td><div className="mp-admin-actions">
@@ -274,7 +274,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
                 ))}
               </div>
               {active.status === "resolved" ? (
-                <p className="rounded-lg bg-[#f2f5ee] p-3 text-[10px] text-[#758078]">This request is resolved. A new message can reopen the conversation for the member.</p>
+                <p className="rounded-lg bg-[#fbf6f2] p-3 text-[12px] text-[#716c66]">This request is resolved. A new message can reopen the conversation for the member.</p>
               ) : (
                 <form className="grid gap-3" onSubmit={send}>
                   <div className="mp-field"><Label htmlFor="admin-support-reply">Your reply</Label><Textarea id="admin-support-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={(event) => setMessage(event.target.value)} /></div>
@@ -362,7 +362,7 @@ function CourseManagement({ courses }: { courses: Course[] }) {
             <thead><tr><th>Course</th><th>Price</th><th>Member visibility</th><th>Created</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{courses.map((course) => (
               <tr key={course.id}>
-                <td><strong>{course.title}</strong><div className="mt-1 max-w-sm truncate text-[9px] text-[#98a098]">{course.description}</div></td>
+                <td><strong>{course.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#98a098]">{course.description}</div></td>
                 <td>{formatCoursePrice(course.price, course.currency)}</td>
                 <td><StatusPill status={course.is_active ? "active" : "archived"} /></td>
                 <td>{formatDate(course.created_at)}</td>
@@ -517,7 +517,7 @@ function QuizManagement({ quizzes, courses }: { quizzes: AdminQuiz[]; courses: C
             <thead><tr><th>Quiz</th><th>Course</th><th>Member visibility</th><th>Created</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{quizzes.map((quiz) => (
               <tr key={quiz.id}>
-                <td><strong>{quiz.title}</strong><div className="mt-1 max-w-sm truncate text-[9px] text-[#98a098]">{quiz.description}</div></td>
+                <td><strong>{quiz.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#98a098]">{quiz.description}</div></td>
                 <td>{courseName(quiz.course_id)}</td>
                 <td><StatusPill status={quiz.is_active ? "active" : "archived"} /></td>
                 <td>{formatDate((quiz as AdminQuiz & { created_at?: string }).created_at)}</td>
@@ -550,7 +550,7 @@ function QuizManagement({ quizzes, courses }: { quizzes: AdminQuiz[]; courses: C
                   <legend className="sr-only">Question {questionIndex + 1}</legend>
                   <div className="mp-question-editor-header"><span>Question {questionIndex + 1}</span>{draft.questions.length > 1 && <button className="mp-icon-button" type="button" aria-label={`Remove question ${questionIndex + 1}`} onClick={() => setDraft((current) => ({ ...current, questions: current.questions.filter((_, index) => index !== questionIndex) }))}><X size={14} /></button>}</div>
                   <div className="mp-field"><Label htmlFor={`quiz-prompt-${questionIndex}`}>Prompt</Label><Textarea id={`quiz-prompt-${questionIndex}`} required maxLength={1000} value={question.prompt} onChange={(event) => updateQuestion(questionIndex, { prompt: event.target.value })} placeholder="What would you like members to reflect on?" /></div>
-                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[9px] font-bold text-[#50745a]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
+                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[12px] font-bold text-[#a65c3c]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
                   {question.choices.map((choice, choiceIndex) => (
                     <div className="mp-question-choice" key={choiceIndex}>
                       <label className="mp-radio-label"><input type="radio" name={`correct-${questionIndex}`} checked={question.correct_index === choiceIndex} onChange={() => updateQuestion(questionIndex, { correct_index: choiceIndex })} aria-label={`Mark choice ${choiceIndex + 1} correct`} /> Correct</label>
