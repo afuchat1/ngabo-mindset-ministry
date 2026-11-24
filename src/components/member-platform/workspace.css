@@ -1,7 +1,7 @@
 /* NGABO workspace system — one restrained design language across member and staff areas. */
 .mp-workspace,.mp-admin-shell,.mp-admin-events{
   --mp-bg:#faf9f7;--mp-surface:#fff;--mp-ink:#242321;--mp-muted:#716c66;
-  --mp-line:#eae6e1;--mp-accent:var(--primary);--mp-accent-soft:#fbf1eb;
+  --mp-line:#eae6e1;--mp-accent:#82452f;--mp-accent-soft:#fbf1eb;
   box-sizing:border-box;background:var(--mp-bg);color:var(--mp-ink);
   font-family:"Montserrat",sans-serif;font-size:14px;line-height:1.5;
 }
@@ -344,3 +344,19 @@
   min-width:0;
  }
 }
+
+
+/* Keep action buttons readable regardless of the site's light/dark theme tokens. */
+.mp-workspace :is(.mp-btn-primary,.bg-primary),
+.mp-admin-shell :is(.mp-btn-primary,.bg-primary),
+.mp-admin-events :is(.mp-btn-primary,.bg-primary){
+  background-color:#82452f!important;
+  border-color:#82452f!important;
+  color:#fff!important;
+}
+.mp-workspace :is(.mp-btn-primary,.bg-primary) :is(span,svg),
+.mp-admin-shell :is(.mp-btn-primary,.bg-primary) :is(span,svg),
+.mp-admin-events :is(.mp-btn-primary,.bg-primary) :is(span,svg){color:#fff!important}
+.mp-workspace .mp-btn-soft,.mp-workspace .mp-btn-warm,
+.mp-admin-shell .mp-btn-soft,.mp-admin-shell .mp-btn-warm{color:#493b33!important}
+.mp-workspace button:disabled,.mp-admin-shell button:disabled,.mp-admin-events button:disabled{opacity:.55}
