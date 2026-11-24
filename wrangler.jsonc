@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ngabo-mindset-ministry",
+  "main": "src/server.ts",
+  "compatibility_date": "2026-11-24",
+  "observability": {
+    "enabled": true
+  }
+}
