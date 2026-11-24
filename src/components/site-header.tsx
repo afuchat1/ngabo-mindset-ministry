@@ -20,7 +20,7 @@ function Typewriter({ words }: { words: string[] }) {
   return <span>{text}<span className="ml-1 inline-block w-[3px] animate-pulse bg-primary align-middle" style={{ height: "0.9em" }} /></span>;
 }
 
-export function SiteHeader({ authDestination, dashboardHref }: { authDestination: AuthDestination; dashboardHref: string }) {
+export function SiteHeader({ authDestination, dashboardHref, minimal = false }: { authDestination: AuthDestination; dashboardHref: string; minimal?: boolean }) {
   const [p, setP] = useState(0);
   const compact = p > 0.05;
   useEffect(() => {
