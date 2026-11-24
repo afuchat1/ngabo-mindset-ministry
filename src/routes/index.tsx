@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { EventsCard } from '@/components/events-card';
 import { ProductShowcase } from '@/components/product-showcase';
 import { HeroSlideshow } from '@/components/hero-slideshow';
@@ -77,29 +77,48 @@ const services = [
 
 function Index() {
   useReveal();
+  const navigate = useNavigate();
   const [authUser, setAuthUser] = useState<User | null>(null);
-  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out" | "admin" | "member" | "pending">("loading");
+  const [authReady, setAuthReady] = useState(false);
+  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out">("loading");
   useEffect(() => {
     let active = true;
-    supabase.auth.getSession().then(({ data, error }) => { if (active && !error) setAuthUser(data.session?.user ?? null); });
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => { if (active) setAuthUser(session?.user ?? null); });
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (active) {
+        setAuthUser(error ? null : data.session?.user ?? null);
+        setAuthReady(true);
+      }
+    });
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (active) {
+        setAuthUser(session?.user ?? null);
+        setAuthReady(true);
+      }
+    });
     return () => { active = false; data.subscription.unsubscribe(); };
   }, []);
   useEffect(() => {
     let active = true;
     async function resolveDestination() {
+      if (!authReady) return;
       if (!authUser) { setAuthDestination("signed-out"); return; }
       const role = await supabase.rpc("has_role", { _user_id: authUser.id, _role: "admin" });
       if (!active) return;
-      if (!role.error && role.data) { setAuthDestination("admin"); return; }
+      if (role.error) return;
+      if (role.data) {
+        await navigate({ to: "/admin", replace: true });
+        return;
+      }
       const { data: profile, error } = await supabase.from("member_profiles").select("approval_status,email_verified_at").eq("user_id", authUser.id).maybeSingle();
       if (!active) return;
-      setAuthDestination(!error && authUser.email_confirmed_at && profile?.email_verified_at && profile.approval_status === "approved" ? "member" : "pending");
+      if (error) return;
+      const approved = authUser.email_confirmed_at && profile?.email_verified_at && profile.approval_status === "approved";
+      await navigate({ to: approved ? "/dashboard" : "/pending-approval", replace: true });
     }
     void resolveDestination();
     return () => { active = false; };
-  }, [authUser]);
-  const dashboardHref = authDestination === "admin" ? "/admin" : authDestination === "member" ? "/dashboard" : "/pending-approval";
+  }, [authReady, authUser, navigate]);
+  const dashboardHref = "/auth";
 
   // Keep the public page hidden until Supabase has resolved the session and the
   // correct signed-in destination has been determined. No session-check text is shown.
