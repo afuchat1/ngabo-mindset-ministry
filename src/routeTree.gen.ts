@@ -119,6 +119,7 @@ export interface FileRoutesById {
   '/_member': typeof MemberRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/pending-approval': typeof PendingApprovalRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
