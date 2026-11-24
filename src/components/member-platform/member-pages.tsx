@@ -519,6 +519,7 @@ export function MemberSupport() {
               {tickets.map((ticket) => (
                 <button type="button" key={ticket.id} className={`mp-ticket-row ${active?.id === ticket.id ? "is-selected" : ""}`} onClick={() => { setActiveId(ticket.id); setError(""); }}>
                   <strong>{ticket.subject}</strong>
+                  <span className="font-mono text-xs font-semibold tracking-wide text-[#a84f36]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
                   <span>{ticket.messages?.length ?? 0} messages · {shortDate(ticket.updated_at)}</span>
                   <span className="mt-2"><StatusPill status={ticket.status} /></span>
                 </button>
@@ -528,7 +529,7 @@ export function MemberSupport() {
           {active && (
             <section className="mp-panel mp-ticket-detail">
               <div className="mp-panel-title">
-                <div><h3>{active.subject}</h3><p>Opened {shortDate(active.created_at)}</p></div>
+                <div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#a84f36]">#{String(active.ticket_number).padStart(6, "0")}</span> · Opened {shortDate(active.created_at)}</p></div>
                 <StatusPill status={active.status} />
               </div>
               <div className="mp-message-list" aria-live="polite">
