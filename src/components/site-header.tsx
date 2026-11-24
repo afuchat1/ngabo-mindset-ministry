@@ -24,13 +24,29 @@ export function SiteHeader({ authDestination, dashboardHref, minimal = false }: 
   const [p, setP] = useState(0);
   const compact = p > 0.05;
   useEffect(() => {
+    if (minimal) return;
     let raf = 0;
     const update = () => { raf = 0; setP(Math.min(window.scrollY / 300, 1)); };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
-  }, []);
+  }, [minimal]);
+  if (minimal) {
+    return (
+      <header className="fixed inset-x-0 top-0 z-50 bg-background/95 backdrop-blur-md">
+        <div className="mx-auto flex min-h-[76px] max-w-5xl items-center gap-3 px-4 py-2 sm:px-6">
+          <a href="#top" aria-label="NGABO (MMA) home" className="shrink-0">
+            <img src={logoImage} alt="NGABO (MMA) logo" className="h-12 w-12 rounded-full object-cover sm:h-14 sm:w-14" />
+          </a>
+          <div className="min-w-0">
+            <h1 className="text-2xl font-black leading-tight text-primary sm:text-3xl">NGABO</h1>
+            <p className="min-h-[1.1em] text-[10px] font-extrabold uppercase tracking-wider text-foreground sm:text-xs"><Typewriter words={["(MMA) Net Work", "Ministries"]} /></p>
+          </div>
+        </div>
+      </header>
+    );
+  }
   return (
     <>
       <div aria-hidden className="text-[40px] font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
