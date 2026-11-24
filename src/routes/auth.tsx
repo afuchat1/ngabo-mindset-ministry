@@ -146,6 +146,7 @@ function AuthPage() {
         if (result.data.session) {
           await navigate({ to: '/pending-approval', replace: true });
         } else {
+          try { localStorage.setItem(`ngabo:verification-resend:${parsed.data.email.toLowerCase()}`, String(Date.now() + 60_000)); } catch { /* The server still enforces its own email rate limit. */ }
           await navigate({
             to: '/verify-email',
             search: { email: parsed.data.email },
