@@ -124,7 +124,7 @@ export function AdminLearningSection() {
                 return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
-                  {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0f0] px-1.5 py-0.5 text-[11px] text-[#ff0a0a]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
+                  {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0f0] px-1.5 py-0.5 text-[11px] text-[#DE3F20]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
               );})}
             </nav>
@@ -141,7 +141,7 @@ export function AdminLearningSection() {
 }
 
 function AdminStat({ icon: Icon, value, label, warm = false }: { icon: typeof UsersRound; value: number; label: string; warm?: boolean }) {
-  return <div className="mp-admin-stat"><div className="mb-2 flex items-center justify-between"><span>{label}</span><Icon size={15} className="text-[#ff0a0a]" /></div><strong>{value}</strong></div>;
+  return <div className="mp-admin-stat"><div className="mb-2 flex items-center justify-between"><span>{label}</span><Icon size={15} className="text-[#DE3F20]" /></div><strong>{value}</strong></div>;
 }
 
 
@@ -261,7 +261,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
             {tickets.map((ticket) => (
               <button key={ticket.id} type="button" className={`mp-ticket-row ${active?.id === ticket.id ? "is-selected" : ""}`} onClick={() => { setSelectedId(ticket.id); setError(""); }}>
                 <strong>{ticket.subject}</strong>
-                <span className="font-mono text-xs font-semibold tracking-wide text-[#ff0a0a]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
+                <span className="font-mono text-xs font-semibold tracking-wide text-[#DE3F20]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
                 <span>{memberName(ticket.member)} · {formatDate(ticket.updated_at)}</span>
                 <span className="mt-2"><StatusPill status={ticket.status} /></span>
               </button>
@@ -269,7 +269,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
           </div>
           {active && (
             <div className="mp-panel mp-ticket-admin-detail">
-              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#ff0a0a]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
+              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#DE3F20]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
               <div className="mp-message-list">
                 {active.messages.map((item) => (
                   <div key={item.id} className={`mp-message ${item.sender_role === "admin" || item.sender_role === "staff" ? "is-staff" : ""}`}>
@@ -554,7 +554,7 @@ function QuizManagement({ quizzes, courses }: { quizzes: AdminQuiz[]; courses: C
                   <legend className="sr-only">Question {questionIndex + 1}</legend>
                   <div className="mp-question-editor-header"><span>Question {questionIndex + 1}</span>{draft.questions.length > 1 && <button className="mp-icon-button" type="button" aria-label={`Remove question ${questionIndex + 1}`} onClick={() => setDraft((current) => ({ ...current, questions: current.questions.filter((_, index) => index !== questionIndex) }))}><X size={14} /></button>}</div>
                   <div className="mp-field"><Label htmlFor={`quiz-prompt-${questionIndex}`}>Prompt</Label><Textarea id={`quiz-prompt-${questionIndex}`} required maxLength={1000} value={question.prompt} onChange={(event) => updateQuestion(questionIndex, { prompt: event.target.value })} placeholder="What would you like members to reflect on?" /></div>
-                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[12px] font-bold text-[#ff0a0a]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
+                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[12px] font-bold text-[#DE3F20]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
                   {question.choices.map((choice, choiceIndex) => (
                     <div className="mp-question-choice" key={choiceIndex}>
                       <label className="mp-radio-label"><input type="radio" name={`correct-${questionIndex}`} checked={question.correct_index === choiceIndex} onChange={() => updateQuestion(questionIndex, { correct_index: choiceIndex })} aria-label={`Mark choice ${choiceIndex + 1} correct`} /> Correct</label>
