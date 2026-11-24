@@ -100,7 +100,7 @@
 .mp-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .mp-form-stack{display:grid;gap:14px}
 .mp-form-error{border-radius:8px;background:#fbefed;padding:10px 12px;color:#a33d32;font-size:12px}
-.mp-form-success{color:#47734f;font-size:12px}
+.mp-form-success{color:#c2410c;font-size:12px}
 .mp-btn-primary{border:1px solid var(--mp-accent)!important;background:var(--mp-accent)!important;color:#fff!important}
 .mp-btn-primary:hover{filter:brightness(.94)}
 .mp-btn-soft,.mp-btn-warm{border:1px solid #eadfd7!important;background:#fbf6f2!important;color:#5b5049!important}
@@ -185,7 +185,7 @@
 .mp-pagination-note{color:var(--mp-muted);font-size:11px}
 .mp-status{display:inline-flex;align-items:center;gap:4px;border:1px solid #e9e1da;border-radius:999px;background:#f8f5f2;color:#615b55;padding:4px 8px;font-size:12px;font-weight:700;line-height:1.2;text-transform:capitalize;white-space:nowrap}
 .mp-status-approved,.mp-status-active{border-color:#efdfd4;background:#fbf0e9;color:#c2410c}
-.mp-status-pending,.mp-status-open{border-color:#ecdfc8;background:#faf3e3;color:#92713e}
+.mp-status-pending,.mp-status-open{border-color:#ecdfc8;background:#faf3e3;color:#c2410c}
 .mp-status-rejected,.mp-status-resolved,.mp-status-archived,.mp-status-unverified{border-color:#e8e2dc;background:#f5f3f0;color:#77716b}
 .mp-brand-logo-events{width:44px;height:44px;flex-basis:44px}
 .mp-admin-events{min-height:100dvh;background:var(--mp-bg);color:var(--mp-ink)}
