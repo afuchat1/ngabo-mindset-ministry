@@ -13,12 +13,7 @@ import {
   type SupportMessage,
   type SupportTicket,
 } from '@/lib/member-platform';
-import { sendPlatformEmail, type EmailDelivery } from '@/lib/platform-email';
-async function notifySupportTeam(subject: string, message: string): Promise<EmailDelivery> {
-  const recipient = process.env['NGABO_SUPPORT_EMAIL'];
-  if (!recipient) return { sent: false, reason: 'missing_configuration' };
-  return sendPlatformEmail({ to: recipient, subject, message });
-}
+import { sendPlatformEmail, sendSupportTeamEmail } from '@/lib/platform-email';
 
 async function loadProfile(supabase: any, userId: string) {
   const { data, error } = await supabase
@@ -227,12 +222,12 @@ export const createMemberSupportTicket = createServerFn({ method: 'POST' })
     if (ticketLookupError || !ticket) throw new Error('Your request was created, but its reference could not be loaded. Please check your support dashboard.');
     const ticketReference = `#${String(ticket.ticket_number).padStart(6, '0')}`;
     const [memberEmail, supportEmail] = await Promise.all([
-      sendPlatformEmail({
+      sendPlatformEmail(context.supabase, {
         to: profile.email,
         subject: `Support request received · ${ticketReference}`,
         message: `Hello ${profile.first_name},\n\nWe have received your support request and created ticket ${ticketReference}.\n\nSubject: ${ticket.subject}\n\nOur team will review it and reply in your NGABO member dashboard. We will email you when there is an update.`,
       }),
-      notifySupportTeam(
+      sendSupportTeamEmail(context.supabase, ticketId,
         `New support request · ${ticketReference}`,
         `A member has created a support request.\n\nTicket: ${ticketReference}\nMember: ${profile.first_name} ${profile.last_name} (${profile.email})\nSubject: ${ticket.subject}\n\nMessage: ${data.message}\n\nPlease sign in to the NGABO admin dashboard to respond.`,
       ),
@@ -264,12 +259,12 @@ export const replyToMemberSupportTicket = createServerFn({ method: 'POST' })
     }
     const ticketReference = `#${String(ticket.ticket_number).padStart(6, '0')}`;
     const [memberEmail, supportEmail] = await Promise.all([
-      sendPlatformEmail({
+      sendPlatformEmail(context.supabase, {
         to: profile.email,
         subject: `We received your update · ${ticketReference}`,
         message: `Hello ${profile.first_name},\n\nYour update on support ticket ${ticketReference} has been added to the conversation. The ticket is now back with our support team.\n\nSubject: ${ticket.subject}\n\nWe will email you when the team responds.`,
       }),
-      notifySupportTeam(
+      sendSupportTeamEmail(context.supabase, data.ticket_id,
         `Member replied · ${ticketReference}`,
         `A member has replied to a support ticket.\n\nTicket: ${ticketReference}\nMember: ${profile.first_name} ${profile.last_name} (${profile.email})\nSubject: ${ticket.subject}\n\nReply: ${data.message}\n\nPlease sign in to the NGABO admin dashboard to continue the conversation.`,
       ),
@@ -354,7 +349,7 @@ export const reviewMemberApproval = createServerFn({ method: 'POST' })
     const emailAddress = await getDeliveryAddress(context.supabase, data.user_id);
     let email: EmailDelivery = { sent: false, reason: 'missing_configuration' };
     if (emailAddress) {
-      email = await sendPlatformEmail({
+      email = await sendPlatformEmail(context.supabase, {
         to: emailAddress,
         subject: data.status === 'approved' ? 'Your NGABO account is approved' : 'Your NGABO account update',
         message: data.status === 'approved'
@@ -442,7 +437,7 @@ export const replyToSupportTicketAsAdmin = createServerFn({ method: 'POST' })
     }
     const ticketReference = `#${String(ticket.ticket_number).padStart(6, '0')}`;
     const resolved = data.resolve ?? false;
-    const email = await sendPlatformEmail({
+    const email = await sendPlatformEmail(context.supabase, {
       to: profile.email,
       subject: resolved
         ? `Support ticket resolved · ${ticketReference}`
