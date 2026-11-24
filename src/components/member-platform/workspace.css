@@ -209,6 +209,26 @@
  .mp-two-column{grid-template-columns:minmax(0,1fr) minmax(220px,.8fr)}
 }
 @media(max-width:760px){
+ /* Keep the NGABO logo and every admin header action on one horizontal line
+    in both Events & products and the Admin learning area. On narrow screens,
+    the action group scrolls horizontally instead of wrapping below the logo. */
+ .mp-admin-events .ngabo-admin-header-inner{
+  align-items:center;
+  flex-wrap:nowrap;
+ }
+ .ngabo-admin-header-inner>a{flex:0 0 auto}
+ .ngabo-admin-header-actions{
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  justify-content:flex-end;
+  white-space:nowrap;
+  scrollbar-width:none;
+ }
+ .ngabo-admin-header-actions::-webkit-scrollbar{display:none}
+ .ngabo-admin-nav{flex:0 0 auto;flex-wrap:nowrap}
+ .ngabo-admin-nav-button,.ngabo-admin-signout{flex:0 0 auto;white-space:nowrap}
  .mp-sidebar{transform:translateX(-100%);transition:transform .2s ease;box-shadow:12px 0 32px rgba(36,35,33,.10)}
  .mp-sidebar.mp-sidebar-open{transform:translateX(0)}
  .mp-main{margin-left:0}
