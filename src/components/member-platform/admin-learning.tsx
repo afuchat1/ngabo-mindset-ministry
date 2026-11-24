@@ -85,7 +85,7 @@ function memberName(member?: Pick<MemberProfile, "first_name" | "last_name"> | n
   return member ? [member.first_name, member.last_name].filter(Boolean).join(" ") || "Member" : "Member";
 }
 
-export function AdminLearning() {
+export function AdminLearning({ embedded = false }: { embedded?: boolean } = {}) {
   const query = useAdminPlatformData();
   const [section, setSection] = useState<Section>("members");
   const [search, setSearch] = useState("");
@@ -109,7 +109,7 @@ export function AdminLearning() {
   return (
     <main className={`mp-admin-shell ${section === "members" ? "mp-admin-overview" : ""}`}>
       <div className="mp-admin-inner">
-        <header className="mp-admin-top">
+        {!embedded && <header className="mp-admin-top">
           <div className="mp-admin-brand">
             <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
             <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Administration</p></div>
@@ -121,7 +121,7 @@ export function AdminLearning() {
             <div className="mp-admin-badge"><ShieldCheck size={14} /> Staff administration</div>
             <Button size="sm" variant="outline" onClick={() => void signOut()}><LogOut size={14} /> Sign out</Button>
           </div>
-        </header>
+        </header>}
         <div className="mp-admin-title">
           <div><p className="mp-kicker">NGABO ADMIN</p><h1>Learning administration</h1></div>
         </div>
