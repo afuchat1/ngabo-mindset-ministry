@@ -103,7 +103,6 @@ function PendingApprovalPage() {
         {ticketNumber !== null && <p className="mt-5 rounded-xl bg-muted p-4 text-sm"><span className="font-semibold">Registration ticket</span><br /><span className="font-mono text-base font-semibold tracking-wide text-foreground">#{String(ticketNumber).padStart(6, '0')}</span></p>}
         {status === 'error' && <Button className="mt-6 w-full" onClick={() => window.location.reload()}>Try again</Button>}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-          <Button asChild variant="outline" className="flex-1"><Link to="/">Return to website</Link></Button>
           <Button variant="ghost" className="flex-1" onClick={signOut}><LogOut />Sign out</Button>
         </div>
       </section>
