@@ -123,7 +123,7 @@ function AuthPage() {
           email: parsed.data.email,
           password: parsed.data.password,
           options: {
-            emailRedirectTo: `${origin}/auth`,
+            emailRedirectTo: `${origin}/pending-approval`,
             data: {
               first_name: parsed.data.first_name,
               last_name: parsed.data.last_name,
@@ -195,7 +195,7 @@ function AuthPage() {
       const result = await supabase.auth.resend({
         type: 'signup',
         email: email.trim(),
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
+        options: { emailRedirectTo: `${window.location.origin}/pending-approval` },
       });
       if (result.error) throw result.error;
       setMessage('A new verification link has been sent. Check your inbox and spam folder.');
