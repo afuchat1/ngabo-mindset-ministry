@@ -18,7 +18,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { useMemberDashboard } from "./use-platform";
+import { useMemberDashboard, useMemberSupportTickets } from "./use-platform";
+import { SupportFab } from "./support-fab";
 import { displayName } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
 import logoImage from "@/assets/ngabo-logo.jpg";
@@ -45,6 +46,8 @@ export function MemberWorkspace({ active, title, kicker, description, children }
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
+  const supportQuery = useMemberSupportTickets();
+  const unreadSupportCount = (supportQuery.data ?? []).filter((ticket) => ticket.status === "awaiting_member").length;
   const profile = profileQuery.data?.profile;
   const counts = profileQuery.data?.counts;
   const navigationCounts: Record<string, number | undefined> = {
@@ -179,6 +182,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </footer>
         </div>
       </main>
+      <SupportFab unreadCount={unreadSupportCount} onClick={() => void navigate({ to: "/dashboard/support" })} />
     </div>
   );
 }

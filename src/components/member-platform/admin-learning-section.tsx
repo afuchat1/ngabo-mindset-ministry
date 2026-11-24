@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   Archive,
   BookOpen,
@@ -80,10 +80,11 @@ function memberName(member?: Pick<MemberProfile, "first_name" | "last_name"> | n
   return member ? [member.first_name, member.last_name].filter(Boolean).join(" ") || "Member" : "Member";
 }
 
-export function AdminLearningSection() {
+export function AdminLearningSection({ initialSection = "members" }: { initialSection?: Section }) {
   const query = useAdminPlatformData();
-  const [section, setSection] = useState<Section>("members");
+  const [section, setSection] = useState<Section>(initialSection);
   const [search, setSearch] = useState("");
+  useEffect(() => { if (initialSection === "support") setSection("support"); }, [initialSection]);
   const data = query.data as AdminData | undefined;
   const sectionLabels: Array<{ key: Section; label: string; icon: typeof UsersRound }> = [
     { key: "members", label: "Member review", icon: UsersRound },

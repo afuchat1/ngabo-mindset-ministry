@@ -50,11 +50,11 @@ export function useMemberQuiz(id: string, enabled = true) {
 }
 
 export function useMemberSupportTickets() {
-  return useQuery({ queryKey: platformKeys.support, queryFn: () => getMemberSupportTickets() });
+  return useQuery({ queryKey: platformKeys.support, queryFn: () => getMemberSupportTickets(), refetchInterval: 15000 });
 }
 
 export function useAdminPlatformData() {
-  return useQuery({ queryKey: platformKeys.admin, queryFn: () => getAdminPlatformData() });
+  return useQuery({ queryKey: platformKeys.admin, queryFn: () => getAdminPlatformData(), refetchInterval: 15000 });
 }
 
 export function useUpdateMemberProfile() {
