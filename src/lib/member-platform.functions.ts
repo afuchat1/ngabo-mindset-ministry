@@ -212,11 +212,18 @@ export const createMemberSupportTicket = createServerFn({ method: 'POST' })
       p_subject: data.subject,
       p_message: data.message,
     });
-    if (error) throw new Error('Could not create support ticket.');
+    if (error || !ticketId) throw new Error('Could not create support ticket.');
+    const { data: ticket, error: ticketLookupError } = await context.supabase
+      .from('support_tickets')
+      .select('ticket_number')
+      .eq('id', ticketId)
+      .single();
+    if (ticketLookupError || !ticket) throw new Error('Your request was created, but its reference could not be loaded. Please check your support dashboard.');
+    const ticketReference = `#${String(ticket.ticket_number).padStart(6, '0')}`;
     const email = await sendPlatformEmail({
       to: profile.email,
       subject: 'We received your support request',
-      message: `Hello ${profile.first_name},\n\nYour support request has been received. Your ticket reference is ${ticketId}. Our team will reply in your member dashboard.`,
+      message: `Hello ${profile.first_name},\n\nYour support request has been received. Your ticket reference is ${ticketReference}. Our team will reply in your member dashboard.`,
     });
     return { ticket_id: ticketId, email };
   });
