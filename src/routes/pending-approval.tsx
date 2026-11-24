@@ -71,7 +71,7 @@ function PendingApprovalPage() {
       <div className="min-h-screen bg-background">
         <SiteHeader authDestination={hasSession ? "pending" : "signed-out"} dashboardHref="/pending-approval" />
         {content}
-        {hasSession && <SupportFab unreadCount={0} onClick={() => void navigate({ to: "/member-support" })} />}
+        {hasSession && <SupportFab unreadCount={0} greeting onClick={() => void navigate({ to: "/member-support" })} />}
       </div>
     );
   }
