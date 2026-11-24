@@ -83,9 +83,10 @@ async function verifyHumanRequest(request: Request, env: WorkerEnv): Promise<Res
     const verification = (await verificationResponse.json()) as {
       success?: boolean;
       hostname?: string;
+      action?: string;
     };
     const allowedHosts = new Set(["ngabomma.org", "www.ngabomma.org"]);
-    if (!verification.success || !verification.hostname || !allowedHosts.has(verification.hostname)) {
+    if (!verification.success || verification.action !== "auth" || !verification.hostname || !allowedHosts.has(verification.hostname)) {
       return Response.json({ error: "Human verification failed." }, { status: 403 });
     }
     return Response.json({ success: true }, { headers: { "cache-control": "no-store" } });
