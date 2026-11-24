@@ -144,96 +144,87 @@ function AdminStat({ icon: Icon, value, label, warm = false }: { icon: typeof Us
   return <div className="mp-admin-stat"><div className="mb-2 flex items-center justify-between"><span>{label}</span><Icon size={15} className="text-[#f97316]" /></div><strong>{value}</strong></div>;
 }
 
+
 function MemberReview({ data, search, setSearch }: { data: AdminData; search: string; setSearch: (value: string) => void }) {
   const review = useReviewMemberApproval();
   const [error, setError] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(data.approvals[0]?.user_id ?? null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
   const filteredMembers = useMemo(() => {
     const term = search.toLowerCase().trim();
     return data.approvals.filter((member) => {
-      const matchesSearch = `${member.first_name} ${member.last_name} ${member.email} ${member.country ?? ""} ${member.phone ?? ""}`.toLowerCase().includes(term);
-      return matchesSearch && (statusFilter === "all" || member.approval_status === statusFilter);
+      const haystack = [member.first_name, member.last_name, member.email, member.country, member.phone].filter(Boolean).join(" ").toLowerCase();
+      return haystack.includes(term) && (statusFilter === "all" || member.approval_status === statusFilter);
     });
   }, [data.approvals, search, statusFilter]);
-  const active = filteredMembers.find((member) => member.user_id === selectedId) ?? filteredMembers[0] ?? null;
+  const active = data.approvals.find((member) => member.user_id === selectedId) ?? null;
   const filters = [
     { key: "all" as const, label: "All members", count: data.approvals.length },
     { key: "pending" as const, label: "Pending", count: data.approvals.filter((member) => member.approval_status === "pending").length },
     { key: "approved" as const, label: "Approved", count: data.approvals.filter((member) => member.approval_status === "approved").length },
     { key: "rejected" as const, label: "Declined", count: data.approvals.filter((member) => member.approval_status === "rejected").length },
   ];
-
   async function setStatus(user_id: string, status: "approved" | "rejected") {
     setError("");
-    try {
-      await review.mutateAsync({ user_id, status });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not update member access.");
-    }
+    try { await review.mutateAsync({ user_id, status }); }
+    catch (err) { setError(err instanceof Error ? err.message : "Could not update member access."); }
   }
-
   return (
     <section className="mp-admin-panel">
-      <SectionHeading title="Member review" detail="Select a member to review their registration and manage learning access." />
+      <SectionHeading title="Members" detail="Browse registered users and open any profile to review all submitted details." />
       <nav className="mp-tabs mp-member-review-tabs" role="tablist" aria-label="Filter members by approval status">
-        {filters.map((filter) => (
-          <button key={filter.key} type="button" role="tab" aria-selected={statusFilter === filter.key} className="mp-tab" onClick={() => setStatusFilter(filter.key)}>
-            {filter.label}<span className="mp-tab-count">{filter.count}</span>
-          </button>
-        ))}
+        {filters.map((filter) => <button key={filter.key} type="button" role="tab" aria-selected={statusFilter === filter.key} className="mp-tab" onClick={() => setStatusFilter(filter.key)}>{filter.label}<span className="mp-tab-count">{filter.count}</span></button>)}
       </nav>
       <div className="mp-filter-row">
-        <span className="mp-pagination-note">{filteredMembers.length} of {data.approvals.length} registered member{data.approvals.length === 1 ? "" : "s"}</span>
+        <span className="mp-pagination-note">Showing {filteredMembers.length} of {data.approvals.length} registered users</span>
         <label className="mp-search"><Search size={15} /><input aria-label="Search members" placeholder="Search name, email, country or phone" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
       </div>
       {!filteredMembers.length ? (
         <EmptyState icon={UsersRound} title="No members found" detail={search ? "Try another search or clear the filter." : "There are no members in this category yet."} action={search ? <Button size="sm" variant="outline" onClick={() => setSearch("")}>Clear search</Button> : undefined} />
       ) : (
-        <div className="mp-ticket-admin mp-member-review-layout">
-          <div className="mp-ticket-list" aria-label="Registered members">
-            {filteredMembers.map((member) => (
-              <button key={member.user_id} type="button" aria-pressed={active?.user_id === member.user_id} className={`mp-ticket-row ${active?.user_id === member.user_id ? "is-selected" : ""}`} onClick={() => { setSelectedId(member.user_id); setError(""); }}>
-                <strong>{memberName(member)}</strong>
-                <span>{member.email}</span>
-                <span>{member.country || "Country not provided"} · {formatDate(member.created_at)}</span>
-                <span className="mt-2"><StatusPill status={member.approval_status} /></span>
-              </button>
-            ))}
-          </div>
-          {active && (
-            <div className="mp-panel mp-ticket-admin-detail mp-member-review-detail">
-              <div className="mp-panel-title">
-                <div><h3>{memberName(active)}</h3><p>{active.email}</p></div>
-                <StatusPill status={active.approval_status} />
+        <div className="mp-member-directory" aria-label="Registered users">
+          <div className="mp-member-directory-head"><span>Member</span><span>Country</span><span>Registered</span><span>Status</span><span>Profile</span></div>
+          {filteredMembers.map((member) => (
+            <div className="mp-member-directory-row" key={member.user_id}>
+              <div className="mp-member-directory-identity">
+                <span className="mp-member-directory-avatar" aria-hidden="true">{(member.first_name?.[0] ?? "M").toUpperCase()}{(member.last_name?.[0] ?? "").toUpperCase()}</span>
+                <span><strong>{memberName(member)}</strong><small>{member.email}</small></span>
               </div>
-              <div className="mp-member-review-details">
-                <div className="mp-info-row"><span>Email verification</span><strong className={active.email_verified_at ? "mp-member-verified" : ""}>{active.email_verified_at ? "Verified" : "Not verified"}</strong></div>
-                <div className="mp-info-row"><span>Phone</span><strong>{active.phone || "—"}</strong></div>
-                <div className="mp-info-row"><span>Country</span><strong>{active.country || "—"}</strong></div>
-                <div className="mp-info-row"><span>Age</span><strong>{active.age ?? "—"}</strong></div>
-                <div className="mp-info-row"><span>Gender</span><strong>{active.gender?.replaceAll("_", " ") || "—"}</strong></div>
-                <div className="mp-info-row"><span>Registered</span><strong>{formatDate(active.created_at)}</strong></div>
-                <div className="mp-info-row"><span>Email verified</span><strong>{formatDate(active.email_verified_at)}</strong></div>
-              </div>
-              <div className="mp-member-review-actions">
-                {active.approval_status !== "approved" && (
-                  <Button className="mp-btn-primary mp-btn-small" disabled={!active.email_verified_at || review.isPending} onClick={() => void setStatus(active.user_id, "approved")} title={!active.email_verified_at ? "Member must verify email before approval" : "Approve member"}>
-                    <Check size={14} />{review.isPending ? "Updating…" : "Approve access"}
-                  </Button>
-                )}
-                {active.approval_status !== "rejected" && (
-                  <Button variant="outline" className="mp-btn-small" disabled={review.isPending} onClick={() => void setStatus(active.user_id, "rejected")}>
-                    Decline application
-                  </Button>
-                )}
-                {!active.email_verified_at && <p className="mp-pagination-note">This member must verify their email before approval is available.</p>}
-              </div>
-              {error && <p className="mp-form-error" role="alert">{error}</p>}
+              <span className="mp-member-directory-country">{member.country || "—"}</span>
+              <span className="mp-member-directory-date">{formatDate(member.created_at)}</span>
+              <span><StatusPill status={member.approval_status} /></span>
+              <span><Button type="button" size="sm" variant="outline" className="mp-member-view-button" onClick={() => { setSelectedId(member.user_id); setError(""); }}>View details</Button></span>
             </div>
-          )}
+          ))}
         </div>
       )}
+      <Dialog open={!!active} onOpenChange={(open) => { if (!open) { setSelectedId(null); setError(""); } }}>
+        <DialogContent className="mp-modal-content sm:max-w-xl">
+          {active && <>
+            <DialogHeader><DialogTitle>{memberName(active)}</DialogTitle><DialogDescription>Complete registration profile and account review</DialogDescription></DialogHeader>
+            <div className="mp-member-profile-summary"><div><strong>{active.email}</strong><StatusPill status={active.approval_status} /></div></div>
+            <div className="mp-member-review-details">
+              <div className="mp-info-row"><span>First name</span><strong>{active.first_name || "—"}</strong></div>
+              <div className="mp-info-row"><span>Last name</span><strong>{active.last_name || "—"}</strong></div>
+              <div className="mp-info-row"><span>Email address</span><strong>{active.email || "—"}</strong></div>
+              <div className="mp-info-row"><span>Email verification</span><strong className={active.email_verified_at ? "mp-member-verified" : ""}>{active.email_verified_at ? "Verified" : "Not verified"}</strong></div>
+              <div className="mp-info-row"><span>Phone</span><strong>{active.phone || "—"}</strong></div>
+              <div className="mp-info-row"><span>Country</span><strong>{active.country || "—"}</strong></div>
+              <div className="mp-info-row"><span>Age</span><strong>{active.age ?? "—"}</strong></div>
+              <div className="mp-info-row"><span>Gender</span><strong>{active.gender?.replaceAll("_", " ") || "—"}</strong></div>
+              <div className="mp-info-row"><span>Registered</span><strong>{formatDate(active.created_at)}</strong></div>
+              <div className="mp-info-row"><span>Email verified on</span><strong>{formatDate(active.email_verified_at)}</strong></div>
+              <div className="mp-info-row"><span>Account status</span><strong>{active.approval_status || "pending"}</strong></div>
+            </div>
+            <div className="mp-member-review-actions">
+              {active.approval_status !== "approved" && <Button className="mp-btn-primary mp-btn-small" disabled={!active.email_verified_at || review.isPending} onClick={() => void setStatus(active.user_id, "approved")} title={!active.email_verified_at ? "Member must verify email before approval" : "Approve member"}><Check size={14} />{review.isPending ? "Updating…" : "Approve access"}</Button>}
+              {active.approval_status !== "rejected" && <Button variant="outline" className="mp-btn-small" disabled={review.isPending} onClick={() => void setStatus(active.user_id, "rejected")}>Decline application</Button>}
+              {!active.email_verified_at && <p className="mp-pagination-note">This member must verify their email before approval is available.</p>}
+            </div>
+            {error && <p className="mp-form-error" role="alert">{error}</p>}
+          </>}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
