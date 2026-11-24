@@ -124,7 +124,7 @@ export function AdminLearningSection() {
                 return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
-                  {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0e5] px-1.5 py-0.5 text-[11px] text-[#ff0a0a]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
+                  {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0f0] px-1.5 py-0.5 text-[11px] text-[#ff0a0a]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
               );})}
             </nav>
@@ -278,7 +278,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
                 ))}
               </div>
               {active.status === "resolved" ? (
-                <p className="rounded-lg bg-[#fff7ed] p-3 text-[12px] text-[#666666]">This request is resolved. A new message can reopen the conversation for the member.</p>
+                <p className="rounded-lg bg-[#fff0f0] p-3 text-[12px] text-[#666666]">This request is resolved. A new message can reopen the conversation for the member.</p>
               ) : (
                 <form className="grid gap-3" onSubmit={send}>
                   <div className="mp-field"><Label htmlFor="admin-support-reply">Your reply</Label><Textarea id="admin-support-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={(event) => setMessage(event.target.value)} /></div>
