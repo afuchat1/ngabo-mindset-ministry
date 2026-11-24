@@ -319,3 +319,28 @@
  .mp-workspace .mp-stat-card{gap:8px}
  .mp-workspace .mp-stat-card strong,.mp-admin-shell .mp-admin-stat strong{font-size:22px}
 }
+
+
+/* Keep the admin overview/member-review surface full-width on narrow screens.
+   Other admin sections retain their existing responsive layout. */
+@media(max-width:760px){
+ .mp-admin-shell.mp-admin-overview{
+  box-sizing:border-box;
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+ }
+ .mp-admin-overview .mp-admin-inner{
+  width:100%;
+  max-width:none;
+  min-width:0;
+ }
+ .mp-admin-overview .mp-admin-top,
+ .mp-admin-overview .mp-admin-title,
+ .mp-admin-overview .mp-admin-stats,
+ .mp-admin-overview .mp-tabs,
+ .mp-admin-overview .mp-admin-panel{
+  width:100%;
+  min-width:0;
+ }
+}
