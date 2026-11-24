@@ -152,6 +152,11 @@ function Index() {
     return () => { active = false; };
   }, [authUser]);
   const dashboardHref = authDestination === "admin" ? "/admin" : authDestination === "member" ? "/dashboard" : "/pending-approval";
+
+  // Keep the public page hidden until Supabase has resolved the session and the
+  // correct signed-in destination has been determined. No session-check text is shown.
+  if (authDestination === "loading") return null;
+
   return (
     <main className="overflow-hidden bg-background font-sans text-foreground">
       <WhatsAppContact />
