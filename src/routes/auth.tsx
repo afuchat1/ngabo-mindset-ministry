@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
+import { HumanVerification } from '@/components/human-verification';
 import { ArrowLeft, CheckCircle2, LogIn, UserPlus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -37,6 +38,20 @@ function AuthPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [canResend, setCanResend] = useState(false);
+  const [humanToken, setHumanToken] = useState('');
+  const [humanResetSignal, setHumanResetSignal] = useState(0);
+
+  async function requireHumanVerification() {
+    if (!humanToken) throw new Error('Please complete the human verification first.');
+    const response = await fetch('/api/verify-human', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token: humanToken }),
+    });
+    setHumanToken('');
+    setHumanResetSignal(value => value + 1);
+    if (!response.ok) throw new Error('Human verification could not be confirmed. Please try again.');
+  }
 
   useEffect(() => {
     let active = true;
@@ -98,6 +113,7 @@ function AuthPage() {
           password,
         });
         if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? 'Check your details and try again.');
+        await requireHumanVerification();
         const origin = window.location.origin;
         const result = await supabase.auth.signUp({
           email: parsed.data.email,
@@ -125,6 +141,7 @@ function AuthPage() {
         return;
       }
 
+      await requireHumanVerification();
       const result = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (result.error || !result.data.user) {
         const text = result.error?.message.toLowerCase() ?? '';
@@ -170,6 +187,7 @@ function AuthPage() {
     setError('');
     setMessage('');
     try {
+      await requireHumanVerification();
       const result = await supabase.auth.resend({
         type: 'signup',
         email: email.trim(),
@@ -233,10 +251,11 @@ function AuthPage() {
             )}
             <div className="space-y-2"><Label htmlFor="email">Email</Label><Input id="email" type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} required /></div>
             <div className="space-y-2"><Label htmlFor="password">Password</Label><Input id="password" type="password" autoComplete={signup ? 'new-password' : 'current-password'} minLength={signup ? 10 : undefined} value={password} onChange={event => setPassword(event.target.value)} required />{signup && <p className="text-xs text-muted-foreground">Use at least 10 characters.</p>}</div>
+            <HumanVerification onToken={setHumanToken} resetSignal={humanResetSignal} />
             {error && <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
             {message && <p role="status" className="flex gap-2 rounded-lg bg-primary/10 p-3 text-sm text-foreground"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />{message}</p>}
             {canResend && <Button type="button" variant="outline" className="w-full" disabled={busy || !email.trim()} onClick={resendVerification}>Resend verification email</Button>}
-            <Button disabled={busy} className="w-full">
+            <Button disabled={busy || !humanToken} className="w-full">
               {signup ? <UserPlus /> : <LogIn />}
               {busy ? 'Please wait…' : signup ? 'Create account' : 'Sign in'}
             </Button>
