@@ -37,11 +37,13 @@ export async function sendPlatformEmail(
 
 export async function sendSupportTeamEmail(
   supabase: EmailFunctionClient,
-  { subject, message }: Omit<PlatformEmail, 'to'>,
+  ticketId: string,
+  subject: string,
+  message: string,
 ): Promise<EmailDelivery> {
   try {
     const { data, error } = await supabase.functions.invoke('platform-email', {
-      body: { kind: 'support', subject, message },
+      body: { kind: 'support', ticket_id: ticketId, subject, message },
     });
     if (error || data?.sent !== true) {
       console.error('NGABO support email was not accepted by platform-email', error ?? data?.reason);
