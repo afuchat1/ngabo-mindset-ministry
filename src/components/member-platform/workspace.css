@@ -448,3 +448,22 @@
 }
 .mp-admin-shell .mp-btn-soft,.mp-admin-shell .mp-btn-warm{border-color:#fed7aa!important;background:#fff7ed!important;color:#c2410c!important}
 .ngabo-admin-header{border-bottom-color:#f1e2d5;background:rgba(255,255,255,.98)}
+
+.ngabo-admin-nav-button[aria-pressed="true"]{
+  background:#f97316!important;border-color:#f97316!important;color:#fff!important;
+}
+.ngabo-admin-nav-button[aria-pressed="false"]:hover,
+.ngabo-admin-signout:hover{
+  border-color:#fdba74!important;background:#fff7ed!important;color:#c2410c!important;
+}
+.mp-admin-shell .mp-admin-badge,
+.mp-admin-shell .mp-member-badge{
+  border-color:#fed7aa;background:#fff7ed;color:#c2410c;
+}
+.mp-admin-shell .mp-admin-action:hover{
+  border-color:#fdba74;background:#fff1e6;color:#c2410c;
+}
+.mp-admin-shell .mp-admin-table th{background:#fff7ed;color:#57534e}
+.mp-admin-shell .mp-admin-table td{color:#57534e}
+.mp-admin-shell .mp-form-success{color:#c2410c}
+.mp-admin-shell .mp-btn-soft,.mp-admin-shell .mp-btn-warm{color:#c2410c!important}
