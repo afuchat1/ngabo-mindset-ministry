@@ -227,7 +227,7 @@ export const createMemberSupportTicket = createServerFn({ method: 'POST' })
         subject: `Support request received · ${ticketReference}`,
         message: `Hello ${profile.first_name},\n\nWe have received your support request and created ticket ${ticketReference}.\n\nSubject: ${ticket.subject}\n\nOur team will review it and reply in your NGABO member dashboard. We will email you when there is an update.`,
       }),
-      sendSupportTeamEmail(context.supabase, {
+      sendSupportTeamEmail(context.supabase, ticketId,
         `New support request · ${ticketReference}`,
         `A member has created a support request.\n\nTicket: ${ticketReference}\nMember: ${profile.first_name} ${profile.last_name} (${profile.email})\nSubject: ${ticket.subject}\n\nMessage: ${data.message}\n\nPlease sign in to the NGABO admin dashboard to respond.`,
       ),
@@ -264,7 +264,7 @@ export const replyToMemberSupportTicket = createServerFn({ method: 'POST' })
         subject: `We received your update · ${ticketReference}`,
         message: `Hello ${profile.first_name},\n\nYour update on support ticket ${ticketReference} has been added to the conversation. The ticket is now back with our support team.\n\nSubject: ${ticket.subject}\n\nWe will email you when the team responds.`,
       }),
-      sendSupportTeamEmail(context.supabase, {
+      sendSupportTeamEmail(context.supabase, data.ticket_id,
         `Member replied · ${ticketReference}`,
         `A member has replied to a support ticket.\n\nTicket: ${ticketReference}\nMember: ${profile.first_name} ${profile.last_name} (${profile.email})\nSubject: ${ticket.subject}\n\nReply: ${data.message}\n\nPlease sign in to the NGABO admin dashboard to continue the conversation.`,
       ),
