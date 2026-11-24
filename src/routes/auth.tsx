@@ -8,6 +8,9 @@ import { Label } from '@/components/ui/label';
 import { genderOptions, signupSchema } from '@/lib/member-platform';
 
 export const Route = createFileRoute('/auth')({
+  validateSearch: (search: Record<string, unknown>) => ({
+    mode: search.mode === 'signup' ? 'signup' as const : 'signin' as const,
+  }),
   head: () => ({
     meta: [
       { title: 'Member sign in | NGABO (MMA)' },
@@ -20,7 +23,8 @@ export const Route = createFileRoute('/auth')({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const { mode: requestedMode } = Route.useSearch();
+  const [mode, setMode] = useState<'signin' | 'signup'>(requestedMode);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,10 +37,6 @@ function AuthPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [canResend, setCanResend] = useState(false);
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('mode') === 'signup') setMode('signup');
-  }, []);
 
   useEffect(() => {
     let active = true;
