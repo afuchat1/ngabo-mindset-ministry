@@ -107,7 +107,7 @@ export function AdminLearning() {
   }
 
   return (
-    <main className="mp-admin-shell">
+    <main className={`mp-admin-shell ${section === "members" ? "mp-admin-overview" : ""}`}>
       <div className="mp-admin-inner">
         <header className="mp-admin-top">
           <div className="mp-admin-brand">
