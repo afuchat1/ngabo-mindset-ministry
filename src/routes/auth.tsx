@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { HumanVerification } from '@/components/human-verification';
-import { ArrowLeft, CheckCircle2, LogIn, UserPlus } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { genderOptions, signupSchema } from '@/lib/member-platform';
 
 export const Route = createFileRoute('/auth')({
@@ -22,6 +23,12 @@ export const Route = createFileRoute('/auth')({
   component: AuthPage,
 });
 
+const countryCodes = 'AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
+const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+const countries = countryCodes
+  .map(code => ({ code, name: countryNames.of(code) ?? code }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
 function AuthPage() {
   const navigate = useNavigate();
   const { mode: requestedMode } = Route.useSearch();
@@ -34,6 +41,7 @@ function AuthPage() {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('prefer_not_to_say');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -242,7 +250,19 @@ function AuthPage() {
                 </div>
                 <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" type="tel" autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)} required /></div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2"><Label htmlFor="country">Country</Label><Input id="country" autoComplete="country-name" value={country} onChange={event => setCountry(event.target.value)} required /></div>
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Select value={country} onValueChange={setCountry}>
+                      <SelectTrigger id="country" className="w-full">
+                        <SelectValue placeholder="Select your country" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-72">
+                        {countries.map(option => (
+                          <SelectItem key={option.code} value={option.name}>{option.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="space-y-2"><Label htmlFor="age">Age</Label><Input id="age" type="number" min="1" max="120" inputMode="numeric" value={age} onChange={event => setAge(event.target.value)} required /></div>
                 </div>
                 <div className="space-y-2">
@@ -254,7 +274,31 @@ function AuthPage() {
               </>
             )}
             <div className="space-y-2"><Label htmlFor="email">Email</Label><Input id="email" type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} required /></div>
-            <div className="space-y-2"><Label htmlFor="password">Password</Label><Input id="password" type="password" autoComplete={signup ? 'new-password' : 'current-password'} minLength={signup ? 10 : undefined} value={password} onChange={event => setPassword(event.target.value)} required />{signup && <p className="text-xs text-muted-foreground">Use at least 10 characters.</p>}</div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete={signup ? 'new-password' : 'current-password'}
+                  minLength={signup ? 10 : undefined}
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  className="pr-11"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(value => !value)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                </button>
+              </div>
+              {signup && <p className="text-xs text-muted-foreground">Use at least 10 characters.</p>}
+            </div>
             <HumanVerification onToken={setHumanToken} resetSignal={humanResetSignal} />
             {error && <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
             {message && <p role="status" className="flex gap-2 rounded-lg bg-primary/10 p-3 text-sm text-foreground"><CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />{message}</p>}
