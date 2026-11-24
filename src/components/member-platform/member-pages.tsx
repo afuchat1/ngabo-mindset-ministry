@@ -70,19 +70,21 @@ function shortDate(value?: string | null) {
 
 function MemberPageFrame({
   active,
+  pendingAccess = false,
   title,
   kicker,
   description,
   children,
 }: {
   active: string;
+  pendingAccess?: boolean;
   title: string;
   kicker: string;
   description?: string | undefined;
   children: ReactNode;
 }) {
   return (
-    <MemberWorkspace active={active} title={title} kicker={kicker} description={description}>
+    <MemberWorkspace active={active} title={title} kicker={kicker} description={description} pendingAccess={pendingAccess}>
       {children}
     </MemberWorkspace>
   );
@@ -453,7 +455,7 @@ type SupportTicketWithMessages = SupportTicket & {
   messages: Array<{ id: string; sender_role: string; body: string; created_at: string }>;
 };
 
-export function MemberSupport() {
+export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boolean } = {}) {
   const query = useMemberSupportTickets();
   const create = useCreateMemberSupportTicket();
   const reply = useReplyToMemberSupportTicket();
@@ -493,6 +495,7 @@ export function MemberSupport() {
 
   return (
     <MemberPageFrame
+      pendingAccess={pendingAccess}
       active="/dashboard/support"
       title="Member support"
       kicker="SUPPORT"

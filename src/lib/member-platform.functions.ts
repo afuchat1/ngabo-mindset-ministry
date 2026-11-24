@@ -42,6 +42,12 @@ async function requireApprovedMember(context: any) {
   return profile;
 }
 
+async function requireMemberSupportAccess(context: any) {
+  const profile = await loadProfile(context.supabase, context.userId);
+  if (!profile) throw new Error('Member profile not found.');
+  return profile;
+}
+
 async function getDeliveryAddress(supabase: any, userId: string) {
   const profile = await loadProfile(supabase, userId);
   return profile?.email || '';
@@ -186,7 +192,7 @@ export const submitMemberQuiz = createServerFn({ method: 'POST' })
 export const getMemberSupportTickets = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await requireApprovedMember(context);
+    await requireMemberSupportAccess(context);
     const { data: tickets, error } = await context.supabase
       .from('support_tickets')
       .select('*')
@@ -208,7 +214,7 @@ export const createMemberSupportTicket = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator(input => supportTicketSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const profile = await requireApprovedMember(context);
+    const profile = await requireMemberSupportAccess(context);
     const { data: ticketId, error } = await context.supabase.rpc('create_member_support_ticket', {
       p_subject: data.subject,
       p_message: data.message,
@@ -242,7 +248,7 @@ export const replyToMemberSupportTicket = createServerFn({ method: 'POST' })
     message: z.string().trim().min(1).max(5000),
   }).parse(input))
   .handler(async ({ data, context }) => {
-    const profile = await requireApprovedMember(context);
+    const profile = await requireMemberSupportAccess(context);
     const { error } = await context.supabase.rpc('reply_to_member_support_ticket', {
       p_ticket_id: data.ticket_id,
       p_message: data.message,

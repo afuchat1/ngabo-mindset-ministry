@@ -1,8 +1,11 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { CheckCircle2, Clock3, LogOut, MailCheck } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
+import { SiteHeader } from '@/components/site-header';
+import { SupportFab } from '@/components/member-platform/support-fab';
+import '@/components/member-platform/workspace.css';
 
 export const Route = createFileRoute('/pending-approval')({
   head: () => ({
@@ -17,6 +20,7 @@ export const Route = createFileRoute('/pending-approval')({
 function PendingApprovalPage() {
   const navigate = useNavigate();
   const [status, setStatus] = useState<'loading' | 'pending' | 'rejected' | 'unverified' | 'signed-out' | 'error'>('loading');
+  const [hasSession, setHasSession] = useState(false);
   const [ticketNumber, setTicketNumber] = useState<number | null>(null);
   const [name, setName] = useState('Member');
 
@@ -29,6 +33,7 @@ function PendingApprovalPage() {
         setStatus('signed-out');
         return;
       }
+      setHasSession(true);
       if (!auth.user.email_confirmed_at) {
         setStatus('unverified');
         return;
@@ -61,17 +66,27 @@ function PendingApprovalPage() {
     return () => { active = false; };
   }, [navigate]);
 
+  function pageShell(content: ReactNode) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SiteHeader authDestination={status === "loading" ? "loading" : hasSession ? "pending" : "signed-out"} dashboardHref="/pending-approval" />
+        {content}
+        {hasSession && <SupportFab unreadCount={0} greeting onClick={() => void navigate({ to: "/member-support" })} />}
+      </div>
+    );
+  }
+
   async function signOut() {
     await supabase.auth.signOut();
     await navigate({ to: '/auth', replace: true });
   }
 
-  if (status === 'loading') return <main className="flex min-h-screen items-center justify-center px-4"><p role="status">Checking your account…</p></main>;
-  if (status === 'signed-out') return <main className="flex min-h-screen items-center justify-center px-4"><section className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-sm"><MailCheck className="mx-auto size-10 text-primary" /><h1 className="mt-5 text-2xl font-extrabold">Check your email</h1><p className="mt-3 text-muted-foreground">Sign in after verifying your email to see your member account status.</p><Button asChild className="mt-6 w-full"><Link to="/auth">Go to sign in</Link></Button></section></main>;
-  if (status === 'unverified') return <main className="flex min-h-screen items-center justify-center px-4"><section className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-sm"><MailCheck className="mx-auto size-10 text-primary" /><h1 className="mt-5 text-2xl font-extrabold">Verify your email</h1><p className="mt-3 text-muted-foreground">Use the link in your email to verify your address. Then sign in to check your approval status.</p><Button asChild className="mt-6 w-full"><Link to="/auth">Return to sign in</Link></Button></section></main>;
+  if (status === 'loading') return pageShell(<main className="flex min-h-screen items-center justify-center px-4 pt-28"><p role="status">Checking your account…</p></main>);
+  if (status === 'signed-out') return pageShell(<main className="flex min-h-screen items-center justify-center px-4 pt-28"><section className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-sm"><MailCheck className="mx-auto size-10 text-primary" /><h1 className="mt-5 text-2xl font-extrabold">Check your email</h1><p className="mt-3 text-muted-foreground">Sign in after verifying your email to see your member account status.</p><Button asChild className="mt-6 w-full"><Link to="/auth">Go to sign in</Link></Button></section></main>);
+  if (status === 'unverified') return pageShell(<main className="flex min-h-screen items-center justify-center px-4 pt-28"><section className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-sm"><MailCheck className="mx-auto size-10 text-primary" /><h1 className="mt-5 text-2xl font-extrabold">Verify your email</h1><p className="mt-3 text-muted-foreground">Use the link in your email to verify your address. Then sign in to check your approval status.</p><Button asChild className="mt-6 w-full"><Link to="/auth">Return to sign in</Link></Button></section></main>);
 
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-muted/50 px-4 py-10">
+  return pageShell(
+    <main className="flex min-h-screen items-center justify-center bg-muted/50 px-4 pb-24 pt-32">
       <section className="w-full max-w-lg rounded-3xl border bg-card p-7 shadow-lg sm:p-10">
         {status === 'pending' ? <Clock3 className="size-11 text-primary" /> : status === 'rejected' ? <MailCheck className="size-11 text-primary" /> : <CheckCircle2 className="size-11 text-destructive" />}
         <p className="mt-6 text-sm font-bold uppercase tracking-widest text-primary">NGABO member access</p>
@@ -88,7 +103,6 @@ function PendingApprovalPage() {
         {ticketNumber !== null && <p className="mt-5 rounded-xl bg-muted p-4 text-sm"><span className="font-semibold">Registration ticket</span><br /><span className="font-mono text-base font-semibold tracking-wide text-foreground">#{String(ticketNumber).padStart(6, '0')}</span></p>}
         {status === 'error' && <Button className="mt-6 w-full" onClick={() => window.location.reload()}>Try again</Button>}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-          <Button asChild variant="outline" className="flex-1"><Link to="/">Return to website</Link></Button>
           <Button variant="ghost" className="flex-1" onClick={signOut}><LogOut />Sign out</Button>
         </div>
       </section>

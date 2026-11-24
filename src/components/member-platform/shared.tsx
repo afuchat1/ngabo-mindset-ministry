@@ -38,10 +38,11 @@ type WorkspaceProps = {
   title: string;
   kicker: string;
   description?: string | undefined;
+  pendingAccess?: boolean;
   children: ReactNode;
 };
 
-export function MemberWorkspace({ active, title, kicker, description, children }: WorkspaceProps) {
+export function MemberWorkspace({ active, title, kicker, description, pendingAccess = false, children }: WorkspaceProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -69,7 +70,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
 
   return (
     <div className="mp-workspace min-h-[100dvh]">
-      <aside className={`mp-sidebar ${mobileMenuOpen ? "mp-sidebar-open" : ""}`}>
+      {!pendingAccess && <aside className={`mp-sidebar ${mobileMenuOpen ? "mp-sidebar-open" : ""}`}>
         <div className="mp-brand">
           <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
           <div>
@@ -134,8 +135,8 @@ export function MemberWorkspace({ active, title, kicker, description, children }
             <LogOut size={17} />
           </Button>
         </div>
-      </aside>
-      {mobileMenuOpen && (
+      </aside>}
+      {!pendingAccess && mobileMenuOpen && (
         <button
           type="button"
           className="mp-mobile-scrim"
@@ -145,17 +146,16 @@ export function MemberWorkspace({ active, title, kicker, description, children }
       )}
       <main className="mp-main">
         <header className="mp-topbar">
-          <button
+          {!pendingAccess && <button
             type="button"
             className="mp-icon-button mp-menu-trigger"
             aria-label="Open navigation"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu size={20} />
-          </button>
+          </button>}
           <div className="mp-breadcrumb">
-            <Compass size={15} />
-            <span>Workspace</span>
+            {pendingAccess ? <Link to="/pending-approval" className="inline-flex items-center gap-1 text-[#DE3F20]">Back to status</Link> : <><Compass size={15} /><span>Workspace</span></>}
             <span className="mp-breadcrumb-slash">/</span>
             <span className="mp-breadcrumb-current">{title}</span>
           </div>
@@ -182,7 +182,7 @@ export function MemberWorkspace({ active, title, kicker, description, children }
           </footer>
         </div>
       </main>
-      <SupportFab unreadCount={unreadSupportCount} onClick={() => void navigate({ to: "/dashboard/support" })} />
+      {!pendingAccess && <SupportFab unreadCount={unreadSupportCount} onClick={() => void navigate({ to: "/dashboard/support" })} />}
     </div>
   );
 }

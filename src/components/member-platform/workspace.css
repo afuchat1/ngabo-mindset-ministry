@@ -526,3 +526,9 @@
 .mp-support-fab:focus-visible{outline:3px solid rgba(222,63,32,.3);outline-offset:3px}
 .mp-support-fab-count{position:absolute;top:-7px;right:-5px;display:grid;min-width:21px;height:21px;place-items:center;border:2px solid #fff;border-radius:999px;background:#242321;padding:0 5px;color:#fff;font-size:10px;font-weight:800;line-height:1}
 @media(max-width:640px){.mp-support-fab{right:16px;bottom:16px;min-height:48px;padding:0 16px;font-size:13px}}
+
+/* Pending-registration support launcher with an always-visible greeting. */
+.mp-support-launcher{position:fixed;right:24px;bottom:24px;z-index:80;display:flex;align-items:center;gap:10px}
+.mp-support-launcher .mp-support-fab{position:relative;right:auto;bottom:auto;z-index:auto;flex:none}
+.mp-support-greeting{border:1px solid #f3d3ca;border-radius:999px;background:#fff;color:#713426;padding:10px 14px;font:700 12px/1.2 "Montserrat",sans-serif;box-shadow:0 6px 20px rgba(36,35,33,.12);white-space:nowrap}
+@media(max-width:640px){.mp-support-launcher{right:16px;bottom:16px;gap:7px}.mp-support-greeting{padding:9px 11px;font-size:11px}}
