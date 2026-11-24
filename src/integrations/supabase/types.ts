@@ -184,6 +184,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          registration_number: number
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["member_approval_state"]
@@ -193,6 +194,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          registration_number?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
@@ -202,6 +204,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          registration_number?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
