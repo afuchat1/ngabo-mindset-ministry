@@ -6,19 +6,15 @@ import {
   CircleHelp,
   ClipboardList,
   LifeBuoy,
-  LogOut,
   MailCheck,
   MessageCircle,
   Pencil,
   Plus,
   Search,
   Send,
-  ShieldCheck,
   UsersRound,
   X,
 } from "lucide-react";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,7 +38,6 @@ import {
 import { EmptyState, ErrorState, LoadingState, SectionHeading, StatusPill } from "./shared";
 import { formatCoursePrice, type Course, type MemberProfile, type SupportTicket } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
-import logoImage from "@/assets/ngabo-logo.jpg";
 import "./workspace.css";
 
 type AdminTicket = SupportTicket & {
@@ -85,12 +80,10 @@ function memberName(member?: Pick<MemberProfile, "first_name" | "last_name"> | n
   return member ? [member.first_name, member.last_name].filter(Boolean).join(" ") || "Member" : "Member";
 }
 
-export function AdminLearning({ embedded = false }: { embedded?: boolean } = {}) {
+export function AdminLearningSection() {
   const query = useAdminPlatformData();
   const [section, setSection] = useState<Section>("members");
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const data = query.data as AdminData | undefined;
   const sectionLabels: Array<{ key: Section; label: string; icon: typeof UsersRound }> = [
     { key: "members", label: "Member review", icon: UsersRound },
@@ -99,29 +92,10 @@ export function AdminLearning({ embedded = false }: { embedded?: boolean } = {})
     { key: "quizzes", label: "Quizzes", icon: CircleHelp },
   ];
 
-  async function signOut() {
-    await queryClient.cancelQueries();
-    queryClient.clear();
-    await supabase.auth.signOut();
-    await navigate({ to: "/auth", replace: true });
-  }
 
   return (
     <main className={`mp-admin-shell ${section === "members" ? "mp-admin-overview" : ""}`}>
       <div className="mp-admin-inner">
-        {!embedded && <header className="mp-admin-top">
-          <div className="mp-admin-brand">
-            <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
-            <div><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Administration</p></div>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link to="/admin" className="text-xs font-semibold text-[#a65c3c] underline-offset-4 hover:underline">
-              Events &amp; products
-            </Link>
-            <div className="mp-admin-badge"><ShieldCheck size={14} /> Staff administration</div>
-            <Button size="sm" variant="outline" onClick={() => void signOut()}><LogOut size={14} /> Sign out</Button>
-          </div>
-        </header>}
         <div className="mp-admin-title">
           <div><p className="mp-kicker">NGABO ADMIN</p><h1>Learning administration</h1></div>
         </div>

@@ -15,7 +15,6 @@ import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedAdminLearningRouteImport } from './routes/_authenticated/admin-learning'
 import { Route as MemberDashboardRouteRouteImport } from './routes/_member/dashboard/route'
 import { Route as MemberDashboardIndexRouteImport } from './routes/_member/dashboard/index'
 import { Route as MemberDashboardCoursesRouteImport } from './routes/_member/dashboard/courses'
@@ -51,12 +50,6 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminLearningRoute =
-  AuthenticatedAdminLearningRouteImport.update({
-    id: '/admin-learning',
-    path: '/admin-learning',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const MemberDashboardRouteRoute = MemberDashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -94,7 +87,6 @@ export interface FileRoutesByFullPath {
   '/pending-approval': typeof PendingApprovalRoute
   '/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
-  '/admin-learning': typeof AuthenticatedAdminLearningRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -106,7 +98,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/pending-approval': typeof PendingApprovalRoute
   '/admin': typeof AuthenticatedAdminRoute
-  '/admin-learning': typeof AuthenticatedAdminLearningRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -122,7 +113,6 @@ export interface FileRoutesById {
   '/pending-approval': typeof PendingApprovalRoute
   '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/admin-learning': typeof AuthenticatedAdminLearningRoute
   '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/_member/dashboard/profile': typeof MemberDashboardProfileRoute
   '/_member/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -137,7 +127,6 @@ export interface FileRouteTypes {
     | '/pending-approval'
     | '/dashboard'
     | '/admin'
-    | '/admin-learning'
     | '/dashboard/courses'
     | '/dashboard/profile'
     | '/dashboard/quizzes'
@@ -149,7 +138,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/pending-approval'
     | '/admin'
-    | '/admin-learning'
     | '/dashboard/courses'
     | '/dashboard/profile'
     | '/dashboard/quizzes'
@@ -164,7 +152,6 @@ export interface FileRouteTypes {
     | '/pending-approval'
     | '/_member/dashboard'
     | '/_authenticated/admin'
-    | '/_authenticated/admin-learning'
     | '/_member/dashboard/courses'
     | '/_member/dashboard/profile'
     | '/_member/dashboard/quizzes'
@@ -224,13 +211,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin-learning': {
-      id: '/_authenticated/admin-learning'
-      path: '/admin-learning'
-      fullPath: '/admin-learning'
-      preLoaderRoute: typeof AuthenticatedAdminLearningRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_member/dashboard': {
       id: '/_member/dashboard'
       path: '/dashboard'
@@ -278,12 +258,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedAdminLearningRoute: typeof AuthenticatedAdminLearningRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedAdminLearningRoute: AuthenticatedAdminLearningRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
