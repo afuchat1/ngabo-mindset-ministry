@@ -5,6 +5,7 @@ import { HeroSlideshow } from '@/components/hero-slideshow';
 import { productsOptions } from '@/lib/products.query';
 import { WhatsAppContact } from '@/components/whatsapp-contact';
 import { Button } from '@/components/ui/button';
+import { SiteHeader } from '@/components/site-header';
 import { useEffect, useState, type ReactNode } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
