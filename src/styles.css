@@ -74,7 +74,7 @@
   --card-foreground: oklch(0.22 0.012 55);
   --popover: oklch(0.998 0.006 95);
   --popover-foreground: oklch(0.22 0.012 55);
-  --primary: #82452f;
+  --primary: #ff0a0a;
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.955 0.006 70);
   --secondary-foreground: oklch(0.32 0.012 55);
@@ -86,20 +86,20 @@
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.90 0.018 105);
   --input: oklch(0.90 0.018 105);
-  --ring: #82452f;
-  --chart-1: #82452f;
+  --ring: #ff0a0a;
+  --chart-1: #ff0a0a;
   --chart-2: oklch(0.62 0.15 35);
   --chart-3: oklch(0.52 0.04 45);
   --chart-4: oklch(0.78 0.13 65);
   --chart-5: oklch(0.88 0.08 55);
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.22 0.012 55);
-  --sidebar-primary: #82452f;
+  --sidebar-primary: #ff0a0a;
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.955 0.006 70);
   --sidebar-accent-foreground: oklch(0.22 0.012 55);
   --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: #82452f;
+  --sidebar-ring: #ff0a0a;
 }
 
 .dark {
@@ -109,7 +109,7 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: #82452f;
+  --primary: #ff0a0a;
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
@@ -121,7 +121,7 @@
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: #82452f;
+  --ring: #ff0a0a;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -129,7 +129,7 @@
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: #82452f;
+  --sidebar-primary: #ff0a0a;
   --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.30 0.04 42);
   --sidebar-accent-foreground: oklch(0.99 0 0);
@@ -161,15 +161,15 @@
 /* NGABO (MMA) brand foundations — shared by public and authenticated pages. */
 :root {
   --ngabo-forest: var(--primary);
-  --ngabo-forest-deep: #633321;
+  --ngabo-forest-deep: #cc0808;
   --ngabo-rust: var(--primary);
   --ngabo-cream: var(--background);
   --ngabo-paper: #ffffff;
-  --ngabo-sage: #fbf1eb;
+  --ngabo-sage: #fff0f0;
   --ngabo-ink: oklch(0.22 0.012 55);
 }
 
 
-/* One NGABO rust-orange brand accent across public, member and admin surfaces. */
-:root{--ngabo-rust:#82452f;--ngabo-forest:#82452f;--ngabo-forest-deep:#633321;--ngabo-sage:#fbf1eb}
-.dark{--primary:#82452f;--primary-foreground:oklch(0.99 0 0);--ring:#82452f}
+/* Official NGABO brand color across public, member and admin surfaces. */
+:root{--ngabo-rust:#ff0a0a;--ngabo-forest:#ff0a0a;--ngabo-forest-deep:#cc0808;--ngabo-sage:#fff0f0}
+.dark{--primary:#ff0a0a;--primary-foreground:oklch(0.99 0 0);--ring:#ff0a0a}
