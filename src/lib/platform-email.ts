@@ -68,26 +68,31 @@ export async function sendPlatformEmail({ to, subject, message }: PlatformEmail)
   </body>
 </html>`;
 
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      subject,
-      text: message,
-      html,
-    }),
-  });
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject,
+        text: message,
+        html,
+      }),
+    });
 
-  if (!response.ok) {
-    console.error('Resend email delivery failed with status', response.status);
+    if (!response.ok) {
+      console.error('Resend email delivery failed with status', response.status);
+      return { sent: false, reason: 'provider_rejected' };
+    }
+    return { sent: true };
+  } catch (error) {
+    console.error('Resend email delivery request failed', error);
     return { sent: false, reason: 'provider_rejected' };
   }
-  return { sent: true };
 }
 
 function escapeHtml(value: string) {
