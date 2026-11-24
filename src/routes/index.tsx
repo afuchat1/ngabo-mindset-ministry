@@ -104,7 +104,7 @@ function Index() {
       if (!authUser) { setAuthDestination("signed-out"); return; }
       const role = await supabase.rpc("has_role", { _user_id: authUser.id, _role: "admin" });
       if (!active) return;
-      if (role.error) return;
+      if (role.error) { await navigate({ to: "/pending-approval", replace: true }); return; }
       if (role.data) {
         await navigate({ to: "/admin", replace: true });
         return;
