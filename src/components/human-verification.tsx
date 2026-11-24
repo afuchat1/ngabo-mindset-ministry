@@ -5,6 +5,7 @@ declare global {
     turnstile?: {
       render: (container: HTMLElement, options: {
         sitekey: string;
+        action: string;
         callback: (token: string) => void;
         "expired-callback": () => void;
         "error-callback": () => void;
@@ -33,6 +34,7 @@ export function HumanVerification({ onToken, resetSignal }: {
       if (!container.current || !window.turnstile || widgetId.current) return;
       widgetId.current = window.turnstile.render(container.current, {
         sitekey: TURNSTILE_SITE_KEY,
+        action: "auth",
         callback: onToken,
         "expired-callback": () => onToken(""),
         "error-callback": () => onToken(""),
