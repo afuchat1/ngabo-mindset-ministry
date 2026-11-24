@@ -20,7 +20,7 @@ export const Route = createFileRoute('/auth')({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<'signin' | 'signup'>(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mode') === 'signup' ? 'signup' : 'signin');
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,6 +33,10 @@ function AuthPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('mode') === 'signup') setMode('signup');
+  }, []);
 
   useEffect(() => {
     let active = true;
