@@ -184,6 +184,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          registration_number: number
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["member_approval_state"]
@@ -193,6 +194,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          registration_number?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
@@ -202,6 +204,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          registration_number?: number
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
@@ -482,6 +485,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          ticket_number: number
           status: Database["public"]["Enums"]["support_ticket_state"]
           subject: string
           updated_at: string
@@ -490,6 +494,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          ticket_number?: number
           status?: Database["public"]["Enums"]["support_ticket_state"]
           subject: string
           updated_at?: string
@@ -498,6 +503,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          ticket_number?: number
           status?: Database["public"]["Enums"]["support_ticket_state"]
           subject?: string
           updated_at?: string

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 export const Route = createFileRoute('/pending-approval')({
   head: () => ({
     meta: [
-      { title: 'Account review | NGABO (MMA)' },
+      { title: 'Registration status | NGABO (MMA)' },
       { name: 'robots', content: 'noindex' },
     ],
   }),
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/pending-approval')({
 function PendingApprovalPage() {
   const navigate = useNavigate();
   const [status, setStatus] = useState<'loading' | 'pending' | 'rejected' | 'unverified' | 'signed-out' | 'error'>('loading');
-  const [ticket, setTicket] = useState('');
+  const [ticketNumber, setTicketNumber] = useState<number | null>(null);
   const [name, setName] = useState('Member');
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function PendingApprovalPage() {
       }
       const [profile, approval] = await Promise.all([
         supabase.from('member_profiles').select('first_name,approval_status,email_verified_at').eq('user_id', auth.user.id).maybeSingle(),
-        supabase.from('member_approvals').select('id,status').eq('user_id', auth.user.id).maybeSingle(),
+        supabase.from('member_approvals').select('registration_number,status').eq('user_id', auth.user.id).maybeSingle(),
       ]);
       if (!active) return;
       if (profile.error || !profile.data || approval.error) {
@@ -48,7 +48,7 @@ function PendingApprovalPage() {
         return;
       }
       setName(profile.data.first_name || 'Member');
-      setTicket(approval.data?.id ?? '');
+      setTicketNumber(approval.data?.registration_number ?? null);
       if (profile.data.approval_status === 'approved') {
         await navigate({ to: '/dashboard', replace: true });
       } else if (profile.data.approval_status === 'rejected') {
@@ -76,16 +76,16 @@ function PendingApprovalPage() {
         {status === 'pending' ? <Clock3 className="size-11 text-primary" /> : status === 'rejected' ? <MailCheck className="size-11 text-primary" /> : <CheckCircle2 className="size-11 text-destructive" />}
         <p className="mt-6 text-sm font-bold uppercase tracking-widest text-primary">NGABO member access</p>
         <h1 className="mt-2 text-3xl font-extrabold">
-          {status === 'pending' ? `Thanks, ${name}` : status === 'rejected' ? 'Request not approved' : 'We could not check your status'}
+          {status === 'pending' ? `Thanks, ${name}` : status === 'rejected' ? 'Registration not completed' : 'We could not check your status'}
         </h1>
         <p className="mt-4 leading-relaxed text-muted-foreground">
           {status === 'pending'
-            ? 'Your email is verified and your membership request is with the administration team. We will notify you when a decision is made.'
+            ? 'Your email is verified and your registration has been received by the NGABO team. We will notify you when your registration is processed.'
             : status === 'rejected'
-              ? 'Your membership request was not approved. Contact the NGABO team if you believe this is a mistake.'
+              ? 'We could not complete your registration. Please contact the NGABO team for assistance.'
               : 'Please try again later. Your account is still safe; no changes were made.'}
         </p>
-        {ticket && <p className="mt-5 rounded-xl bg-muted p-4 text-sm"><span className="font-semibold">Approval ticket</span><br /><span className="break-all font-mono text-xs text-muted-foreground">{ticket}</span></p>}
+        {ticketNumber !== null && <p className="mt-5 rounded-xl bg-muted p-4 text-sm"><span className="font-semibold">Registration ticket</span><br /><span className="font-mono text-base font-semibold tracking-wide text-foreground">#{String(ticketNumber).padStart(6, '0')}</span></p>}
         {status === 'error' && <Button className="mt-6 w-full" onClick={() => window.location.reload()}>Try again</Button>}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="outline" className="flex-1"><Link to="/">Return to website</Link></Button>

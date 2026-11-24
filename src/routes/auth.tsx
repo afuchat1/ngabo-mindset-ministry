@@ -112,10 +112,10 @@ function AuthPage() {
         });
         if (result.error) throw result.error;
         if (result.data.session) {
-          setMessage('Your account is created. Verify your email, then wait for administrator approval.');
+          setMessage('Your registration is submitted. Verify your email to continue.');
           await navigate({ to: '/pending-approval' });
         } else {
-          setMessage('Check your inbox for a verification link. Once verified, your account will be reviewed by an administrator.');
+          setMessage('Check your inbox for a verification link. Your registration will be processed after your email is verified.');
           setCanResend(true);
         }
         return;
