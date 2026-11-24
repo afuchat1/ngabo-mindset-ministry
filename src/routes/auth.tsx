@@ -144,11 +144,13 @@ function AuthPage() {
         });
         if (result.error) throw result.error;
         if (result.data.session) {
-          setMessage('Your registration is submitted. Verify your email to continue.');
-          await navigate({ to: '/pending-approval' });
+          await navigate({ to: '/pending-approval', replace: true });
         } else {
-          setMessage('Check your inbox for a verification link. Your registration will be processed after your email is verified.');
-          setCanResend(true);
+          await navigate({
+            to: '/verify-email',
+            search: { email: parsed.data.email },
+            replace: true,
+          });
         }
         return;
       }
