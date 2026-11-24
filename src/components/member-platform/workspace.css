@@ -392,3 +392,78 @@
  .ngabo-admin-nav{flex:0 0 auto;gap:6px;}
  .ngabo-admin-nav-button,.ngabo-admin-signout{min-height:36px;padding-inline:9px;font-size:11px;}
 }
+
+
+/* Admin-only orange identity: no brown or competing accent colours. */
+.mp-admin-shell,.mp-admin-events{
+  --mp-accent:#f97316;
+  --mp-accent-soft:#fff1e6;
+  --mp-bg:#fffaf5;
+  --mp-line:#f1e2d5;
+  --mp-muted:#66615c;
+}
+.mp-admin-shell .mp-admin-stat svg,
+.mp-admin-shell .mp-kicker,
+.mp-admin-shell .mp-tab[aria-selected=true],
+.mp-admin-shell .mp-member-verified,
+.mp-admin-shell .mp-ticket-row .mp-status,
+.mp-admin-events .text-primary{color:#f97316!important}
+.mp-admin-shell .mp-admin-table th,
+.mp-admin-shell .mp-ticket-row,
+.mp-admin-shell .mp-panel,
+.mp-admin-shell .mp-admin-panel{background-color:#fff}
+.mp-admin-shell .mp-status-approved,
+.mp-admin-shell .mp-status-active,
+.mp-admin-shell .mp-status-pending,
+.mp-admin-shell .mp-status-open{
+  border-color:#fed7aa;background:#fff1e6;color:#c2410c;
+}
+.mp-admin-shell .mp-status-rejected,
+.mp-admin-shell .mp-status-resolved,
+.mp-admin-shell .mp-status-archived,
+.mp-admin-shell .mp-status-unverified{
+  border-color:#e7e5e4;background:#f5f5f4;color:#57534e;
+}
+.mp-admin-shell .mp-tab-count{
+  display:inline-flex;min-width:20px;height:20px;align-items:center;justify-content:center;
+  border-radius:999px;background:#fff1e6;padding:0 6px;color:#c2410c;font-size:11px;
+}
+.mp-admin-shell .mp-member-review-layout{align-items:start}
+.mp-admin-shell .mp-member-review-detail{display:flex;flex-direction:column;gap:14px}
+.mp-admin-shell .mp-member-review-details{display:grid;gap:0}
+.mp-admin-shell .mp-member-review-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-top:1px solid var(--mp-line);padding-top:14px}
+.mp-admin-shell .mp-member-review-actions .mp-pagination-note{flex-basis:100%}
+.mp-admin-shell .mp-ticket-row:hover,
+.mp-admin-shell .mp-ticket-row.is-selected{border-color:#fdba74;background:#fff7ed}
+.mp-admin-shell .mp-message,
+.mp-admin-shell .mp-question-editor{background:#fff7ed}
+.mp-admin-shell .mp-message.is-staff{border-color:#fed7aa;background:#fff1e6}
+.mp-admin-shell .mp-btn-primary,
+.mp-admin-events .mp-btn-primary,
+.mp-admin-shell :is(.bg-primary,.text-primary),
+.mp-admin-events :is(.bg-primary,.text-primary){--mp-accent:#f97316}
+.mp-admin-shell :is(.mp-btn-primary,.bg-primary),
+.mp-admin-events :is(.mp-btn-primary,.bg-primary){
+  background-color:#f97316!important;border-color:#f97316!important;color:#fff!important;
+}
+.mp-admin-shell .mp-btn-soft,.mp-admin-shell .mp-btn-warm{border-color:#fed7aa!important;background:#fff7ed!important;color:#c2410c!important}
+.ngabo-admin-header{border-bottom-color:#f1e2d5;background:rgba(255,255,255,.98)}
+
+.ngabo-admin-nav-button[aria-pressed="true"]{
+  background:#f97316!important;border-color:#f97316!important;color:#fff!important;
+}
+.ngabo-admin-nav-button[aria-pressed="false"]:hover,
+.ngabo-admin-signout:hover{
+  border-color:#fdba74!important;background:#fff7ed!important;color:#c2410c!important;
+}
+.mp-admin-shell .mp-admin-badge,
+.mp-admin-shell .mp-member-badge{
+  border-color:#fed7aa;background:#fff7ed;color:#c2410c;
+}
+.mp-admin-shell .mp-admin-action:hover{
+  border-color:#fdba74;background:#fff1e6;color:#c2410c;
+}
+.mp-admin-shell .mp-admin-table th{background:#fff7ed;color:#57534e}
+.mp-admin-shell .mp-admin-table td{color:#57534e}
+.mp-admin-shell .mp-form-success{color:#c2410c}
+.mp-admin-shell .mp-btn-soft,.mp-admin-shell .mp-btn-warm{color:#c2410c!important}

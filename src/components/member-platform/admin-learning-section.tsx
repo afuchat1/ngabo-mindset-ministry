@@ -124,7 +124,7 @@ export function AdminLearningSection() {
                 return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
-                  {count > 0 ? <span className="ml-1 rounded-full bg-[#f7e8dc] px-1.5 py-0.5 text-[11px] text-[#a55f3f]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
+                  {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0e5] px-1.5 py-0.5 text-[11px] text-[#f97316]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
               );})}
             </nav>
@@ -141,19 +141,28 @@ export function AdminLearningSection() {
 }
 
 function AdminStat({ icon: Icon, value, label, warm = false }: { icon: typeof UsersRound; value: number; label: string; warm?: boolean }) {
-  return <div className="mp-admin-stat"><div className="mb-2 flex items-center justify-between"><span>{label}</span><Icon size={15} className={warm ? "text-[#c16a46]" : "text-[#60816a]"} /></div><strong>{value}</strong></div>;
+  return <div className="mp-admin-stat"><div className="mb-2 flex items-center justify-between"><span>{label}</span><Icon size={15} className="text-[#f97316]" /></div><strong>{value}</strong></div>;
 }
 
 function MemberReview({ data, search, setSearch }: { data: AdminData; search: string; setSearch: (value: string) => void }) {
   const review = useReviewMemberApproval();
   const [error, setError] = useState("");
-  const members = useMemo(() => {
+  const [selectedId, setSelectedId] = useState<string | null>(data.approvals[0]?.user_id ?? null);
+  const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
+  const filteredMembers = useMemo(() => {
     const term = search.toLowerCase().trim();
     return data.approvals.filter((member) => {
-      const matches = `${member.first_name} ${member.last_name} ${member.email} ${member.country ?? ""}`.toLowerCase().includes(term);
-      return matches;
+      const matchesSearch = `${member.first_name} ${member.last_name} ${member.email} ${member.country ?? ""} ${member.phone ?? ""}`.toLowerCase().includes(term);
+      return matchesSearch && (statusFilter === "all" || member.approval_status === statusFilter);
     });
-  }, [data.approvals, search]);
+  }, [data.approvals, search, statusFilter]);
+  const active = filteredMembers.find((member) => member.user_id === selectedId) ?? filteredMembers[0] ?? null;
+  const filters = [
+    { key: "all" as const, label: "All members", count: data.approvals.length },
+    { key: "pending" as const, label: "Pending", count: data.approvals.filter((member) => member.approval_status === "pending").length },
+    { key: "approved" as const, label: "Approved", count: data.approvals.filter((member) => member.approval_status === "approved").length },
+    { key: "rejected" as const, label: "Declined", count: data.approvals.filter((member) => member.approval_status === "rejected").length },
+  ];
 
   async function setStatus(user_id: string, status: "approved" | "rejected") {
     setError("");
@@ -166,36 +175,65 @@ function MemberReview({ data, search, setSearch }: { data: AdminData; search: st
 
   return (
     <section className="mp-admin-panel">
-      <SectionHeading title="Member access" detail="Email verification and approval are both required for learning access." />
+      <SectionHeading title="Member review" detail="Select a member to review their registration and manage learning access." />
+      <nav className="mp-tabs mp-member-review-tabs" role="tablist" aria-label="Filter members by approval status">
+        {filters.map((filter) => (
+          <button key={filter.key} type="button" role="tab" aria-selected={statusFilter === filter.key} className="mp-tab" onClick={() => setStatusFilter(filter.key)}>
+            {filter.label}<span className="mp-tab-count">{filter.count}</span>
+          </button>
+        ))}
+      </nav>
       <div className="mp-filter-row">
-        <span className="mp-pagination-note">{data.approvals.length} registered member{data.approvals.length === 1 ? "" : "s"}</span>
-        <label className="mp-search"><Search size={15} /><input aria-label="Search members" placeholder="Search name, email, country" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
+        <span className="mp-pagination-note">{filteredMembers.length} of {data.approvals.length} registered member{data.approvals.length === 1 ? "" : "s"}</span>
+        <label className="mp-search"><Search size={15} /><input aria-label="Search members" placeholder="Search name, email, country or phone" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
       </div>
-      {members.length === 0 ? (
-        <EmptyState icon={UsersRound} title="No members found" detail={search ? "Try another name or email address." : "New member profiles will appear here."} action={search ? <Button size="sm" variant="outline" onClick={() => setSearch("")}>Clear search</Button> : undefined} />
+      {!filteredMembers.length ? (
+        <EmptyState icon={UsersRound} title="No members found" detail={search ? "Try another search or clear the filter." : "There are no members in this category yet."} action={search ? <Button size="sm" variant="outline" onClick={() => setSearch("")}>Clear search</Button> : undefined} />
       ) : (
-        <div className="mp-admin-table-wrap">
-          <table className="mp-admin-table">
-            <thead><tr><th>Member</th><th>Country</th><th>Email check</th><th>Access</th><th>Joined</th><th><span className="sr-only">Actions</span></th></tr></thead>
-            <tbody>
-              {members.map((member) => (
-                <tr key={member.user_id}>
-                  <td><strong>{memberName(member)}</strong><div className="mt-1 text-[12px] text-[#98a098]">{member.email}</div></td>
-                  <td>{member.country || "—"}</td>
-                  <td>{member.email_verified_at ? <span className="inline-flex items-center gap-1 text-[#a65c3c]"><MailCheck size={13} /> Verified</span> : <StatusPill status="unverified" />}</td>
-                  <td><StatusPill status={member.approval_status} /></td>
-                  <td>{formatDate(member.created_at)}</td>
-                  <td><div className="mp-admin-actions">
-                    {member.approval_status !== "approved" && <Button size="sm" className="mp-btn-primary mp-btn-small" disabled={!member.email_verified_at || review.isPending} onClick={() => void setStatus(member.user_id, "approved")} title={!member.email_verified_at ? "Member must verify email before approval" : "Approve member"}>Approve</Button>}
-                    {member.approval_status !== "rejected" && <Button size="sm" variant="outline" className="mp-btn-small" disabled={review.isPending} onClick={() => void setStatus(member.user_id, "rejected")}>Decline</Button>}
-                  </div></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="mp-ticket-admin mp-member-review-layout">
+          <div className="mp-ticket-list" aria-label="Registered members">
+            {filteredMembers.map((member) => (
+              <button key={member.user_id} type="button" aria-pressed={active?.user_id === member.user_id} className={`mp-ticket-row ${active?.user_id === member.user_id ? "is-selected" : ""}`} onClick={() => { setSelectedId(member.user_id); setError(""); }}>
+                <strong>{memberName(member)}</strong>
+                <span>{member.email}</span>
+                <span>{member.country || "Country not provided"} · {formatDate(member.created_at)}</span>
+                <span className="mt-2"><StatusPill status={member.approval_status} /></span>
+              </button>
+            ))}
+          </div>
+          {active && (
+            <div className="mp-panel mp-ticket-admin-detail mp-member-review-detail">
+              <div className="mp-panel-title">
+                <div><h3>{memberName(active)}</h3><p>{active.email}</p></div>
+                <StatusPill status={active.approval_status} />
+              </div>
+              <div className="mp-member-review-details">
+                <div className="mp-info-row"><span>Email verification</span><strong className={active.email_verified_at ? "mp-member-verified" : ""}>{active.email_verified_at ? "Verified" : "Not verified"}</strong></div>
+                <div className="mp-info-row"><span>Phone</span><strong>{active.phone || "—"}</strong></div>
+                <div className="mp-info-row"><span>Country</span><strong>{active.country || "—"}</strong></div>
+                <div className="mp-info-row"><span>Age</span><strong>{active.age ?? "—"}</strong></div>
+                <div className="mp-info-row"><span>Gender</span><strong>{active.gender?.replaceAll("_", " ") || "—"}</strong></div>
+                <div className="mp-info-row"><span>Registered</span><strong>{formatDate(active.created_at)}</strong></div>
+                <div className="mp-info-row"><span>Email verified</span><strong>{formatDate(active.email_verified_at)}</strong></div>
+              </div>
+              <div className="mp-member-review-actions">
+                {active.approval_status !== "approved" && (
+                  <Button className="mp-btn-primary mp-btn-small" disabled={!active.email_verified_at || review.isPending} onClick={() => void setStatus(active.user_id, "approved")} title={!active.email_verified_at ? "Member must verify email before approval" : "Approve member"}>
+                    <Check size={14} />{review.isPending ? "Updating…" : "Approve access"}
+                  </Button>
+                )}
+                {active.approval_status !== "rejected" && (
+                  <Button variant="outline" className="mp-btn-small" disabled={review.isPending} onClick={() => void setStatus(active.user_id, "rejected")}>
+                    Decline application
+                  </Button>
+                )}
+                {!active.email_verified_at && <p className="mp-pagination-note">This member must verify their email before approval is available.</p>}
+              </div>
+              {error && <p className="mp-form-error" role="alert">{error}</p>}
+            </div>
+          )}
         </div>
       )}
-      {error && <p className="mp-form-error mt-3" role="alert">{error}</p>}
     </section>
   );
 }
@@ -232,7 +270,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
             {tickets.map((ticket) => (
               <button key={ticket.id} type="button" className={`mp-ticket-row ${active?.id === ticket.id ? "is-selected" : ""}`} onClick={() => { setSelectedId(ticket.id); setError(""); }}>
                 <strong>{ticket.subject}</strong>
-                <span className="font-mono text-xs font-semibold tracking-wide text-[#a84f36]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
+                <span className="font-mono text-xs font-semibold tracking-wide text-[#f97316]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
                 <span>{memberName(ticket.member)} · {formatDate(ticket.updated_at)}</span>
                 <span className="mt-2"><StatusPill status={ticket.status} /></span>
               </button>
@@ -240,7 +278,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
           </div>
           {active && (
             <div className="mp-panel mp-ticket-admin-detail">
-              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#a84f36]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
+              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#f97316]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
               <div className="mp-message-list">
                 {active.messages.map((item) => (
                   <div key={item.id} className={`mp-message ${item.sender_role === "admin" || item.sender_role === "staff" ? "is-staff" : ""}`}>
@@ -249,7 +287,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
                 ))}
               </div>
               {active.status === "resolved" ? (
-                <p className="rounded-lg bg-[#fbf6f2] p-3 text-[12px] text-[#716c66]">This request is resolved. A new message can reopen the conversation for the member.</p>
+                <p className="rounded-lg bg-[#fff7ed] p-3 text-[12px] text-[#666666]">This request is resolved. A new message can reopen the conversation for the member.</p>
               ) : (
                 <form className="grid gap-3" onSubmit={send}>
                   <div className="mp-field"><Label htmlFor="admin-support-reply">Your reply</Label><Textarea id="admin-support-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={(event) => setMessage(event.target.value)} /></div>
@@ -337,7 +375,7 @@ function CourseManagement({ courses }: { courses: Course[] }) {
             <thead><tr><th>Course</th><th>Price</th><th>Member visibility</th><th>Created</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{courses.map((course) => (
               <tr key={course.id}>
-                <td><strong>{course.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#98a098]">{course.description}</div></td>
+                <td><strong>{course.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#777777]">{course.description}</div></td>
                 <td>{formatCoursePrice(course.price, course.currency)}</td>
                 <td><StatusPill status={course.is_active ? "active" : "archived"} /></td>
                 <td>{formatDate(course.created_at)}</td>
@@ -492,7 +530,7 @@ function QuizManagement({ quizzes, courses }: { quizzes: AdminQuiz[]; courses: C
             <thead><tr><th>Quiz</th><th>Course</th><th>Member visibility</th><th>Created</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{quizzes.map((quiz) => (
               <tr key={quiz.id}>
-                <td><strong>{quiz.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#98a098]">{quiz.description}</div></td>
+                <td><strong>{quiz.title}</strong><div className="mt-1 max-w-sm truncate text-[12px] text-[#777777]">{quiz.description}</div></td>
                 <td>{courseName(quiz.course_id)}</td>
                 <td><StatusPill status={quiz.is_active ? "active" : "archived"} /></td>
                 <td>{formatDate((quiz as AdminQuiz & { created_at?: string }).created_at)}</td>
@@ -525,7 +563,7 @@ function QuizManagement({ quizzes, courses }: { quizzes: AdminQuiz[]; courses: C
                   <legend className="sr-only">Question {questionIndex + 1}</legend>
                   <div className="mp-question-editor-header"><span>Question {questionIndex + 1}</span>{draft.questions.length > 1 && <button className="mp-icon-button" type="button" aria-label={`Remove question ${questionIndex + 1}`} onClick={() => setDraft((current) => ({ ...current, questions: current.questions.filter((_, index) => index !== questionIndex) }))}><X size={14} /></button>}</div>
                   <div className="mp-field"><Label htmlFor={`quiz-prompt-${questionIndex}`}>Prompt</Label><Textarea id={`quiz-prompt-${questionIndex}`} required maxLength={1000} value={question.prompt} onChange={(event) => updateQuestion(questionIndex, { prompt: event.target.value })} placeholder="What would you like members to reflect on?" /></div>
-                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[12px] font-bold text-[#a65c3c]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
+                  <div className="mt-3 flex items-center justify-between gap-3"><span className="mp-label">Answer choices <span className="font-normal text-[#929a92]">· mark the correct answer</span></span>{question.choices.length < 8 && <button type="button" className="text-[12px] font-bold text-[#f97316]" onClick={() => addChoice(questionIndex)}>Add choice</button>}</div>
                   {question.choices.map((choice, choiceIndex) => (
                     <div className="mp-question-choice" key={choiceIndex}>
                       <label className="mp-radio-label"><input type="radio" name={`correct-${questionIndex}`} checked={question.correct_index === choiceIndex} onChange={() => updateQuestion(questionIndex, { correct_index: choiceIndex })} aria-label={`Mark choice ${choiceIndex + 1} correct`} /> Correct</label>
