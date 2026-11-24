@@ -43,13 +43,17 @@ function AuthPage() {
 
   async function requireHumanVerification() {
     if (!humanToken) throw new Error('Please complete the human verification first.');
-    const response = await fetch('/api/verify-human', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ token: humanToken }),
-    });
-    setHumanToken('');
-    setHumanResetSignal(value => value + 1);
+    let response: Response;
+    try {
+      response = await fetch('/api/verify-human', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ token: humanToken }),
+      });
+    } finally {
+      setHumanToken('');
+      setHumanResetSignal(value => value + 1);
+    }
     if (!response.ok) throw new Error('Human verification could not be confirmed. Please try again.');
   }
 
