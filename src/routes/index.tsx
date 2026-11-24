@@ -111,7 +111,7 @@ function Index() {
       }
       const { data: profile, error } = await supabase.from("member_profiles").select("approval_status,email_verified_at").eq("user_id", authUser.id).maybeSingle();
       if (!active) return;
-      if (error) return;
+      if (error) { await navigate({ to: "/pending-approval", replace: true }); return; }
       const approved = authUser.email_confirmed_at && profile?.email_verified_at && profile.approval_status === "approved";
       await navigate({ to: approved ? "/dashboard" : "/pending-approval", replace: true });
     }
