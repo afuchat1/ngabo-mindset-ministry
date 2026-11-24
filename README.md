@@ -50,3 +50,11 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Official brand identity
+
+- **Official brand color:** `#DE3F20`
+- Use `#DE3F20` consistently for NGABO brand accents across the public website, member platform, and admin platform, including primary actions, links, highlights, focus rings, and branded UI elements.
+- Use lighter tints of `#DE3F20` for subtle accent backgrounds where needed.
+- Keep neutral surfaces and readable text colors accessible. Preserve semantic status colors (such as success, warning, and error) and third-party brand colors when they communicate a distinct meaning; they are not NGABO brand accents.
+- This README is the source of truth for the official NGABO brand color. Do not reintroduce previous brand accent colors.
