@@ -47,6 +47,24 @@ export function SiteHeader({ authDestination, dashboardHref, minimal = false }: 
       </header>
     );
   }
+  if (minimal) {
+    return (
+      <header className="fixed inset-x-0 top-0 z-50 h-[76px] border-b border-border/40 bg-background/95 shadow-sm backdrop-blur-md">
+        <div className="mx-auto grid h-full max-w-6xl grid-cols-[48px_minmax(0,1fr)] items-center gap-3 px-4 sm:px-6">
+          <a href="#top" aria-label="NGABO (MMA) home" className="pointer-events-auto block">
+            <img src={logoImage} alt="NGABO (MMA) logo" className="h-11 w-11 rounded-full object-cover shadow-sm transition-transform duration-300 hover:scale-105" />
+          </a>
+          <div className="min-w-0">
+            <h1 className="animate-in fade-in slide-in-from-left-2 text-xl font-black leading-tight tracking-wide text-primary sm:text-2xl">NGABO</h1>
+            <p className="min-h-[1.1rem] whitespace-nowrap text-[10px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground sm:text-xs">
+              <Typewriter words={["(MMA) Net Work", "Ministries"]} />
+            </p>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <>
       <div aria-hidden className="text-[40px] font-black leading-none md:text-9xl"><span className="invisible">NGABO</span></div>
