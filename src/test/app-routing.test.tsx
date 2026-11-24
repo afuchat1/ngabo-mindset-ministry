@@ -21,11 +21,20 @@ describe("App routing", () => {
     "/dashboard/quizzes",
     "/dashboard/support",
     "/dashboard/profile",
-    "/admin-learning",
+    "/admin",
+    "/auth",
+    "/pending-approval",
   ])("matches the protected platform page at %s", (path) => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     const matches = router.matchRoutes(path);
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
+  });
+
+  it("does not treat the obsolete /admin-learning path as an app route", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const matches = router.matchRoutes("/admin-learning");
+
+    expect(matches.at(-1)?.routeId).toBe(rootRouteId);
   });
 });
