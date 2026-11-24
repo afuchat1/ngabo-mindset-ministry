@@ -248,7 +248,7 @@ export const replyToMemberSupportTicket = createServerFn({ method: 'POST' })
     message: z.string().trim().min(1).max(5000),
   }).parse(input))
   .handler(async ({ data, context }) => {
-    const profile = await requireApprovedMember(context);
+    const profile = await requireMemberSupportAccess(context);
     const { error } = await context.supabase.rpc('reply_to_member_support_ticket', {
       p_ticket_id: data.ticket_id,
       p_message: data.message,
