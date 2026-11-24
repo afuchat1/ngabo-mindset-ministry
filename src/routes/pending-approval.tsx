@@ -69,7 +69,7 @@ function PendingApprovalPage() {
   function pageShell(content: ReactNode) {
     return (
       <div className="min-h-screen bg-background">
-        <SiteHeader authDestination={hasSession ? "pending" : "signed-out"} dashboardHref="/pending-approval" />
+        <SiteHeader authDestination={status === "loading" ? "loading" : hasSession ? "pending" : "signed-out"} dashboardHref="/pending-approval" />
         {content}
         {hasSession && <SupportFab unreadCount={0} greeting onClick={() => void navigate({ to: "/member-support" })} />}
       </div>
