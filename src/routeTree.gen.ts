@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as MemberDashboardRouteRouteImport } from './routes/_member/dashboard/route'
 import { Route as MemberDashboardIndexRouteImport } from './routes/_member/dashboard/index'
@@ -43,6 +44,11 @@ const AuthRoute = AuthRouteImport.update({
 const PendingApprovalRoute = PendingApprovalRouteImport.update({
   id: '/pending-approval',
   path: '/pending-approval',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/pending-approval': typeof PendingApprovalRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/pending-approval': typeof PendingApprovalRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/_member': typeof MemberRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/pending-approval': typeof PendingApprovalRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/pending-approval'
+    | '/verify-email'
     | '/dashboard'
     | '/admin'
     | '/dashboard/courses'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/pending-approval'
+    | '/verify-email'
     | '/admin'
     | '/dashboard/courses'
     | '/dashboard/profile'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/_member'
     | '/auth'
     | '/pending-approval'
+    | '/verify-email'
     | '/_member/dashboard'
     | '/_authenticated/admin'
     | '/_member/dashboard/courses'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   MemberRouteRoute: typeof MemberRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   PendingApprovalRoute: typeof PendingApprovalRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/pending-approval'
       fullPath: '/pending-approval'
       preLoaderRoute: typeof PendingApprovalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemberRouteRoute: MemberRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   PendingApprovalRoute: PendingApprovalRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
