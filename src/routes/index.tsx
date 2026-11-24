@@ -69,7 +69,7 @@ function Typewriter({ words }: { words: string[] }) {
   return <span>{text}<span className="ml-1 inline-block w-[3px] animate-pulse bg-primary align-middle" style={{ height: "0.9em" }} /></span>;
 }
 
-function ShrinkTitle() {
+function ShrinkTitle({ authDestination, dashboardHref }: { authDestination: 'loading' | 'signed-out' | 'admin' | 'member' | 'pending'; dashboardHref: string }) {
   const [p, setP] = useState(0);
   const compact = p > 0.05;
   useEffect(() => {
@@ -158,7 +158,7 @@ function Index() {
 
       {/* Hero */}
       <header id="top" className="flex min-h-screen flex-col items-center px-6 pb-16 pt-16 text-center md:px-20">
-        <ShrinkTitle />
+        <ShrinkTitle authDestination={authDestination} dashboardHref={dashboardHref} />
         <EventsCard />
         <HeroSlideshow />
         <p className="animate-rise mt-10 max-w-xl leading-relaxed" style={{ animationDelay: ".5s" }}>
