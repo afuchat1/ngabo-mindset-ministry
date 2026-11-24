@@ -187,6 +187,7 @@ export type Database = {
           reviewed_at: string | null
           reviewed_by: string | null
           status: Database["public"]["Enums"]["member_approval_state"]
+          ticket_number: number
           updated_at: string
           user_id: string
         }
@@ -196,6 +197,7 @@ export type Database = {
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
+          ticket_number?: number
           updated_at?: string
           user_id: string
         }
@@ -205,6 +207,7 @@ export type Database = {
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: Database["public"]["Enums"]["member_approval_state"]
+          ticket_number?: number
           updated_at?: string
           user_id?: string
         }
