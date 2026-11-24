@@ -258,6 +258,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
             {tickets.map((ticket) => (
               <button key={ticket.id} type="button" className={`mp-ticket-row ${active?.id === ticket.id ? "is-selected" : ""}`} onClick={() => { setSelectedId(ticket.id); setError(""); }}>
                 <strong>{ticket.subject}</strong>
+                <span className="font-mono text-xs font-semibold tracking-wide text-[#a84f36]">#{String(ticket.ticket_number).padStart(6, "0")}</span>
                 <span>{memberName(ticket.member)} · {formatDate(ticket.updated_at)}</span>
                 <span className="mt-2"><StatusPill status={ticket.status} /></span>
               </button>
@@ -265,7 +266,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
           </div>
           {active && (
             <div className="mp-panel mp-ticket-admin-detail">
-              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p>{memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
+              <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#a84f36]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
               <div className="mp-message-list">
                 {active.messages.map((item) => (
                   <div key={item.id} className={`mp-message ${item.sender_role === "admin" || item.sender_role === "staff" ? "is-staff" : ""}`}>
