@@ -84,11 +84,11 @@ function memberName(member?: Pick<MemberProfile, "first_name" | "last_name"> | n
   return member ? [member.first_name, member.last_name].filter(Boolean).join(" ") || "Member" : "Member";
 }
 
-export function AdminLearningSection({ initialSection = "members" }: { initialSection?: Section }) {
+export function AdminLearningSection({ initialSection = "members", fixedSection }: { initialSection?: Section; fixedSection?: Section }) {
   const query = useAdminPlatformData();
-  const [section, setSection] = useState<Section>(initialSection);
+  const [section, setSection] = useState<Section>(fixedSection ?? initialSection);
   const [search, setSearch] = useState("");
-  useEffect(() => { if (initialSection === "support") setSection("support"); }, [initialSection]);
+  useEffect(() => { if (fixedSection) setSection(fixedSection); else if (initialSection === "support") setSection("support"); }, [initialSection, fixedSection]);
   const data = query.data as AdminData | undefined;
   const sectionLabels: Array<{ key: Section; label: string; icon: typeof UsersRound }> = [
     { key: "members", label: "Member review", icon: UsersRound },
@@ -103,7 +103,7 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
     <main className={`mp-admin-shell ${section === "members" ? "mp-admin-overview" : ""}`}>
       <div className="mp-admin-inner">
         <div className="mp-admin-title">
-          <div><p className="mp-kicker">NGABO ADMIN</p><h1>Learning administration</h1></div>
+          <div><p className="mp-kicker">NGABO ADMIN</p><h1>{fixedSection ? sectionLabels.find((item) => item.key === fixedSection)?.label ?? "Administration" : "Learning administration"}</h1></div>
         </div>
         {query.isPending ? (
           <LoadingState label="Loading learning administration" />
@@ -111,14 +111,14 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
           <ErrorState title="Administration data is unavailable" message={query.error instanceof Error ? query.error.message : "Please refresh and try again."} onRetry={() => void query.refetch()} />
         ) : data ? (
           <>
-            <div className="mp-admin-stats">
+            {!fixedSection && <div className="mp-admin-stats">
               <AdminStat icon={UsersRound} value={data.counts.members} label="Members" />
               <AdminStat icon={ClipboardList} value={data.counts.pendingApprovals} label="Awaiting review" warm />
               <AdminStat icon={MessageCircle} value={data.counts.openTickets} label="Open support" />
               <AdminStat icon={BookOpen} value={data.counts.activeCourses} label="Active courses" warm />
               <AdminStat icon={CircleHelp} value={data.counts.activeQuizzes} label="Active quizzes" />
-            </div>
-            <nav className="mp-tabs" role="tablist" aria-label="Admin learning sections">
+            </div>}
+            {!fixedSection && <nav className="mp-tabs" role="tablist" aria-label="Admin learning sections">
               {sectionLabels.map(({ key, label, icon: Icon }) => {
                 const count = key === "members"
                   ? data.counts.pendingApprovals
@@ -133,7 +133,8 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
                   {count > 0 ? <span className="ml-1 rounded-full bg-[#fff0f0] px-1.5 py-0.5 text-[11px] text-[#DE3F20]" aria-label={`${count} ${label.toLowerCase()}`}>{count > 99 ? "99+" : count}</span> : null}
                 </button>
               );})}
-            </nav>
+            </nav>}
+            
             {section === "members" && <MemberReview data={data} search={search} setSearch={setSearch} />}
             {section === "support" && <AdminSupport tickets={data.tickets} />}
             {section === "courses" && <CourseManagement courses={data.courses} />}
