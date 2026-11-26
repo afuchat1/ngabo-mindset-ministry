@@ -17,6 +17,7 @@ import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as MemberSupportRouteImport } from './routes/member-support'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminSectionRouteImport } from './routes/_authenticated/admin.$section'
 import { Route as MemberDashboardRouteRouteImport } from './routes/_member/dashboard/route'
 import { Route as MemberDashboardIndexRouteImport } from './routes/_member/dashboard/index'
 import { Route as MemberDashboardCoursesRouteImport } from './routes/_member/dashboard/courses'
@@ -63,6 +64,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminSectionRoute = AuthenticatedAdminSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const MemberDashboardRouteRoute = MemberDashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -106,7 +112,8 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/member-support': typeof MemberSupportRoute
   '/dashboard': typeof MemberDashboardRouteRouteWithChildren
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -120,7 +127,8 @@ export interface FileRoutesByTo {
   '/pending-approval': typeof PendingApprovalRoute
   '/verify-email': typeof VerifyEmailRoute
   '/member-support': typeof MemberSupportRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -137,7 +145,8 @@ export interface FileRoutesById {
   '/pending-approval': typeof PendingApprovalRoute
   '/verify-email': typeof VerifyEmailRoute
   '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/_member/dashboard/profile': typeof MemberDashboardProfileRoute
   '/_member/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/member-support'
     | '/dashboard'
     | '/admin'
+    | '/admin/$section'
     | '/dashboard/courses'
     | '/dashboard/profile'
     | '/dashboard/quizzes'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/member-support'
     | '/_member/dashboard'
     | '/_authenticated/admin'
+    | '/_authenticated/admin/$section'
     | '/_member/dashboard/courses'
     | '/_member/dashboard/profile'
     | '/_member/dashboard/quizzes'
@@ -262,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/$section': {
+      id: '/_authenticated/admin/$section'
+      path: '/$section'
+      fullPath: '/admin/$section'
+      preLoaderRoute: typeof AuthenticatedAdminSectionRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_member/dashboard': {
       id: '/_member/dashboard'
       path: '/dashboard'
@@ -314,12 +332,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminSectionRoute: typeof AuthenticatedAdminSectionRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminSectionRoute: AuthenticatedAdminSectionRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren = AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
