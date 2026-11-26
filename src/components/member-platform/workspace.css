@@ -1088,3 +1088,66 @@
   color:var(--ng-admin-brand);
   background:color-mix(in srgb,var(--ng-admin-brand) 9%,white);
 }
+
+
+/* Keep the administration frame fixed to the viewport.
+   Only the active page content scrolls; wide data stays inside its own region. */
+.ng-admin-app {
+  height:100vh;
+  height:100dvh;
+  min-height:0;
+  overflow:hidden;
+}
+.ng-admin-main {
+  display:flex;
+  height:100vh;
+  height:100dvh;
+  min-height:0;
+  flex-direction:column;
+  overflow:hidden;
+}
+.ng-admin-topbar {
+  flex:0 0 auto;
+}
+.ng-admin-page-content {
+  flex:1 1 auto;
+  min-height:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  scrollbar-gutter:stable;
+  -webkit-overflow-scrolling:touch;
+}
+.ng-admin-sidebar {
+  height:100vh;
+  height:100dvh;
+  min-height:0;
+  overscroll-behavior:contain;
+}
+.ng-admin-page-content :is(.mp-admin-table-wrap,.mp-member-directory) {
+  max-width:100%;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+}
+.ng-admin-page-content :is(.mp-admin-panel,.mp-panel,.mp-ticket-admin,.mp-support-layout,.mp-profile-card,.ng-admin-overview,.ng-admin-events) {
+  min-width:0;
+  max-width:100%;
+}
+.ng-admin-page-content :is(table,pre,code) {
+  max-width:100%;
+}
+.ng-admin-page-content :is(p,h1,h2,h3,td,th,a,button,span,strong) {
+  overflow-wrap:anywhere;
+}
+@media(max-width:760px) {
+  .ng-admin-app {
+    display:block;
+  }
+  .ng-admin-main {
+    width:100%;
+    max-width:100%;
+  }
+  .ng-admin-page-content {
+    padding-bottom:max(28px,env(safe-area-inset-bottom));
+  }
+}
