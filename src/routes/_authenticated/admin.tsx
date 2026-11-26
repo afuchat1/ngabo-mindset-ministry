@@ -31,7 +31,7 @@ export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ m
   return { appRole: support.data ? 'support' as const : 'admin' as const };
 }, component: AdminPage });
 
-function AdminPage() {
+function AdminPage() {\n  const { appRole } = Route.useRouteContext();\n  return appRole === 'support' ? <SupportTeamDashboard /> : <AdminManagementPage />;\n}\n\nfunction AdminManagementPage() {
     const client = useQueryClient(); const navigate = useNavigate();
   const [dashboardSection, setDashboardSection] = useState<'content' | 'learning'>('content');
   const [supportRequested, setSupportRequested] = useState(false);
