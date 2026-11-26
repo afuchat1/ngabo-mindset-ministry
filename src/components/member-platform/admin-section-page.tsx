@@ -53,7 +53,7 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
       <div className="ng-admin-sidebar-bottom"><Link to="/" className="ng-admin-nav-link" onClick={() => setMobileNavOpen(false)}><ArrowUpRight size={17}/>View website</Link></div>
     </aside>
     <div className="ng-admin-main">
-      <AdminWorkspaceHeader active={section} currentLabel={current.label} onOpenNavigation={() => setMobileNavOpen(true)} />
+      <AdminWorkspaceHeader active={section} onOpenNavigation={() => setMobileNavOpen(true)} />
       <div className="ng-admin-page-content">{section === "overview" ? <AdminOverview/> : section === "profile" ? <AdminProfile/> : section === "events" ? <AdminEventsPage/> : section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
     </div>
   </main>;
@@ -61,7 +61,7 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
 
 
 
-function AdminWorkspaceHeader({ active, currentLabel, onOpenNavigation }: { active: AdminSection; currentLabel: string; onOpenNavigation: () => void }) {
+function AdminWorkspaceHeader({ active, onOpenNavigation }: { active: AdminSection; onOpenNavigation: () => void }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const inboxTriggerRef = useRef<HTMLButtonElement>(null);
   const [inboxTop, setInboxTop] = useState(80);
