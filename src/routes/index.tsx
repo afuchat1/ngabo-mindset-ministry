@@ -81,7 +81,7 @@ function Index() {
   const navigate = useNavigate();
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
-  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out">("loading");
+  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out" | "admin" | "member" | "pending">("loading");
   useEffect(() => {
     let active = true;
     supabase.auth.getSession().then(({ data, error }) => {
@@ -105,21 +105,28 @@ function Index() {
       if (!authUser) { setAuthDestination("signed-out"); return; }
       const role = await supabase.rpc("has_role", { _user_id: authUser.id, _role: "admin" });
       if (!active) return;
-      if (role.error) { await navigate({ to: "/pending-approval", replace: true }); return; }
-      if (role.data) {
-        await navigate({ to: "/admin", replace: true });
+      if (role.error) {
+        setAuthDestination("pending");
+        await navigate({ to: "/pending-approval", replace: true });
         return;
       }
-      const { data: profile, error } = await supabase.from("member_profiles").select("approval_status,email_verified_at").eq("user_id", authUser.id).maybeSingle();
+      if (role.data) { setAuthDestination("admin"); return; }
+      const { data: profile, error } = await supabase.from("member_profiles")
+        .select("approval_status,email_verified_at")
+        .eq("user_id", authUser.id).maybeSingle();
       if (!active) return;
-      if (error) { await navigate({ to: "/pending-approval", replace: true }); return; }
-      const approved = authUser.email_confirmed_at && profile?.email_verified_at && profile.approval_status === "approved";
-      await navigate({ to: approved ? "/dashboard" : "/pending-approval", replace: true });
+      if (error || !authUser.email_confirmed_at || !profile?.email_verified_at || profile.approval_status !== "approved") {
+        setAuthDestination("pending");
+        await navigate({ to: "/pending-approval", replace: true });
+        return;
+      }
+      // Approved members can browse the public homepage and enter the dashboard when they choose.
+      setAuthDestination("member");
     }
     void resolveDestination();
     return () => { active = false; };
   }, [authReady, authUser, navigate]);
-  const dashboardHref = "/auth";
+  const dashboardHref = "/dashboard";
 
   // Keep the public page hidden until Supabase has resolved the session and the
   // correct signed-in destination has been determined. No session-check text is shown.
