@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { Plus, Pencil, Trash2, LogOut, ArrowLeft, Save, X, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, ArrowLeft, Save, X, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ import "@/components/member-platform/workspace.css";
 import { eventIcons, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from "@/lib/events";
 
 export function AdminEventsPage() {
-    const client = useQueryClient(); const navigate = useNavigate();
+    const navigate = useNavigate();
   const supportData = useAdminPlatformData();
   const events = useQuery({ queryKey: ['admin-events'], queryFn: async () => { const { data, error } = await supabase.from('events').select('*').order('created_at', { ascending: false }).order('id'); if (error) throw error; return data ?? []; }, refetchInterval: 15000 });
   const [editing, setEditing] = useState<EventRecord | null>(null);
@@ -45,7 +45,6 @@ export function AdminEventsPage() {
     catch (err) { setError(err instanceof Error ? err.message : 'Could not save event'); }
     finally { setBusy(false); }
   }
-  async function signOut() { await client.cancelQueries(); client.clear(); await supabase.auth.signOut(); await navigate({ to: '/auth', replace: true }); }
   async function confirmDelete() { if (!deleting) return; setBusy(true); try { const result = await supabase.from('events').delete().eq('id', deleting.id).select('id').single(); if (result.error) throw result.error; await refresh(); setDeleting(null); toast.success('Event deleted'); } catch { toast.error('Could not delete event'); } finally { setBusy(false); } }
   const rows = events.data ?? [];
   return <main className="min-h-screen bg-background mp-admin-events"><section className="mx-auto max-w-5xl px-6 py-10"><Button asChild variant="link" className="mb-6 px-0"><Link to="/"><ArrowLeft />View public website</Link></Button><div className="flex flex-wrap items-center justify-between gap-4"><div><p className="text-sm font-bold uppercase text-primary">MINISTRIES & NETWORK</p><h1 className="mt-2 text-3xl font-extrabold">Events & announcements</h1></div><Button onClick={() => show(null)}><Plus />Create event</Button></div><div className="mt-8 flex flex-wrap gap-8 border-y py-5 text-sm"><span><strong className="text-2xl text-primary">{rows.filter(e => isEventActive(e)).length}</strong> Active</span><span><strong className="text-2xl">{rows.filter(e => e.starts_at && Date.parse(e.starts_at) > Date.now()).length}</strong> Scheduled</span><span><strong className="text-2xl">{rows.filter(e => !e.starts_at).length}</strong> Unscheduled</span></div>{events.isPending ? <p className="py-12">Loading events…</p> : events.error ? <div role="alert" className="py-12"><p>Could not load events.</p><Button className="mt-3" onClick={() => events.refetch()}>Try again</Button></div> : rows.length === 0 ? <p className="py-12 text-muted-foreground">No events yet.</p> : <div className="divide-y">{rows.map(event => <article key={event.id} className="flex items-start gap-4 py-6"><EventIcon name={event.icon} className="mt-1 size-6 shrink-0 text-primary" /><div className="min-w-0 flex-1"><h2 className="break-words font-bold">{event.title}</h2><p className="mt-1 text-sm text-muted-foreground">{event.schedule_text}</p><p className="mt-2 text-xs font-semibold text-primary">{isEventActive(event) ? 'Active' : !event.starts_at ? 'Unscheduled' : Date.parse(event.starts_at) > Date.now() ? 'Scheduled' : 'Expired'}</p>{event.starts_at && event.ends_at && <p className="mt-1 text-xs text-muted-foreground">{new Date(event.starts_at).toLocaleString('en-GB', { timeZone: 'Africa/Kampala' })} to {new Date(event.ends_at).toLocaleString('en-GB', { timeZone: 'Africa/Kampala' })} · Kampala</p>}{event.destination_url && <Button asChild variant="link" className="mt-1 h-auto px-0 text-xs"><a href={event.destination_url} target="_blank" rel="noopener noreferrer"><ExternalLink />Destination</a></Button>}</div><div className="flex shrink-0 flex-col gap-1 sm:flex-row"><Button size="icon" variant="ghost" title={`Edit ${event.title}`} aria-label={`Edit ${event.title}`} onClick={() => show(event)}><Pencil /></Button><Button size="icon" variant="ghost" title={`Delete ${event.title}`} aria-label={`Delete ${event.title}`} onClick={() => setDeleting(event)}><Trash2 className="text-destructive" /></Button></div></article>)}</div>}</section>
