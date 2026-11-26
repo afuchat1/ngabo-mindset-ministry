@@ -92,10 +92,6 @@ function Index() {
   const [authReady, setAuthReady] = useState(false);
   const [authDestination, setAuthDestination] = useState<"loading" | "signed-out" | "admin" | "member" | "pending">("loading");
   useReveal(authDestination !== "loading");
-  const navigate = useNavigate();
-  const [authUser, setAuthUser] = useState<User | null>(null);
-  const [authReady, setAuthReady] = useState(false);
-  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out" | "admin" | "member" | "pending">("loading");
   useEffect(() => {
     let active = true;
     supabase.auth.getSession().then(({ data, error }) => {
