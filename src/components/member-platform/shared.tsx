@@ -47,10 +47,12 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
   const avatarMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (openMenu !== "Avatar") return;
+    if (!openMenu) return;
 
     function handlePointerDown(event: PointerEvent) {
-      if (event.target instanceof Node && !avatarMenuRef.current?.contains(event.target)) {
+      const target = event.target instanceof Element ? event.target : null;
+      const clickedMenu = target?.closest<HTMLElement>(".mp-nav-dropdown[data-menu-key]");
+      if (clickedMenu?.dataset.menuKey !== openMenu) {
         setOpenMenu(null);
       }
     }
@@ -94,7 +96,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
           </Link>
           <nav className="mp-header-navigation" aria-label="Member navigation">
             <Link to="/dashboard" className={`mp-header-link ${active === "/dashboard" ? "is-active" : ""}`}><Compass size={16}/> Overview</Link>
-            {groups.map(group => <div className="mp-nav-dropdown" key={group.label}>
+            {groups.map(group => <div className="mp-nav-dropdown" data-menu-key={group.label} key={group.label}>
               <button type="button" className={`mp-header-link ${group.items.some(item => active === item.to) ? "is-active" : ""}`} aria-expanded={openMenu === group.label} onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}>
                 <group.icon size={16}/>{group.label}<ArrowRight className="mp-dropdown-chevron" size={13}/>
               </button>
@@ -102,7 +104,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
             </div>)}
 
           </nav>
-          <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu">
+          <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Avatar">
             <button type="button" className="mp-header-avatar-button" aria-label="Open account menu" aria-expanded={openMenu === "Avatar"} onClick={() => setOpenMenu(openMenu === "Avatar" ? null : "Avatar")}>
               <span className="mp-avatar mp-avatar-small">{initials || "N"}</span>
             </button>
