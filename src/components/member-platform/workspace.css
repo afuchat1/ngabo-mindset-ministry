@@ -991,3 +991,33 @@
  .ngabo-admin-header-actions{overflow-x:auto;justify-content:flex-start}
 }
 @media(max-width:420px){.ng-admin-topbar{align-items:flex-start}.ng-admin-top-actions{gap:4px}.ng-admin-page-content{padding-right:10px;padding-left:10px}.ng-admin-app .mp-admin-panel{padding:12px}}
+
+
+.ng-admin-overview{padding:18px 0 8px}
+.ng-admin-overview-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 22px}
+.ng-admin-overview-heading .ng-admin-eyebrow{margin:0 0 6px 0}
+.ng-admin-overview-heading h2{margin:0;font-size:clamp(20px,2vw,26px);font-weight:750;letter-spacing:-.03em}
+.ng-admin-overview-heading p{margin:7px 0 0;color:#716c66;font-size:14px}
+.ng-admin-refresh-note{color:#657765;font-size:12px;font-weight:650;white-space:nowrap}
+.ng-admin-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.ng-admin-metric{display:grid;min-height:132px;gap:12px;border:1px solid #eae6e1;border-radius:9px;background:#fff;padding:16px;color:#242321;text-decoration:none;transition:border-color .15s,transform .15s}
+.ng-admin-metric:hover{transform:translateY(-2px);border-color:#e6a294}
+.ng-admin-metric-label{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#716c66;font-size:12px;font-weight:650}
+.ng-admin-metric-label svg{color:#DE3F20}
+.ng-admin-metric>strong{font-size:28px;font-weight:780;line-height:1.1;font-variant-numeric:tabular-nums}
+.ng-admin-metric-link{display:flex;align-items:center;gap:5px;color:#a52d19;font-size:12px;font-weight:700}
+.ng-admin-quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:9px;margin-top:24px}
+.ng-admin-quick-link{display:flex;min-height:62px;align-items:center;gap:11px;border-bottom:1px solid #eae6e1;padding:8px 10px;color:#38342f;text-decoration:none}
+.ng-admin-quick-link>span{display:grid;width:34px;height:34px;flex:none;place-items:center;border-radius:8px;background:#fff0f0;color:#DE3F20}
+.ng-admin-quick-link strong{flex:1;font-size:13px}
+.ng-admin-quick-link>svg{color:#8c837b}
+.ng-admin-page-content .mp-admin-title{display:none}
+@media(max-width:760px){
+ .ngabo-admin-header-inner{align-items:center;flex-wrap:wrap;padding:10px 12px}
+ .ngabo-admin-header-inner>a{flex:0 0 auto}
+ .ngabo-admin-header-actions{display:flex;min-width:0;flex:1 1 100%;flex-wrap:wrap;justify-content:flex-start;overflow:visible;white-space:normal}
+ .ngabo-admin-nav{display:flex;min-width:0;max-width:100%;flex:1 1 100%;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+ .ngabo-admin-nav-link{flex:0 0 auto}
+ .ngabo-admin-signout{margin-left:auto}
+}
+@media(max-width:440px){.ng-admin-overview-heading{align-items:flex-start;flex-direction:column}.ng-admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ng-admin-metric{min-height:120px;padding:12px}.ng-admin-metric>strong{font-size:24px}.ng-admin-quick-grid{grid-template-columns:minmax(0,1fr)}}
