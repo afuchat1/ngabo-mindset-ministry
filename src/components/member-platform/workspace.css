@@ -649,3 +649,82 @@
 .mp-admin-events .mp-nav-label {
   color: #625d57;
 }
+
+
+/* Platform-wide action contrast and visibility pass.
+   Keep the NGABO rust identity, but use a deeper action shade where white
+   button text must meet readable contrast on compact controls. */
+:root {
+  --ngabo-action: #B83219;
+  --ngabo-action-hover: #982713;
+}
+.mp-workspace :is(.mp-btn-primary,.bg-primary),
+.mp-admin-shell :is(.mp-btn-primary,.bg-primary),
+.mp-admin-events :is(.mp-btn-primary,.bg-primary),
+.mp-admin-events .ngabo-admin-nav-button[aria-pressed="true"] {
+  background-color: var(--ngabo-action) !important;
+  border-color: var(--ngabo-action) !important;
+  color: #fff !important;
+}
+.mp-workspace :is(.mp-btn-primary,.bg-primary):hover,
+.mp-admin-shell :is(.mp-btn-primary,.bg-primary):hover,
+.mp-admin-events :is(.mp-btn-primary,.bg-primary):hover {
+  background-color: var(--ngabo-action-hover) !important;
+  border-color: var(--ngabo-action-hover) !important;
+}
+.mp-workspace .mp-btn-soft,
+.mp-workspace .mp-btn-warm,
+.mp-admin-shell .mp-btn-soft,
+.mp-admin-shell .mp-btn-warm,
+.mp-admin-events .mp-btn-soft,
+.mp-admin-events .mp-btn-warm,
+.mp-workspace .mp-member-view-button,
+.mp-admin-shell .mp-member-view-button,
+.ngabo-admin-nav-button[aria-pressed="false"]:hover,
+.ngabo-admin-signout:hover {
+  color: #982713 !important;
+}
+.mp-workspace .mp-text-link,
+.mp-admin-shell .mp-text-link,
+.mp-admin-events .mp-text-link {
+  color: #982713;
+}
+.mp-workspace :is(button,a,input,textarea,select,[role="button"]):focus-visible,
+.mp-admin-shell :is(button,a,input,textarea,select,[role="button"]):focus-visible,
+.mp-admin-events :is(button,a,input,textarea,select,[role="button"]):focus-visible {
+  outline: 3px solid #982713 !important;
+  outline-offset: 3px !important;
+}
+.mp-workspace .mp-nav-label,
+.mp-workspace .mp-footer,
+.mp-workspace .mp-course-arrow,
+.mp-admin-shell .mp-nav-label,
+.mp-admin-shell .mp-footer,
+.mp-admin-events .mp-footer {
+  color: #625d57;
+}
+.mp-workspace .mp-member-badge,
+.mp-admin-shell .mp-member-badge,
+.mp-admin-shell .mp-admin-badge {
+  color: #982713;
+}
+.mp-workspace button,
+.mp-admin-shell button,
+.mp-admin-events button {
+  min-height: 36px;
+}
+.mp-workspace button:disabled,
+.mp-admin-shell button:disabled,
+.mp-admin-events button:disabled {
+  opacity: .65;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-workspace *,
+  .mp-admin-shell *,
+  .mp-admin-events * {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
