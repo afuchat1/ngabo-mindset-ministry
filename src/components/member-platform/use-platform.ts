@@ -116,7 +116,10 @@ export function useReplyToMemberSupportTicket() {
     mutationFn: (input: { ticket_id: string; message: string }) =>
       replyToMemberSupportTicket({ data: input }),
     onSuccess: async () => {
-      await client.invalidateQueries({ queryKey: platformKeys.support });
+      await Promise.all([
+        client.invalidateQueries({ queryKey: platformKeys.support }),
+        client.invalidateQueries({ queryKey: ["member-inbox"] }),
+      ]);
     },
   });
 }
