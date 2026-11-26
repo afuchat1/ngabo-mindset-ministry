@@ -935,3 +935,59 @@
 
 /* Inbox dropdown: viewport-centered horizontally with equal, fixed safe gutters. */
 .mp-workspace .mp-inbox-menu > .mp-inbox-panel { position: fixed; z-index: 110; left: 16px; right: 16px; width: auto; max-width: 340px; margin-inline: auto; box-sizing: border-box; transform: none; max-height: min(70dvh, 520px); overflow: auto; }
+
+
+/* Dedicated NGABO administration workspace.
+   Every content region is shrinkable; horizontal overflow belongs to its own
+   table/navigation container, never to the viewport. */
+.ng-admin-app{--ng-admin-accent:#DE3F20;display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100dvh;width:100%;max-width:100%;overflow-x:clip;background:#faf9f7;color:#242321;font-family:"Montserrat",sans-serif}
+.ng-admin-app *{box-sizing:border-box;min-width:0}
+.ng-admin-sidebar{position:sticky;top:0;display:flex;height:100dvh;min-height:0;flex-direction:column;gap:8px;overflow-y:auto;border-right:1px solid #eae6e1;background:#fff;padding:22px 14px 16px}
+.ng-admin-brand{display:flex;align-items:center;gap:11px;padding:4px 8px 26px;color:#242321;text-decoration:none}
+.ng-admin-brand img{width:42px;height:42px;flex:0 0 42px;border-radius:50%;object-fit:cover}
+.ng-admin-brand span{display:grid;gap:2px}.ng-admin-brand strong{font-size:14px;letter-spacing:.1em}.ng-admin-brand small{color:#716c66;font-size:12px}
+.ng-admin-nav-label,.ng-admin-eyebrow{margin:0 8px 8px;color:#817a73;font-size:11px;font-weight:750;letter-spacing:.11em}
+.ng-admin-nav{display:grid;gap:4px}
+.ng-admin-nav-link{display:flex;min-height:42px;align-items:center;gap:11px;border-radius:7px;padding:0 11px;color:#5f5a54;font-size:13px;font-weight:650;text-decoration:none;white-space:normal}
+.ng-admin-nav-link:hover,.ng-admin-nav-link[aria-current=page]{background:#fff0f0;color:#a52d19}
+.ng-admin-sidebar-bottom{display:grid;gap:4px;margin-top:auto;padding-top:18px;border-top:1px solid #eee9e4}
+.ng-admin-sidebar-bottom button{width:100%;border:0;background:transparent;text-align:left;cursor:pointer}
+.ng-admin-main{min-width:0;width:100%;max-width:100%;overflow-x:clip}
+.ng-admin-topbar{display:flex;min-height:88px;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #eae6e1;background:rgba(255,255,255,.94);padding:16px clamp(18px,3vw,40px)}
+.ng-admin-topbar h1{margin:0;font-size:clamp(21px,2.2vw,28px);font-weight:750;letter-spacing:-.035em}
+.ng-admin-topbar .ng-admin-eyebrow{margin:0 0 5px 0}
+.ng-admin-top-actions{display:flex;align-items:center;gap:14px;flex:none}
+.ng-admin-live{display:inline-flex;align-items:center;gap:7px;color:#5f6f60;font-size:12px;font-weight:700}
+.ng-admin-page-content{width:100%;max-width:1440px;margin:0 auto;padding:12px clamp(12px,2.2vw,32px) 36px;overflow-x:clip}
+.ng-admin-page-content>.mp-admin-shell{width:100%;max-width:100%;padding-right:0;padding-left:0}
+.ng-admin-page-content>.mp-admin-shell>.mp-admin-inner{width:100%;max-width:100%}
+.ng-admin-mobile-nav{display:none}
+.ng-admin-app .mp-admin-title{padding-top:18px}
+.ng-admin-app .mp-admin-stats{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.ng-admin-app .mp-admin-panel{width:100%;max-width:100%;min-width:0}
+.ng-admin-app .mp-ticket-admin{grid-template-columns:minmax(0,.72fr) minmax(0,1.5fr)}
+.ng-admin-app .mp-member-directory{width:100%;max-width:100%;overflow-x:auto}
+.ng-admin-app .mp-tabs{max-width:100%;min-width:0}
+.ng-admin-app .mp-admin-table-wrap{max-width:100%;overscroll-behavior-x:contain}
+.ng-admin-app :is(input,textarea,select,button){max-width:100%}
+.ngabo-admin-nav{display:flex;max-width:min(100%,900px);flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:4px}
+.ngabo-admin-nav-link{display:inline-flex;min-height:36px;align-items:center;border-radius:6px;padding:0 9px;color:#5f5a54;font-size:12px;font-weight:650;text-decoration:none;white-space:nowrap}
+.ngabo-admin-nav-link:hover{background:#fff0f0;color:#982713}
+.ngabo-admin-header-actions{min-width:0}
+@media(max-width:980px){.ng-admin-app{grid-template-columns:216px minmax(0,1fr)}.ng-admin-sidebar{padding-right:10px;padding-left:10px}.ng-admin-topbar{padding-right:20px;padding-left:20px}}
+@media(max-width:760px){
+ .ng-admin-app{display:block;min-height:100dvh}
+ .ng-admin-sidebar{display:none}
+ .ng-admin-topbar{min-height:72px;padding:12px 16px}
+ .ng-admin-top-actions .ng-admin-live{display:none}
+ .ng-admin-mobile-nav{display:flex;max-width:100%;gap:5px;overflow-x:auto;overscroll-behavior-x:contain;border-bottom:1px solid #eae6e1;background:#fff;padding:8px 14px;scrollbar-width:thin;white-space:nowrap}
+ .ng-admin-mobile-nav a{display:inline-flex;min-height:36px;flex:0 0 auto;align-items:center;border-radius:6px;padding:0 11px;color:#5f5a54;font-size:13px;font-weight:650;text-decoration:none}
+ .ng-admin-mobile-nav a[aria-current=page]{background:#fff0f0;color:#a52d19}
+ .ng-admin-page-content{padding:8px 12px 28px}
+ .ng-admin-app .mp-ticket-admin{grid-template-columns:minmax(0,1fr)}
+ .ng-admin-app .mp-ticket-list{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+ .ng-admin-app .mp-admin-title{padding:18px 0 14px}
+ .ngabo-admin-header-inner{gap:8px;padding-inline:12px}
+ .ngabo-admin-header-actions{overflow-x:auto;justify-content:flex-start}
+}
+@media(max-width:420px){.ng-admin-topbar{align-items:flex-start}.ng-admin-top-actions{gap:4px}.ng-admin-page-content{padding-right:10px;padding-left:10px}.ng-admin-app .mp-admin-panel{padding:12px}}
