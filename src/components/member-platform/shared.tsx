@@ -14,7 +14,7 @@ import {
   X,
   LogOut,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,28 @@ type WorkspaceProps = {
 
 export function MemberWorkspace({ active, title, kicker, description, pendingAccess = false, children }: WorkspaceProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const avatarMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (openMenu !== "Avatar") return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (event.target instanceof Node && !avatarMenuRef.current?.contains(event.target)) {
+        setOpenMenu(null);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpenMenu(null);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openMenu]);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
@@ -80,7 +102,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
             </div>)}
 
           </nav>
-          <div className="mp-nav-dropdown mp-header-user-menu">
+          <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu">
             <button type="button" className="mp-header-avatar-button" aria-label="Open account menu" aria-expanded={openMenu === "Avatar"} onClick={() => setOpenMenu(openMenu === "Avatar" ? null : "Avatar")}>
               <span className="mp-avatar mp-avatar-small">{initials || "N"}</span>
             </button>
