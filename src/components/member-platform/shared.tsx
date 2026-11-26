@@ -119,19 +119,10 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
 
           </nav>
           <div className="mp-header-utilities">
-            <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Menu">
-              <button type="button" className="mp-header-utility-button" aria-label="Open menu" aria-expanded={openMenu === "Menu"} onClick={() => setOpenMenu(openMenu === "Menu" ? null : "Menu")}>
-                <Menu size={20}/>
-              </button>
-              {openMenu === "Menu" && <div className="mp-dropdown-panel mp-avatar-dropdown">
-                <div className="mp-avatar-menu-name">{name}</div>
-                <Link to="/dashboard/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link>
-                <button type="button" onClick={() => void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button>
-              </div>}
-            </div>
             <div className="mp-nav-dropdown mp-inbox-menu" data-menu-key="Inbox">
               <button type="button" className="mp-header-utility-button mp-inbox-trigger" aria-label={unreadInboxCount ? `Inbox, ${unreadInboxCount} unread messages` : "Open inbox"} aria-expanded={openMenu === "Inbox"} onClick={() => void toggleInbox()}>
-                <Inbox size={19}/>
+                <Inbox size={18}/>
+                <span>Inbox</span>
                 {unreadInboxCount > 0 && <span className="mp-inbox-badge">{unreadInboxCount > 99 ? "99+" : unreadInboxCount}</span>}
               </button>
               {openMenu === "Inbox" && <div className="mp-dropdown-panel mp-inbox-panel">
@@ -145,6 +136,16 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
                   </Link>)
                   : <p className="mp-inbox-empty">You’re all caught up. New replies and messages will appear here.</p>}
                 <Link to="/dashboard/support" onClick={() => setOpenMenu(null)} className="mp-inbox-footer">Open support conversations <ArrowRight size={14}/></Link>
+              </div>}
+            </div>
+            <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Menu">
+              <button type="button" className="mp-header-utility-button" aria-label="Open menu" aria-expanded={openMenu === "Menu"} onClick={() => setOpenMenu(openMenu === "Menu" ? null : "Menu")}>
+                <Menu size={20}/>
+              </button>
+              {openMenu === "Menu" && <div className="mp-dropdown-panel mp-avatar-dropdown">
+                <div className="mp-avatar-menu-name">{name}</div>
+                <Link to="/dashboard/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link>
+                <button type="button" onClick={() => void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button>
               </div>}
             </div>
           </div>
