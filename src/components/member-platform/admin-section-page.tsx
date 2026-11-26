@@ -9,10 +9,12 @@ import { AdminHeroImages } from "@/components/admin-hero-images";
 import "@/components/member-platform/workspace.css";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminPlatformData } from "@/components/member-platform/use-platform";
+import { AdminEventsPage } from "@/routes/_authenticated/admin";
 
-type AdminSection = "overview" | "members" | "support" | "courses" | "quizzes" | "network" | "products" | "photos";
+type AdminSection = "overview" | "events" | "members" | "support" | "courses" | "quizzes" | "network" | "products" | "photos";
 const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboard; href: string }> = [
   { id: "overview", label: "Overview", icon: LayoutDashboard, href: "/admin/overview" },
+  { id: "events", label: "Events", icon: CalendarDays, href: "/admin/events" },
   { id: "members", label: "Members", icon: UsersRound, href: "/admin/members" },
   { id: "support", label: "Support", icon: LifeBuoy, href: "/admin/support" },
   { id: "courses", label: "Courses", icon: BookOpen, href: "/admin/courses" },
@@ -37,7 +39,7 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
       <Link to="/admin/overview" className="ng-admin-brand" aria-label="NGABO administration overview"><img src={logoImage} alt="" /><span><strong>NGABO</strong><small>Administration</small></span></Link>
       <p className="ng-admin-nav-label">WORKSPACE</p>
       <nav aria-label="Administration navigation" className="ng-admin-nav">
-        <Link to="/admin" className="ng-admin-nav-link"><CalendarDays size={17}/>Events</Link>
+        
         {items.map(({id,label,icon:Icon,href})=><Link key={id} to={href as any} aria-current={section===id?"page":undefined} className="ng-admin-nav-link"><Icon size={17}/><span>{label}</span></Link>)}
       </nav>
       <div className="ng-admin-sidebar-bottom"><Link to="/" className="ng-admin-nav-link"><ArrowUpRight size={17}/>View website</Link><button type="button" className="ng-admin-nav-link" onClick={() => void signOut()}><LogOut size={17}/>Sign out</button></div>
@@ -48,10 +50,10 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
         <div className="ng-admin-top-actions"><span className="ng-admin-live"><Activity size={14}/> Workspace</span><Button variant="outline" size="sm" onClick={() => void signOut()}><LogOut size={15}/>Sign out</Button></div>
       </header>
       <nav className="ng-admin-mobile-nav" aria-label="Administration pages">
-        <Link to="/admin">Events</Link>
+        
         {items.map(({id,label,href})=><Link key={id} to={href as any} aria-current={section===id?"page":undefined}>{label}</Link>)}
       </nav>
-      <div className="ng-admin-page-content">{section === "overview" ? <AdminOverview/> : section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
+      <div className="ng-admin-page-content">{section === "overview" ? <AdminOverview/> : section === "events" ? <AdminEventsPage/> : section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
     </div>
   </main>;
 }
