@@ -1189,3 +1189,95 @@
  .ng-admin-profile-actions{justify-content:stretch}
  .ng-admin-profile-actions>*{flex:1}
 }
+
+
+/* Admin uses the same member workspace header and daily banner. The admin
+   workspace data and destinations remain role-specific. */
+.ng-admin-shared-header {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: visible;
+  background: #faf9f7;
+}
+.ng-admin-shared-header .mp-news-updates-top,
+.ng-admin-shared-header .mp-member-header {
+  width: 100%;
+  max-width: 100%;
+}
+.ng-admin-shared-header .mp-member-header {
+  position: relative;
+  top: auto;
+  z-index: 30;
+}
+.ng-admin-shared-header .mp-header-brand .mp-brand-subtitle {
+  white-space: nowrap;
+}
+.ng-admin-shared-header .mp-header-navigation {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+}
+.ng-admin-shared-header .ng-admin-menu-trigger {
+  display: none;
+}
+.ng-admin-page-content {
+  scrollbar-gutter: stable;
+}
+@media(max-width:760px) {
+  .ng-admin-shared-header .mp-member-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+  .ng-admin-shared-header .ng-admin-menu-trigger {
+    display: inline-grid;
+    order: 0;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #625d57;
+  }
+  .ng-admin-shared-header .mp-header-brand {
+    order: 1;
+    flex: 0 1 auto;
+  }
+  .ng-admin-shared-header .mp-header-utilities {
+    order: 2;
+    margin-left: auto;
+  }
+  .ng-admin-shared-header .mp-header-navigation {
+    order: 3;
+    display: grid;
+    width: 100%;
+    max-width: 480px;
+    flex: 1 0 100%;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    justify-content: center;
+    margin-inline: auto;
+    gap: 4px;
+  }
+  .ng-admin-shared-header .mp-header-navigation > .mp-header-link,
+  .ng-admin-shared-header .mp-header-navigation > .mp-nav-dropdown > .mp-header-link {
+    min-width: 0;
+    min-height: 40px;
+    justify-content: center;
+    padding-inline: 4px;
+    font-size: 12px;
+  }
+}
+@media(max-width:380px) {
+  .ng-admin-shared-header .mp-member-header { padding-inline: 14px; }
+  .ng-admin-shared-header .mp-header-navigation { gap: 2px; }
+  .ng-admin-shared-header .mp-header-navigation > .mp-header-link,
+  .ng-admin-shared-header .mp-header-navigation > .mp-nav-dropdown > .mp-header-link {
+    gap: 4px;
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
