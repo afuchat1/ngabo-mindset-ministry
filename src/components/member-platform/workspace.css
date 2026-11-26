@@ -560,3 +560,10 @@
  .mp-content{padding:24px 14px}
 }
 @media(max-width:380px){.mp-header-link{gap:5px;padding-inline:7px;font-size:11px}}
+
+/* Keep account actions inside the existing corner avatar, not the header navigation. */
+.mp-header-user-menu{flex:none}
+.mp-header-avatar-button{display:grid;width:40px;height:40px;place-items:center;border:0;border-radius:50%;background:transparent;padding:0;cursor:pointer}
+.mp-header-avatar-button:hover,.mp-header-avatar-button:focus-visible{outline:2px solid #ffd6d6;outline-offset:2px}
+.mp-avatar-dropdown{right:0;left:auto;min-width:190px}
+.mp-avatar-menu-name{overflow:hidden;border-bottom:1px solid #f0ede9;padding:9px 10px;color:#242321;font-size:12px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
