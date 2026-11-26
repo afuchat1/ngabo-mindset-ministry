@@ -571,10 +571,10 @@
 
 /* Header utility controls: compact menu and message inbox, replacing the avatar. */
 .mp-header-utilities{display:flex;flex:none;align-items:center;gap:7px}
-.mp-header-utility-button{position:relative;display:grid;width:40px;height:40px;place-items:center;border:0;border-radius:9px;background:transparent;color:#625d57;cursor:pointer}
+.mp-header-utility-button{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:40px;height:40px;border:0;border-radius:9px;background:transparent;color:#625d57;cursor:pointer}
 .mp-header-utility-button:hover,.mp-header-utility-button:focus-visible{outline:0;background:#fff0f0;color:#DE3F20}
 .mp-inbox-badge{position:absolute;top:1px;right:0;display:grid;min-width:17px;height:17px;place-items:center;border:2px solid #fff;border-radius:999px;background:#DE3F20;padding:0 4px;color:#fff;font-size:9px;font-weight:800;line-height:1}
-.mp-inbox-panel{right:0;left:auto;width:min(360px,calc(100vw - 28px));max-height:min(520px,70dvh);overflow:auto;padding:0}
+.mp-inbox-trigger{width:auto;min-width:84px;padding:0 11px;font-size:12px;font-weight:650}.mp-inbox-panel{right:auto;left:0;width:min(360px,calc(100vw - 28px));max-height:min(520px,70dvh);overflow:auto;padding:0}
 .mp-inbox-heading{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0ede9;background:#fff;padding:13px 14px}
 .mp-inbox-heading strong{color:#242321;font-size:14px}
 .mp-inbox-heading span,.mp-inbox-item-date{color:#8b847d;font-size:10px}
@@ -585,4 +585,4 @@
 .mp-inbox-empty{margin:0;padding:22px 16px;color:#716c66;font-size:12px;text-align:center}
 .mp-inbox-footer{display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;color:#DE3F20;font-size:11px;font-weight:700;text-decoration:none}
 .mp-inbox-footer:hover{background:#fff0f0}
-@media(max-width:760px){.mp-header-utilities{margin-left:auto}.mp-header-utility-button{width:37px;height:37px}}
+@media(max-width:760px){.mp-header-utilities{margin-left:auto}.mp-header-utility-button{width:37px;height:37px}.mp-inbox-trigger{width:auto;min-width:78px;padding:0 9px}}
