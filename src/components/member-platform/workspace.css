@@ -595,3 +595,57 @@
 .mp-inbox-item-title{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .mp-inbox-item-unread{flex:none;border-radius:999px;background:#DE3F20;padding:2px 7px;color:#fff;font-size:9px;font-weight:800;letter-spacing:.02em;}
 @media(max-width:760px){.mp-inbox-panel{position:fixed;top:80px;left:50vw;right:auto;transform:translateX(-50%);width:min(360px,calc(100vw - 32px));max-width:calc(100vw - 32px);}}
+
+
+/* Shared readable typography: mirror the public homepage's Montserrat family
+   while keeping dashboard text compact, consistent and high-contrast. */
+.mp-workspace,
+.mp-admin-shell,
+.mp-admin-events {
+  --mp-font-family: "Montserrat", Arial, sans-serif;
+  --mp-body-size: 14px;
+  --mp-body-leading: 1.6;
+  --mp-muted: #5f5a54;
+  font-family: var(--mp-font-family);
+  font-size: var(--mp-body-size);
+  line-height: var(--mp-body-leading);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.mp-workspace *,
+.mp-admin-shell *,
+.mp-admin-events * {
+  font-family: inherit;
+}
+.mp-workspace p,
+.mp-admin-shell p,
+.mp-admin-events p {
+  line-height: 1.6;
+}
+.mp-workspace :is(.mp-brand-subtitle,.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker,.mp-member-badge,.mp-text-link),
+.mp-admin-shell :is(.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker),
+.mp-admin-events :is(.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker) {
+  font-size: 12px;
+}
+.mp-workspace :is(.mp-page-description,.mp-welcome-copy p,.mp-section-heading p,.mp-panel-title p),
+.mp-admin-shell :is(.mp-page-description,.mp-section-heading p),
+.mp-admin-events :is(.mp-page-description,.mp-section-heading p) {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.mp-workspace :is(.mp-stat-card span,.mp-sidebar-note p,.mp-mini-course,.mp-dropdown-item,.mp-inbox-item-preview),
+.mp-admin-shell :is(.mp-stat-card span,.mp-dropdown-item),
+.mp-admin-events :is(.mp-stat-card span,.mp-dropdown-item) {
+  font-size: 13px;
+  line-height: 1.55;
+}
+.mp-workspace .mp-footer,
+.mp-admin-shell .mp-footer,
+.mp-admin-events .mp-footer {
+  color: #625d57;
+}
+.mp-workspace .mp-nav-label,
+.mp-admin-shell .mp-nav-label,
+.mp-admin-events .mp-nav-label {
+  color: #625d57;
+}
