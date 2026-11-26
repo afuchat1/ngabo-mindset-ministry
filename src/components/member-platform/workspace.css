@@ -657,7 +657,7 @@
    button text must meet readable contrast on compact controls. */
 :root {
   --ngabo-action: #B83219;
-  --ngabo-action-hover: #982713;
+  --ngabo-action-hover: var(--mp-accent);
 }
 .mp-workspace :is(.mp-btn-primary,.bg-primary),
 .mp-admin-shell :is(.mp-btn-primary,.bg-primary),
@@ -683,17 +683,17 @@
 .mp-admin-shell .mp-member-view-button,
 .ngabo-admin-nav-button[aria-pressed="false"]:hover,
 .ngabo-admin-signout:hover {
-  color: #982713 !important;
+  color: var(--mp-accent) !important;
 }
 .mp-workspace .mp-text-link,
 .mp-admin-shell .mp-text-link,
 .mp-admin-events .mp-text-link {
-  color: #982713;
+  color: var(--mp-accent);
 }
 .mp-workspace :is(button,a,input,textarea,select,[role="button"]):focus-visible,
 .mp-admin-shell :is(button,a,input,textarea,select,[role="button"]):focus-visible,
 .mp-admin-events :is(button,a,input,textarea,select,[role="button"]):focus-visible {
-  outline: 3px solid #982713 !important;
+  outline: 3px solid var(--mp-accent) !important;
   outline-offset: 3px !important;
 }
 .mp-workspace .mp-nav-label,
@@ -707,7 +707,7 @@
 .mp-workspace .mp-member-badge,
 .mp-admin-shell .mp-member-badge,
 .mp-admin-shell .mp-admin-badge {
-  color: #982713;
+  color: var(--mp-accent);
 }
 .mp-workspace button,
 .mp-admin-shell button,
@@ -949,7 +949,7 @@
 .ng-admin-nav-label,.ng-admin-eyebrow{margin:0 8px 8px;color:#817a73;font-size:11px;font-weight:750;letter-spacing:.11em}
 .ng-admin-nav{display:grid;gap:4px}
 .ng-admin-nav-link{display:flex;min-height:42px;align-items:center;gap:11px;border-radius:7px;padding:0 11px;color:#5f5a54;font-size:13px;font-weight:650;text-decoration:none;white-space:normal}
-.ng-admin-nav-link:hover,.ng-admin-nav-link[aria-current=page]{background:#fff0f0;color:#a52d19}
+.ng-admin-nav-link:hover,.ng-admin-nav-link[aria-current=page]{background:#fff0f0;color:var(--mp-accent)}
 .ng-admin-sidebar-bottom{display:grid;gap:4px;margin-top:auto;padding-top:18px;border-top:1px solid #eee9e4}
 .ng-admin-sidebar-bottom button{width:100%;border:0;background:transparent;text-align:left;cursor:pointer}
 .ng-admin-main{min-width:0;width:100%;max-width:100%;overflow-x:clip}
@@ -957,7 +957,7 @@
 .ng-admin-topbar h1{margin:0;font-size:clamp(21px,2.2vw,28px);font-weight:750;letter-spacing:-.035em}
 .ng-admin-topbar .ng-admin-eyebrow{margin:0 0 5px 0}
 .ng-admin-top-actions{display:flex;align-items:center;gap:14px;flex:none}
-.ng-admin-live{display:inline-flex;align-items:center;gap:7px;color:#5f6f60;font-size:12px;font-weight:700}
+.ng-admin-live{display:inline-flex;align-items:center;gap:7px;color:var(--mp-accent);font-size:12px;font-weight:700}
 .ng-admin-page-content{width:100%;max-width:1440px;margin:0 auto;padding:12px clamp(12px,2.2vw,32px) 36px;overflow-x:clip}
 .ng-admin-page-content>.mp-admin-shell{width:100%;max-width:100%;padding-right:0;padding-left:0}
 .ng-admin-page-content>.mp-admin-shell>.mp-admin-inner{width:100%;max-width:100%}
@@ -972,7 +972,7 @@
 .ng-admin-app :is(input,textarea,select,button){max-width:100%}
 .ngabo-admin-nav{display:flex;max-width:min(100%,900px);flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:4px}
 .ngabo-admin-nav-link{display:inline-flex;min-height:36px;align-items:center;border-radius:6px;padding:0 9px;color:#5f5a54;font-size:12px;font-weight:650;text-decoration:none;white-space:nowrap}
-.ngabo-admin-nav-link:hover{background:#fff0f0;color:#982713}
+.ngabo-admin-nav-link:hover{background:#fff0f0;color:var(--mp-accent)}
 .ngabo-admin-header-actions{min-width:0}
 @media(max-width:980px){.ng-admin-app{grid-template-columns:216px minmax(0,1fr)}.ng-admin-sidebar{padding-right:10px;padding-left:10px}.ng-admin-topbar{padding-right:20px;padding-left:20px}}
 @media(max-width:760px){
@@ -982,7 +982,7 @@
  .ng-admin-top-actions .ng-admin-live{display:none}
  .ng-admin-mobile-nav{display:flex;max-width:100%;gap:5px;overflow-x:auto;overscroll-behavior-x:contain;border-bottom:1px solid #eae6e1;background:#fff;padding:8px 14px;scrollbar-width:thin;white-space:nowrap}
  .ng-admin-mobile-nav a{display:inline-flex;min-height:36px;flex:0 0 auto;align-items:center;border-radius:6px;padding:0 11px;color:#5f5a54;font-size:13px;font-weight:650;text-decoration:none}
- .ng-admin-mobile-nav a[aria-current=page]{background:#fff0f0;color:#a52d19}
+ .ng-admin-mobile-nav a[aria-current=page]{background:#fff0f0;color:var(--mp-accent)}
  .ng-admin-page-content{padding:8px 12px 28px}
  .ng-admin-app .mp-ticket-admin{grid-template-columns:minmax(0,1fr)}
  .ng-admin-app .mp-ticket-list{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
@@ -998,14 +998,14 @@
 .ng-admin-overview-heading .ng-admin-eyebrow{margin:0 0 6px 0}
 .ng-admin-overview-heading h2{margin:0;font-size:clamp(20px,2vw,26px);font-weight:750;letter-spacing:-.03em}
 .ng-admin-overview-heading p{margin:7px 0 0;color:#716c66;font-size:14px}
-.ng-admin-refresh-note{color:#657765;font-size:12px;font-weight:650;white-space:nowrap}
+.ng-admin-refresh-note{color:var(--mp-accent);font-size:12px;font-weight:650;white-space:nowrap}
 .ng-admin-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
 .ng-admin-metric{display:grid;min-height:132px;gap:12px;border:1px solid #eae6e1;border-radius:9px;background:#fff;padding:16px;color:#242321;text-decoration:none;transition:border-color .15s,transform .15s}
-.ng-admin-metric:hover{transform:translateY(-2px);border-color:#e6a294}
+.ng-admin-metric:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--mp-accent) 42%,white)}
 .ng-admin-metric-label{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#716c66;font-size:12px;font-weight:650}
 .ng-admin-metric-label svg{color:#DE3F20}
 .ng-admin-metric>strong{font-size:28px;font-weight:780;line-height:1.1;font-variant-numeric:tabular-nums}
-.ng-admin-metric-link{display:flex;align-items:center;gap:5px;color:#a52d19;font-size:12px;font-weight:700}
+.ng-admin-metric-link{display:flex;align-items:center;gap:5px;color:var(--mp-accent);font-size:12px;font-weight:700}
 .ng-admin-quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:9px;margin-top:24px}
 .ng-admin-quick-link{display:flex;min-height:62px;align-items:center;gap:11px;border-bottom:1px solid #eae6e1;padding:8px 10px;color:#38342f;text-decoration:none}
 .ng-admin-quick-link>span{display:grid;width:34px;height:34px;flex:none;place-items:center;border-radius:8px;background:#fff0f0;color:#DE3F20}
@@ -1070,3 +1070,21 @@
  .ng-admin-page-content{padding-inline:14px}
 }
 @media(prefers-reduced-motion:reduce){.ng-admin-mobile-drawer{transition:none}}
+
+
+/* One brand accent across the administration workspace and every admin section. */
+.ng-admin-app,.ng-admin-app .mp-admin-shell,.ng-admin-app .mp-admin-events {
+  --ng-admin-brand:#DE3F20;
+  --mp-accent:var(--ng-admin-brand);
+}
+.ng-admin-app .ng-admin-live,
+.ng-admin-app .ng-admin-refresh-note { color:var(--ng-admin-brand); }
+.ng-admin-app .ng-admin-metric-label svg,
+.ng-admin-app .ng-admin-quick-link>span,
+.ng-admin-app .ng-admin-metric-link { color:var(--ng-admin-brand); }
+.ng-admin-app .ng-admin-quick-link>span { background:color-mix(in srgb,var(--ng-admin-brand) 9%,white); }
+.ng-admin-app .ng-admin-mobile-drawer .ng-admin-nav-link[aria-current="page"],
+.ng-admin-app .ng-admin-sidebar .ng-admin-nav-link[aria-current="page"] {
+  color:var(--ng-admin-brand);
+  background:color-mix(in srgb,var(--ng-admin-brand) 9%,white);
+}
