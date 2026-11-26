@@ -1021,3 +1021,10 @@
  .ngabo-admin-signout{margin-left:auto}
 }
 @media(max-width:440px){.ng-admin-overview-heading{align-items:flex-start;flex-direction:column}.ng-admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ng-admin-metric{min-height:120px;padding:12px}.ng-admin-metric>strong{font-size:24px}.ng-admin-quick-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Event editor is mounted inside the shared admin shell on /admin/events. */
+.ng-admin-page-content .mp-admin-events{min-height:0;background:transparent}
+.ng-admin-page-content .mp-admin-events>header{display:none}
+.ng-admin-page-content .mp-admin-events>section{width:100%;max-width:100%;padding:18px 0 0}
+.ng-admin-page-content .mp-admin-events .mp-support-fab{right:24px;bottom:24px}
