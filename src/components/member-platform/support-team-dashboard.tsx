@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { getSupportTeamDashboard, replyToSupportTeamTicket, type SupportTeamTicket } from "@/lib/member-platform.functions";
 import logoImage from "@/assets/ngabo-logo.jpg";
 import "./workspace.css";
+import { StaffNetworkChat } from "./staff-network-chat";
 
 function dateLabel(value: string) {
   const date = new Date(value);
@@ -88,6 +89,7 @@ export function SupportTeamDashboard() {
           )}
         </section>}
       </div>}
+      <StaffNetworkChat />
       <footer className="mp-footer"><span>NGABO (MMA) · Support workspace</span></footer>
     </div>
   </main>;
