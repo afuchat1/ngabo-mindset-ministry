@@ -4,7 +4,7 @@ import {
   archiveAdminQuiz,
   createMemberSupportTicket,
   enrollInFreeCourse,
-  getAdminPlatformData,
+  getAdminPlatformData,\n  getSupportTeamDashboard,\n  replyToSupportTeamTicket,
   getMemberCourses,
   getMemberDashboard,
   getMemberQuiz,
