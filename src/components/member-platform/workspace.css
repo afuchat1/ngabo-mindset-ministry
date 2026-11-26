@@ -1028,3 +1028,11 @@
 .ng-admin-page-content .mp-admin-events>header{display:none}
 .ng-admin-page-content .mp-admin-events>section{width:100%;max-width:100%;padding:18px 0 0}
 .ng-admin-page-content .mp-admin-events .mp-support-fab{right:24px;bottom:24px}
+
+
+@media(max-width:760px){
+ .ng-admin-mobile-nav{flex-wrap:wrap;overflow:visible;white-space:normal;row-gap:4px}
+ .ng-admin-mobile-nav a{min-height:34px}
+ .ng-admin-app .mp-tabs{display:flex;flex-wrap:wrap;overflow:visible;white-space:normal}
+ .ng-admin-app .mp-tab{flex:0 1 auto;min-height:38px;padding-inline:9px}
+}
