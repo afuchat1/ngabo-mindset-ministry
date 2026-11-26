@@ -579,7 +579,7 @@
 .mp-header-utility-button{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:40px;height:40px;border:0;border-radius:9px;background:transparent;color:#625d57;cursor:pointer}
 .mp-header-utility-button:hover,.mp-header-utility-button:focus-visible{outline:0;background:#fff0f0;color:#DE3F20}
 .mp-inbox-badge{position:absolute;top:1px;right:0;display:grid;min-width:17px;height:17px;place-items:center;border:2px solid #fff;border-radius:999px;background:#DE3F20;padding:0 4px;color:#fff;font-size:9px;font-weight:800;line-height:1}
-.mp-inbox-trigger{width:auto;min-width:84px;padding:0 11px;font-size:12px;font-weight:650}.mp-inbox-panel{left:50%;right:auto;transform:translateX(-50%);width:min(360px,calc(100vw - 28px));max-height:min(520px,70dvh);overflow:auto;padding:0}
+.mp-inbox-trigger{width:auto;min-width:84px;padding:0 11px;font-size:12px;font-weight:650}.mp-inbox-panel{max-height:min(520px,70dvh);overflow:auto;padding:0}
 .mp-inbox-heading{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0ede9;background:#fff;padding:13px 14px}
 .mp-inbox-heading strong{color:#242321;font-size:14px}
 .mp-inbox-heading span,.mp-inbox-item-date{color:#8b847d;font-size:10px}
@@ -592,14 +592,10 @@
 .mp-inbox-footer:hover{background:#fff0f0}
 @media(max-width:760px){.mp-header-utilities{margin-left:auto}.mp-header-utility-button{width:37px;height:37px}.mp-inbox-trigger{width:auto;min-width:78px;padding:0 9px}}
 
-/* Center the inbox popover beneath its trigger while constraining it to the viewport. */
-.mp-inbox-panel{position:fixed;top:80px;left:50vw;right:auto;transform:translateX(-50%);width:min(360px,calc(100vw - 32px));max-width:calc(100vw - 32px);}
-.mp-inbox-panel,.mp-inbox-panel *{min-width:0;}
 .mp-inbox-item.is-unread{background:#fff3ef;border-left:3px solid #DE3F20;padding-left:11px;}
 .mp-inbox-item.is-unread .mp-inbox-item-title{color:#b83219;}
 .mp-inbox-item-title{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .mp-inbox-item-unread{flex:none;border-radius:999px;background:#DE3F20;padding:2px 7px;color:#fff;font-size:9px;font-weight:800;letter-spacing:.02em;}
-@media(max-width:760px){.mp-inbox-panel{position:fixed;top:80px;left:50vw;right:auto;transform:translateX(-50%);width:min(360px,calc(100vw - 32px));max-width:calc(100vw - 32px);}}
 
 
 /* Shared readable typography: mirror the public homepage's Montserrat family
@@ -937,10 +933,6 @@
   }
 }
 
-/* Restore the inbox popup to a viewport-centered modal; preserve other dropdowns. */
-.mp-workspace .mp-inbox-panel { top: 50vh; left: 50vw; right: auto; transform: translate(-50%, -50%); max-height: min(70dvh, 520px); }
-@media (max-width:760px) { .mp-workspace .mp-inbox-panel { top: 50dvh; left: 50vw; right: auto; transform: translate(-50%, -50%); width: min(360px, calc(100vw - 32px)); max-width: calc(100vw - 32px); } }
-
-/* Inbox dropdown: directly below the trigger, centered with equal viewport gutters. */
-.mp-workspace .mp-inbox-panel { position:absolute; top:calc(100% + 8px); left:50%; right:auto; transform:translateX(-50%); width:min(340px,calc(100vw - 32px)); max-width:calc(100vw - 32px); max-height:min(70dvh,520px); }
-@media(max-width:760px){.mp-workspace .mp-inbox-panel{position:absolute;top:calc(100% + 8px);left:50%;right:auto;transform:translateX(-50%);width:min(340px,calc(100vw - 32px));max-width:calc(100vw - 32px);}}
+/* Inbox dropdown: anchor below its trigger, align right, and respect viewport gutters. */
+.mp-workspace .mp-header-utilities .mp-inbox-menu { position: relative; }
+.mp-workspace .mp-inbox-menu > .mp-inbox-panel { position: absolute; top: calc(100% + 8px); right: 0; left: auto; transform: none; width: min(340px, calc(100vw - 32px)); max-width: calc(100vw - 32px); max-height: min(70dvh, 520px); }
