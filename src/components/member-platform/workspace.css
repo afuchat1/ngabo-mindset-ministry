@@ -532,3 +532,31 @@
 .mp-support-launcher .mp-support-fab{position:relative;right:auto;bottom:auto;z-index:auto;flex:none}
 .mp-support-greeting{border:1px solid #f3d3ca;border-radius:999px;background:#fff;color:#713426;padding:10px 14px;font:700 12px/1.2 "Montserrat",sans-serif;box-shadow:0 6px 20px rgba(36,35,33,.12);white-space:nowrap}
 @media(max-width:640px){.mp-support-launcher{right:16px;bottom:16px;gap:7px}.mp-support-greeting{padding:9px 11px;font-size:11px}}
+
+/* Member workspace: sidebar-free grouped header navigation. */
+.mp-sidebar,.mp-mobile-scrim,.mp-menu-trigger{display:none!important}
+.mp-main{margin-left:0!important;min-width:0}
+.mp-member-header{height:auto;min-height:72px;padding:10px clamp(14px,3vw,38px);gap:18px;flex-wrap:wrap}
+.mp-header-brand{padding:0!important;flex:none;text-decoration:none}
+.mp-header-navigation{display:flex;align-items:center;gap:5px;flex:1;justify-content:center;min-width:0}
+.mp-header-link{display:inline-flex;align-items:center;gap:8px;min-height:40px;border:0;border-radius:8px;background:transparent;padding:0 12px;color:#625d57;font:600 13px "Montserrat",sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
+.mp-header-link:hover,.mp-header-link.is-active{background:#fff0f0;color:#DE3F20}
+.mp-nav-dropdown{position:relative}
+.mp-dropdown-chevron{transform:rotate(90deg);opacity:.65}
+.mp-dropdown-panel{position:absolute;top:calc(100% + 8px);left:0;z-index:70;display:grid;min-width:190px;border:1px solid #eae6e1;border-radius:10px;background:#fff;padding:6px;box-shadow:0 10px 30px rgba(36,35,33,.1)}
+.mp-dropdown-item{display:flex;align-items:center;gap:10px;min-height:40px;border:0;border-radius:7px;background:transparent;padding:8px 10px;color:#625d57;font:600 13px "Montserrat",sans-serif;text-align:left;text-decoration:none;cursor:pointer}
+.mp-dropdown-item:hover,.mp-dropdown-item.is-active{background:#fff0f0;color:#DE3F20}
+.mp-dropdown-item span:nth-child(2){flex:1}
+.mp-dropdown-count{border-radius:999px;background:#fff0f0;padding:2px 7px;color:#DE3F20;font-size:11px}
+.mp-header-user{display:flex;align-items:center;gap:8px;min-width:0}
+.mp-header-user-name{max-width:150px;overflow:hidden;color:#49443f;font-size:12px;font-weight:650;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:760px){
+ .mp-member-header{gap:8px;padding:10px 12px}
+ .mp-header-brand .mp-brand-logo{width:34px;height:34px;flex-basis:34px}
+ .mp-header-navigation{order:3;flex-basis:100%;justify-content:flex-start;overflow:visible;gap:3px}
+ .mp-header-link{min-height:36px;padding:0 9px;font-size:12px}
+ .mp-header-user-name{display:none}
+ .mp-dropdown-panel{min-width:160px}
+ .mp-content{padding:24px 14px}
+}
+@media(max-width:380px){.mp-header-link{gap:5px;padding-inline:7px;font-size:11px}}
