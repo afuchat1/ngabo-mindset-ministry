@@ -9,7 +9,7 @@ import { AdminHeroImages } from "@/components/admin-hero-images";
 import "@/components/member-platform/workspace.css";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminPlatformData } from "@/components/member-platform/use-platform";
-import { AdminEventsPage } from "@/routes/_authenticated/admin";
+import { AdminEventsPage } from "@/components/member-platform/admin-events-page";
 
 type AdminSection = "overview" | "events" | "members" | "support" | "courses" | "quizzes" | "network" | "products" | "photos";
 const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboard; href: string }> = [
