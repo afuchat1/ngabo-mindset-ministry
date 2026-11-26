@@ -35,6 +35,7 @@ import {
   useMemberQuiz,
   useMemberQuizzes,
   useMemberSupportTickets,
+  useMarkMemberInboxTicketRead,
   useReplyToMemberSupportTicket,
   useSubmitMemberQuiz,
   useUpdateMemberProfile,
@@ -459,6 +460,7 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
   const query = useMemberSupportTickets();
   const create = useCreateMemberSupportTicket();
   const reply = useReplyToMemberSupportTicket();
+  const markInboxTicketRead = useMarkMemberInboxTicketRead();
   const [createOpen, setCreateOpen] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -467,6 +469,11 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
   const [error, setError] = useState("");
   const tickets = (query.data ?? []) as SupportTicketWithMessages[];
   const active = tickets.find((ticket) => ticket.id === activeId) ?? tickets[0] ?? null;
+
+  useEffect(() => {
+    if (!active?.id) return;
+    void markInboxTicketRead.mutateAsync(active.id).catch(() => undefined);
+  }, [active?.id]);
 
   async function createTicket(event: FormEvent) {
     event.preventDefault();
