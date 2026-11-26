@@ -47,6 +47,8 @@ type WorkspaceProps = {
 export function MemberWorkspace({ active, title, kicker, description, pendingAccess = false, children }: WorkspaceProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const avatarMenuRef = useRef<HTMLDivElement>(null);
+  const inboxTriggerRef = useRef<HTMLButtonElement>(null);
+  const [inboxTop, setInboxTop] = useState(80);
   const inboxQuery = useQuery({ queryKey: ["member-inbox"], queryFn: () => getMemberInbox(), refetchInterval: 30000 });
 
   useEffect(() => {
@@ -71,7 +73,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [openMenu]);
-  const navigate = useNavigate();
+  useEffect(() => {\n    if (openMenu !== "Inbox") return;\n    const updatePosition = () => {\n      const rect = inboxTriggerRef.current?.getBoundingClientRect();\n      if (rect) setInboxTop(Math.max(12, rect.bottom + 8));\n    };\n    updatePosition();\n    window.addEventListener("resize", updatePosition);\n    window.addEventListener("scroll", updatePosition, true);\n    return () => { window.removeEventListener("resize", updatePosition); window.removeEventListener("scroll", updatePosition, true); };\n  }, [openMenu]);\n  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
   const supportQuery = useMemberSupportTickets();
@@ -123,12 +125,12 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
           </nav>
           <div className="mp-header-utilities">
             <div className="mp-nav-dropdown mp-inbox-menu" data-menu-key="Inbox">
-              <button type="button" className="mp-header-utility-button mp-inbox-trigger" aria-label={unreadInboxCount ? `Inbox, ${unreadInboxCount} unread messages` : "Open inbox"} aria-expanded={openMenu === "Inbox"} onClick={() => void toggleInbox()}>
+              <button type="button" ref={inboxTriggerRef} className="mp-header-utility-button mp-inbox-trigger" aria-label={unreadInboxCount ? `Inbox, ${unreadInboxCount} unread messages` : "Open inbox"} aria-expanded={openMenu === "Inbox"} onClick={() => void toggleInbox()}>
                 <Inbox size={18}/>
                 <span>Inbox</span>
                 {unreadInboxCount > 0 && <span className="mp-inbox-badge">{unreadInboxCount > 99 ? "99+" : unreadInboxCount}</span>}
               </button>
-              {openMenu === "Inbox" && <div className="mp-dropdown-panel mp-inbox-panel">
+              {openMenu === "Inbox" && <div className="mp-dropdown-panel mp-inbox-panel" style={{ top: inboxTop }}>
                 <div className="mp-inbox-heading"><strong>Inbox</strong><span>{unreadInboxCount} unread</span></div>
                 {inboxQuery.isPending ? <p className="mp-inbox-empty">Loading messages…</p>
                   : inboxQuery.isError ? <p className="mp-inbox-empty">Messages could not be loaded. Close and try again.</p>
