@@ -933,6 +933,5 @@
   }
 }
 
-/* Inbox dropdown: anchor below its trigger, align right, and respect viewport gutters. */
-.mp-workspace .mp-header-utilities .mp-inbox-menu { position: relative; }
-.mp-workspace .mp-inbox-menu > .mp-inbox-panel { position: absolute; top: calc(100% + 8px); right: 0; left: auto; transform: none; width: min(340px, calc(100vw - 32px)); max-width: calc(100vw - 32px); max-height: min(70dvh, 520px); }
+/* Inbox dropdown: viewport-centered horizontally with equal, fixed safe gutters. */
+.mp-workspace .mp-inbox-menu > .mp-inbox-panel { position: fixed; z-index: 110; left: 16px; right: 16px; width: auto; max-width: 340px; margin-inline: auto; box-sizing: border-box; transform: none; max-height: min(70dvh, 520px); overflow: auto; }
