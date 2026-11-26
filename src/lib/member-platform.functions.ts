@@ -289,7 +289,7 @@ export const getAdminPlatformData = createServerFn({ method: 'POST' })
       context.supabase.from('quizzes').select('*').order('created_at', { ascending: false }),
       context.supabase.from('support_tickets').select('*').order('updated_at', { ascending: false }),
       context.supabase.from('course_enrollments').select('id'),
-      context.supabase.from('user_roles').select('user_id,role'),
+      context.supabase.rpc('admin_list_user_roles'),
     ]);
     if (
       profileResult.error || !profileResult.data
