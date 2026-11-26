@@ -27,35 +27,6 @@ const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboa
   { id: "profile", label: "My profile", icon: UserRound, href: "/admin/profile" },
 ];
 
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, LayoutDashboard, Network, Package, UsersRound, LifeBuoy, ClipboardList, MessageCircle, Menu, X, UserRound, ShieldCheck, Mail, Phone, MapPin, CalendarClock, BadgeCheck, LogOut, Compass, Inbox, Settings2, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import logoImage from "@/assets/ngabo-logo.jpg";
-import { AdminLearningSection } from "@/components/member-platform/admin-learning-section";
-import { AdminProducts } from "@/components/admin-products";
-import { AdminHeroImages } from "@/components/admin-hero-images";
-import "@/components/member-platform/workspace.css";
-import { supabase } from "@/integrations/supabase/client";
-import { useAdminPlatformData } from "@/components/member-platform/use-platform";
-import { AdminEventsPage } from "@/components/member-platform/admin-events-page";
-import { getMemberInbox } from "@/lib/member-platform.functions";
-
-type AdminSection = "overview" | "events" | "members" | "support" | "courses" | "quizzes" | "network" | "products" | "photos" | "profile";
-const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboard; href: string }> = [
-  { id: "overview", label: "Overview", icon: LayoutDashboard, href: "/admin/overview" },
-  { id: "events", label: "Events", icon: CalendarDays, href: "/admin/events" },
-  { id: "members", label: "Members", icon: UsersRound, href: "/admin/members" },
-  { id: "support", label: "Support", icon: LifeBuoy, href: "/admin/support" },
-  { id: "courses", label: "Courses", icon: BookOpen, href: "/admin/courses" },
-  { id: "quizzes", label: "Quizzes", icon: CircleHelp, href: "/admin/quizzes" },
-  { id: "network", label: "Network", icon: Network, href: "/admin/network" },
-  { id: "products", label: "Products", icon: Package, href: "/admin/products" },
-  { id: "photos", label: "Homepage photos", icon: Images, href: "/admin/photos" },
-  { id: "profile", label: "My profile", icon: UserRound, href: "/admin/profile" },
-];
-
 export function AdminSectionPage({ section }: { section: AdminSection }) {
   return <main className="ng-admin-app">
     <div className="ng-admin-main">
