@@ -5,8 +5,6 @@ import {
   createMemberSupportTicket,
   enrollInFreeCourse,
   getAdminPlatformData,
-  getSupportTeamDashboard,
-  replyToSupportTeamTicket,
   getMemberCourses,
   getMemberDashboard,
   getMemberQuiz,
