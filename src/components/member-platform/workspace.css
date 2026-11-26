@@ -875,8 +875,9 @@
   top: 80px;
   left: 50%;
   right: auto;
-  width: min(360px, calc(100vw - 32px));
-  max-width: calc(100vw - 32px);
+  width: max-content;
+  min-width: 190px;
+  max-width: min(280px, calc(100vw - 32px));
   max-height: min(70dvh, 520px);
   overflow: auto;
   transform: translateX(-50%);
@@ -896,9 +897,14 @@
   top: 80px;
   left: 50%;
   right: auto;
-  width: min(360px, calc(100vw - 32px));
+  width: min(340px, calc(100vw - 32px));
   max-width: calc(100vw - 32px);
   transform: translateX(-50%);
+}
+.mp-workspace .mp-avatar-dropdown {
+  width: max-content;
+  min-width: 200px;
+  max-width: min(260px, calc(100vw - 32px));
 }
 .mp-workspace .mp-dropdown-chevron {
   display: none !important;
