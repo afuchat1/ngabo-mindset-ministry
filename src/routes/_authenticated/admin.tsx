@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate, redirect, useRouterState } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, Navigate, useNavigate, redirect, useRouterState } from '@tanstack/react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 import { Plus, Pencil, Trash2, LogOut, ArrowLeft, Save, X, ExternalLink } from 'lucide-react';
@@ -32,10 +32,10 @@ function AdminPage() {
   const { appRole } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   if (appRole === "support") return <SupportTeamDashboard />;
-  return pathname === "/admin" ? <AdminManagementPage /> : <Outlet />;
+  return pathname === "/admin" ? <Navigate to="/admin/overview" /> : <Outlet />;
 }
 
-function AdminManagementPage() {
+export function AdminEventsPage() {
     const client = useQueryClient(); const navigate = useNavigate();
   const supportData = useAdminPlatformData();
   const events = useQuery({ queryKey: ['admin-events'], queryFn: async () => { const { data, error } = await supabase.from('events').select('*').order('created_at', { ascending: false }).order('id'); if (error) throw error; return data ?? []; }, refetchInterval: 15000 });
