@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AdminSectionPage } from "@/components/member-platform/admin-section-page";
 import { supabase } from "@/integrations/supabase/client";
 
-const sections = ["overview", "events", "members", "support", "courses", "quizzes", "network", "products", "photos"] as const;
+const sections = ["overview", "events", "members", "support", "courses", "quizzes", "network", "products", "photos", "profile"] as const;
 type Section = (typeof sections)[number];
 
 export const Route = createFileRoute("/_authenticated/admin/$section")({

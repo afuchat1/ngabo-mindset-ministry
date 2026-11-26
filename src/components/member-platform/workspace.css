@@ -1151,3 +1151,41 @@
     padding-bottom:max(28px,env(safe-area-inset-bottom));
   }
 }
+
+
+/* Administrator profile page */
+.ng-admin-profile{width:100%;max-width:1040px;margin:0 auto;padding:18px 0 36px}
+.ng-admin-profile-heading{display:flex;align-items:center;gap:16px;padding:8px 0 24px;border-bottom:1px solid #eae6e1}
+.ng-admin-profile-avatar{display:grid;width:64px;height:64px;flex:0 0 64px;place-items:center;border-radius:50%;background:#fff0f0;color:#DE3F20;font-size:21px;font-weight:800}
+.ng-admin-profile-identity{min-width:0;flex:1}
+.ng-admin-profile-identity .ng-admin-eyebrow{margin:0 0 4px}
+.ng-admin-profile-identity h2{margin:0;font-size:22px;font-weight:750;overflow-wrap:anywhere}
+.ng-admin-profile-identity>p:last-child{margin:4px 0 0;color:#716c66;font-size:13px;overflow-wrap:anywhere}
+.ng-admin-profile-role{display:inline-flex;align-items:center;gap:6px;color:#DE3F20;font-size:12px;font-weight:700;white-space:nowrap}
+.ng-admin-profile-section{padding:24px 0;border-bottom:1px solid #eae6e1}
+.ng-admin-profile-section-heading h3{margin:0;font-size:16px;font-weight:750}
+.ng-admin-profile-section-heading p{margin:5px 0 16px;color:#716c66;font-size:13px}
+.ng-admin-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.ng-admin-profile-field{display:flex;min-width:0;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:1px solid #f0ede9}
+.ng-admin-profile-field-icon{display:grid;width:34px;height:34px;flex:0 0 34px;place-items:center;border-radius:7px;background:#f5f2ef;color:#6e675f}
+.ng-admin-profile-field>div{display:grid;min-width:0;gap:3px}
+.ng-admin-profile-field>div>span,.ng-admin-profile-security>div>span{color:#817a73;font-size:12px}
+.ng-admin-profile-field strong,.ng-admin-profile-security strong{color:#242321;font-size:13px;font-weight:650;overflow-wrap:anywhere}
+.ng-admin-profile-security{display:grid;gap:12px}
+.ng-admin-profile-security>div{display:grid;grid-template-columns:minmax(130px,.45fr) minmax(0,1fr);gap:14px;padding:10px 0;border-bottom:1px solid #f0ede9}
+.ng-admin-profile-id{font-family:ui-monospace,monospace;font-size:12px!important}
+.ng-admin-profile-note{margin:16px 0;color:#716c66;font-size:12px}
+.ng-admin-profile-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:22px}
+.ng-admin-profile-loading,.ng-admin-profile-error{padding:30px 0;color:#716c66}
+.ng-admin-profile-error{color:#b42318}
+@media(max-width:600px){
+ .ng-admin-profile{padding-top:10px}
+ .ng-admin-profile-heading{align-items:flex-start;flex-wrap:wrap;gap:12px}
+ .ng-admin-profile-avatar{width:52px;height:52px;flex-basis:52px;font-size:18px}
+ .ng-admin-profile-identity h2{font-size:19px}
+ .ng-admin-profile-role{width:100%;padding-left:64px}
+ .ng-admin-profile-grid{grid-template-columns:minmax(0,1fr)}
+ .ng-admin-profile-security>div{grid-template-columns:minmax(0,1fr);gap:3px}
+ .ng-admin-profile-actions{justify-content:stretch}
+ .ng-admin-profile-actions>*{flex:1}
+}
