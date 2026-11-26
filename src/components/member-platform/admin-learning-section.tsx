@@ -286,8 +286,8 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
               <div className="mp-panel-title"><div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#DE3F20]">#{String(active.ticket_number).padStart(6, "0")}</span> · {memberName(active.member)} · {active.member?.email}</p></div><StatusPill status={active.status} /></div>
               <div className="mp-message-list">
                 {active.messages.map((item) => (
-                  <div key={item.id} className={`mp-message ${item.sender_role === "admin" || item.sender_role === "staff" ? "is-staff" : ""}`}>
-                    <div className="mp-message-meta"><strong>{item.sender_role === "admin" || item.sender_role === "staff" ? "NGABO team" : memberName(active.member)}</strong><span>{formatDate(item.created_at)}</span></div><p>{item.body}</p>
+                  <div key={item.id} className={`mp-message ${item.sender_role === "admin" || item.sender_role === "staff" || item.sender_role === "support" ? "is-staff" : ""}`}>
+                    <div className="mp-message-meta"><strong>{item.sender_role === "admin" || item.sender_role === "staff" || item.sender_role === "support" ? "NGABO team" : memberName(active.member)}</strong><span>{formatDate(item.created_at)}</span></div><p>{item.body}</p>
                   </div>
                 ))}
               </div>
