@@ -40,7 +40,8 @@ import {
 import { EmptyState, ErrorState, LoadingState, SectionHeading, StatusPill } from "./shared";
 import { formatCoursePrice, type Course, type MemberProfile, type SupportTicket } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
-import "./workspace.css";\nimport { AdminNetworkGroups } from "./network-groups";
+import "./workspace.css";
+import { AdminNetworkGroups } from "./network-groups";
 
 type AdminTicket = SupportTicket & {
   member: MemberProfile | null;
@@ -93,7 +94,8 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
     { key: "members", label: "Member review", icon: UsersRound },
     { key: "support", label: "Support", icon: LifeBuoy },
     { key: "courses", label: "Courses", icon: BookOpen },
-    { key: "quizzes", label: "Quizzes", icon: CircleHelp },\n    { key: "network", label: "Network", icon: Network },
+    { key: "quizzes", label: "Quizzes", icon: CircleHelp },
+    { key: "network", label: "Network", icon: Network },
   ];
 
 
@@ -135,7 +137,8 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
             {section === "members" && <MemberReview data={data} search={search} setSearch={setSearch} />}
             {section === "support" && <AdminSupport tickets={data.tickets} />}
             {section === "courses" && <CourseManagement courses={data.courses} />}
-            {section === "quizzes" && <QuizManagement quizzes={data.quizzes} courses={data.courses} />}\n            {section === "network" && <AdminNetworkGroups />}
+            {section === "quizzes" && <QuizManagement quizzes={data.quizzes} courses={data.courses} />}
+            {section === "network" && <AdminNetworkGroups />}
           </>
         ) : null}
         <footer className="mp-footer"><span>NGABO (MMA)</span><span></span></footer>
