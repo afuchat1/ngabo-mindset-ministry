@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   LifeBuoy,
   Menu,
+  Inbox,
   Settings2,
   ShieldCheck,
   UserRound,
@@ -16,9 +17,10 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useMemberDashboard, useMemberSupportTickets } from "./use-platform";
+import { getMemberInbox, markMemberInboxRead } from "@/lib/member-platform.functions";
 import { SupportFab } from "./support-fab";
 import { displayName } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
@@ -45,6 +47,7 @@ type WorkspaceProps = {
 export function MemberWorkspace({ active, title, kicker, description, pendingAccess = false, children }: WorkspaceProps) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const avatarMenuRef = useRef<HTMLDivElement>(null);
+  const inboxQuery = useQuery({ queryKey: ["member-inbox"], queryFn: () => getMemberInbox(), refetchInterval: 30000 });
 
   useEffect(() => {
     if (!openMenu) return;
@@ -73,6 +76,17 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
   const profileQuery = useMemberDashboard();
   const supportQuery = useMemberSupportTickets();
   const unreadSupportCount = (supportQuery.data ?? []).filter((ticket) => ticket.status === "awaiting_member").length;
+  const unreadInboxCount = inboxQuery.data?.unread_count ?? 0;
+  async function toggleInbox() {
+    const opening = openMenu !== "Inbox";
+    setOpenMenu(opening ? "Inbox" : null);
+    if (opening && unreadInboxCount > 0) {
+      try {
+        await markMemberInboxRead();
+        await queryClient.invalidateQueries({ queryKey: ["member-inbox"] });
+      } catch { /* Keep the inbox available; unread state will retry on the next open. */ }
+    }
+  }
   const profile = profileQuery.data?.profile;
   const name = profile ? displayName(profile) : "Member";
   const initials = profile ? `${profile.first_name?.[0] ?? ""}${profile.last_name?.[0] ?? ""}`.toUpperCase() : "N";
@@ -104,15 +118,35 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
             </div>)}
 
           </nav>
-          <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Avatar">
-            <button type="button" className="mp-header-avatar-button" aria-label="Open account menu" aria-expanded={openMenu === "Avatar"} onClick={() => setOpenMenu(openMenu === "Avatar" ? null : "Avatar")}>
-              <span className="mp-avatar mp-avatar-small">{initials || "N"}</span>
-            </button>
-            {openMenu === "Avatar" && <div className="mp-dropdown-panel mp-avatar-dropdown">
-              <div className="mp-avatar-menu-name">{name}</div>
-              <Link to="/dashboard/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link>
-              <button type="button" onClick={() => void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button>
-            </div>}
+          <div className="mp-header-utilities">
+            <div ref={avatarMenuRef} className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Menu">
+              <button type="button" className="mp-header-utility-button" aria-label="Open menu" aria-expanded={openMenu === "Menu"} onClick={() => setOpenMenu(openMenu === "Menu" ? null : "Menu")}>
+                <Menu size={20}/>
+              </button>
+              {openMenu === "Menu" && <div className="mp-dropdown-panel mp-avatar-dropdown">
+                <div className="mp-avatar-menu-name">{name}</div>
+                <Link to="/dashboard/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link>
+                <button type="button" onClick={() => void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button>
+              </div>}
+            </div>
+            <div className="mp-nav-dropdown mp-inbox-menu" data-menu-key="Inbox">
+              <button type="button" className="mp-header-utility-button mp-inbox-trigger" aria-label={unreadInboxCount ? `Inbox, ${unreadInboxCount} unread messages` : "Open inbox"} aria-expanded={openMenu === "Inbox"} onClick={() => void toggleInbox()}>
+                <Inbox size={19}/>
+                {unreadInboxCount > 0 && <span className="mp-inbox-badge">{unreadInboxCount > 99 ? "99+" : unreadInboxCount}</span>}
+              </button>
+              {openMenu === "Inbox" && <div className="mp-dropdown-panel mp-inbox-panel">
+                <div className="mp-inbox-heading"><strong>Inbox</strong><span>{unreadInboxCount} unread</span></div>
+                {inboxQuery.isPending ? <p className="mp-inbox-empty">Loading messages…</p>
+                  : inboxQuery.isError ? <p className="mp-inbox-empty">Messages could not be loaded. Close and try again.</p>
+                  : inboxQuery.data?.items.length ? inboxQuery.data.items.map(item => <Link key={item.id} to="/dashboard/support" onClick={() => setOpenMenu(null)} className="mp-inbox-item">
+                    <span className="mp-inbox-item-title">{item.subject}</span>
+                    <span className="mp-inbox-item-preview">{item.body}</span>
+                    <span className="mp-inbox-item-date">{new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.created_at))}</span>
+                  </Link>)
+                  : <p className="mp-inbox-empty">You’re all caught up. New replies and messages will appear here.</p>}
+                <Link to="/dashboard/support" onClick={() => setOpenMenu(null)} className="mp-inbox-footer">Open support conversations <ArrowRight size={14}/></Link>
+              </div>}
+            </div>
           </div>
         </header>}
         {pendingAccess && <header className="mp-topbar"><div className="mp-breadcrumb"><Link to="/pending-approval" className="inline-flex items-center gap-1 text-[#DE3F20]">Back to status</Link></div></header>}
