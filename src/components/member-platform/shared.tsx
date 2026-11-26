@@ -7,6 +7,7 @@ import {
   GraduationCap,
   LayoutDashboard,
   LifeBuoy,
+  UsersRound,
   Menu,
   Inbox,
   Settings2,
@@ -104,7 +105,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
   }
   const groups = [
     { label: "Learning", icon: BookOpen, items: [{ to: "/dashboard/courses", label: "Courses", icon: BookOpen }, { to: "/dashboard/quizzes", label: "Quizzes", icon: CircleHelp }] },
-    { label: "Community", icon: LifeBuoy, items: [{ to: "/dashboard/support", label: "Support", icon: LifeBuoy, count: unreadSupportCount }] },
+    { label: "Community", icon: UsersRound, items: [{ to: "/dashboard/network", label: "Network", icon: UsersRound }, { to: "/dashboard/support", label: "Support", icon: LifeBuoy, count: unreadSupportCount }] },
   ] as const;
   return (
     <div className="mp-workspace min-h-[100dvh]">
