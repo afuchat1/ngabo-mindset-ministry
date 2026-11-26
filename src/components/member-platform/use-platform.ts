@@ -7,6 +7,7 @@ import {
   getAdminPlatformData,
   getMemberCourses,
   getMemberDashboard,
+  markMemberInboxTicketRead,
   getMemberQuiz,
   getMemberQuizzes,
   getMemberSupportTickets,
@@ -198,6 +199,16 @@ export function useReplyToSupportTicketAsAdmin() {
         client.invalidateQueries({ queryKey: platformKeys.admin }),
         client.invalidateQueries({ queryKey: platformKeys.support }),
       ]);
+    },
+  });
+}
+
+export function useMarkMemberInboxTicketRead() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (ticket_id: string) => markMemberInboxTicketRead({ data: { ticket_id } }),
+    onSuccess: async () => {
+      await client.invalidateQueries({ queryKey: ["member-inbox"] });
     },
   });
 }

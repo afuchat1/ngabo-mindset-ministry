@@ -35,6 +35,7 @@ import {
   useMemberQuiz,
   useMemberQuizzes,
   useMemberSupportTickets,
+  useMarkMemberInboxTicketRead,
   useReplyToMemberSupportTicket,
   useSubmitMemberQuiz,
   useUpdateMemberProfile,
@@ -459,6 +460,7 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
   const query = useMemberSupportTickets();
   const create = useCreateMemberSupportTicket();
   const reply = useReplyToMemberSupportTicket();
+  const markInboxTicketRead = useMarkMemberInboxTicketRead();
   const [createOpen, setCreateOpen] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -466,7 +468,12 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
   const [replyText, setReplyText] = useState("");
   const [error, setError] = useState("");
   const tickets = (query.data ?? []) as SupportTicketWithMessages[];
-  const active = tickets.find((ticket) => ticket.id === activeId) ?? tickets[0] ?? null;
+  const active = tickets.find((ticket) => ticket.id === activeId) ?? null;
+
+  useEffect(() => {
+    if (!active?.id) return;
+    void markInboxTicketRead.mutateAsync(active.id).catch(() => undefined);
+  }, [active?.id]);
 
   async function createTicket(event: FormEvent) {
     event.preventDefault();
@@ -529,7 +536,7 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
               ))}
             </div>
           </div>
-          {active && (
+          {active ? (
             <section className="mp-panel mp-ticket-detail">
               <div className="mp-panel-title">
                 <div><h3>{active.subject}</h3><p><span className="font-mono font-semibold text-[#a84f36]">#{String(active.ticket_number).padStart(6, "0")}</span> · Opened {shortDate(active.created_at)}</p></div>
@@ -551,6 +558,11 @@ export function MemberSupport({ pendingAccess = false }: { pendingAccess?: boole
                   <Button className="mp-btn-primary" size="icon" aria-label="Send reply" disabled={reply.isPending || !replyText.trim()}><Send size={15} /></Button>
                 </form>
               )}
+            </section>
+          ) : (
+            <section className="mp-panel mp-ticket-detail mp-ticket-detail-empty">
+              <div className="mp-panel-title"><div><h3>Your conversation</h3><p>Choose a request to read its messages.</p></div></div>
+              <p className="py-8 text-center text-xs text-[#88938a]">Select a conversation from the list to open it. New team replies will remain unread until you open that conversation.</p>
             </section>
           )}
         </div>

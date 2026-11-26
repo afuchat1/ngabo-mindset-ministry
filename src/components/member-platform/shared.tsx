@@ -20,7 +20,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { useMemberDashboard, useMemberSupportTickets } from "./use-platform";
-import { getMemberInbox, markMemberInboxRead } from "@/lib/member-platform.functions";
+import { getMemberInbox } from "@/lib/member-platform.functions";
 import { SupportFab } from "./support-fab";
 import { displayName } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
@@ -77,15 +77,8 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
   const supportQuery = useMemberSupportTickets();
   const unreadSupportCount = (supportQuery.data ?? []).filter((ticket) => ticket.status === "awaiting_member").length;
   const unreadInboxCount = inboxQuery.data?.unread_count ?? 0;
-  async function toggleInbox() {
-    const opening = openMenu !== "Inbox";
-    setOpenMenu(opening ? "Inbox" : null);
-    if (opening && unreadInboxCount > 0) {
-      try {
-        await markMemberInboxRead();
-        await queryClient.invalidateQueries({ queryKey: ["member-inbox"] });
-      } catch { /* Keep the inbox available; unread state will retry on the next open. */ }
-    }
+  function toggleInbox() {
+    setOpenMenu(openMenu === "Inbox" ? null : "Inbox");
   }
   const profile = profileQuery.data?.profile;
   const name = profile ? displayName(profile) : "Member";

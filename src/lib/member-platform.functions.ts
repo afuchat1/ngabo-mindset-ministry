@@ -219,12 +219,15 @@ export const getMemberInbox = createServerFn({ method: 'GET' })
     return data as { unread_count: number; items: { id: string; ticket_id: string; subject: string; body: string; created_at: string }[] };
   });
 
-export const markMemberInboxRead = createServerFn({ method: 'POST' })
+export const markMemberInboxTicketRead = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
+  .inputValidator(input => z.object({ ticket_id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
     await requireMemberSupportAccess(context);
-    const { error } = await context.supabase.rpc('member_inbox_mark_read');
-    if (error) throw new Error('Could not update your inbox.');
+    const { error } = await context.supabase.rpc('member_inbox_mark_ticket_read', {
+      p_ticket_id: data.ticket_id,
+    });
+    if (error) throw new Error('Could not update this conversation.');
     return { success: true };
   });
 

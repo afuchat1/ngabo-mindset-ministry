@@ -571,7 +571,7 @@ export type Database = {
         Returns: boolean
       }
       member_inbox_list: { Args: never; Returns: Json }
-      member_inbox_mark_read: { Args: never; Returns: string }
+      member_inbox_mark_ticket_read: { Args: { p_ticket_id: string }; Returns: string }
       member_has_approved_access: { Args: never; Returns: boolean }
       member_quiz_questions: { Args: { p_quiz_id: string }; Returns: Json }
       reply_to_member_support_ticket: {
