@@ -17,9 +17,9 @@ import { AdminHeroImages } from '@/components/admin-hero-images';
 import { EventDatePicker } from '@/components/event-date-picker';
 import { supabase } from '@/integrations/supabase/client';
 import '@/components/member-platform/workspace.css';
-import { eventIcons, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from '@/lib/events';
+import { eventIcons, eventSchema, isEventActive, kampalaTimestamp, type EventRecord } from '@/lib/events';\nimport { SupportTeamDashboard } from '@/components/member-platform/support-team-dashboard';
 
-export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Events & announcements | NGABO (MMA)' }, { name: 'description', content: 'Manage ministry events, announcements and featured resources.' }, { property: 'og:title', content: 'Events & announcements | NGABO (MMA)' }, { property: 'og:description', content: 'Manage scheduled ministry announcements and featured resources.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), component: AdminPage });
+export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Events & announcements | NGABO (MMA)' }, { name: 'description', content: 'Manage ministry events, announcements and featured resources.' }, { property: 'og:title', content: 'Events & announcements | NGABO (MMA)' }, { property: 'og:description', content: 'Manage scheduled ministry announcements and featured resources.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), beforeLoad: async () => {\n  const { data, error } = await supabase.auth.getUser();\n  if (error || !data.user) throw redirect({ to: '/auth' });\n  const [admin, support] = await Promise.all([\n    supabase.rpc('has_role', { _user_id: data.user.id, _role: 'admin' }),\n    supabase.rpc('has_role', { _user_id: data.user.id, _role: 'support' }),\n  ]);\n  if (admin.error || support.error || (!admin.data && !support.data)) throw redirect({ to: '/auth' });\n  return { appRole: support.data ? 'support' as const : 'admin' as const };\n}, component: AdminPage });
 
 function AdminPage() {
     const client = useQueryClient(); const navigate = useNavigate();
