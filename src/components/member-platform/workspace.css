@@ -728,3 +728,51 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+
+/* Readable dashboard typography: prevent dense admin/member styles from
+   shrinking everyday text below a comfortable, consistent reading size. */
+.mp-workspace,
+.mp-admin-shell,
+.mp-admin-events {
+  --mp-body-size: 15px;
+  --mp-body-leading: 1.65;
+}
+.mp-workspace :is(p, li, td, th, label, input, textarea, select, button, a),
+.mp-admin-shell :is(p, li, td, th, label, input, textarea, select, button, a),
+.mp-admin-events :is(p, li, td, th, label, input, textarea, select, button, a) {
+  font-size: max(14px, 1em);
+  line-height: 1.55;
+}
+.mp-workspace :is(.mp-page-description,.mp-welcome-copy p,.mp-section-heading p,.mp-panel-title p),
+.mp-admin-shell :is(.mp-page-description,.mp-section-heading p),
+.mp-admin-events :is(.mp-page-description,.mp-section-heading p) {
+  font-size: 15px !important;
+  line-height: 1.65;
+}
+.mp-workspace :is(.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker,.mp-member-badge,.mp-text-link,.mp-header-link,.mp-header-user-name,.mp-dropdown-item,.mp-inbox-item-preview,.mp-inbox-footer,.mp-stat-card span,.mp-mini-course),
+.mp-admin-shell :is(.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker,.mp-member-badge,.mp-text-link,.mp-dropdown-item,.mp-stat-card span),
+.mp-admin-events :is(.mp-breadcrumb,.mp-footer,.mp-nav-label,.mp-kicker,.mp-member-badge,.mp-text-link,.mp-dropdown-item,.mp-stat-card span) {
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+.mp-workspace :is(.mp-inbox-heading span,.mp-inbox-item-date,.mp-dropdown-count,.mp-inbox-item-unread),
+.mp-admin-shell :is(.mp-dropdown-count),
+.mp-admin-events :is(.mp-dropdown-count) {
+  font-size: 12px !important;
+}
+.mp-workspace :is(.mp-member-directory-head,.mp-member-directory-row,.mp-member-directory-identity strong,.mp-member-directory-identity small),
+.mp-admin-shell :is(.mp-member-directory-head,.mp-member-directory-row,.mp-member-directory-identity strong,.mp-member-directory-identity small),
+.mp-admin-events :is(.mp-member-directory-head,.mp-member-directory-row,.mp-member-directory-identity strong,.mp-member-directory-identity small) {
+  font-size: 14px !important;
+}
+.mp-workspace :is(button,a[role="button"],[role="button"]),
+.mp-admin-shell :is(button,a[role="button"],[role="button"]),
+.mp-admin-events :is(button,a[role="button"],[role="button"]) {
+  font-size: max(14px, 1em);
+}
+.mp-workspace :is(input,textarea,select),
+.mp-admin-shell :is(input,textarea,select),
+.mp-admin-events :is(input,textarea,select) {
+  font-size: 15px !important;
+}
