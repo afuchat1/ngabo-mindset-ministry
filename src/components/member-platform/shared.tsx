@@ -43,146 +43,56 @@ type WorkspaceProps = {
 };
 
 export function MemberWorkspace({ active, title, kicker, description, pendingAccess = false, children }: WorkspaceProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
   const supportQuery = useMemberSupportTickets();
   const unreadSupportCount = (supportQuery.data ?? []).filter((ticket) => ticket.status === "awaiting_member").length;
   const profile = profileQuery.data?.profile;
-  const counts = profileQuery.data?.counts;
-  const navigationCounts: Record<string, number | undefined> = {
-    "/dashboard/courses": counts?.courses,
-    "/dashboard/quizzes": counts?.quizzes,
-    "/dashboard/support": counts?.support,
-  };
   const name = profile ? displayName(profile) : "Member";
-  const initials = profile
-    ? `${profile.first_name?.[0] ?? ""}${profile.last_name?.[0] ?? ""}`.toUpperCase()
-    : "N";
-
+  const initials = profile ? `${profile.first_name?.[0] ?? ""}${profile.last_name?.[0] ?? ""}`.toUpperCase() : "N";
   async function signOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
     await navigate({ to: "/auth", replace: true });
   }
-
+  const groups = [
+    { label: "Learning", icon: BookOpen, items: [{ to: "/dashboard/courses", label: "Courses", icon: BookOpen }, { to: "/dashboard/quizzes", label: "Quizzes", icon: CircleHelp }] },
+    { label: "Community", icon: LifeBuoy, items: [{ to: "/dashboard/support", label: "Support", icon: LifeBuoy, count: unreadSupportCount }] },
+  ] as const;
   return (
     <div className="mp-workspace min-h-[100dvh]">
-      {!pendingAccess && <aside className={`mp-sidebar ${mobileMenuOpen ? "mp-sidebar-open" : ""}`}>
-        <div className="mp-brand">
-          <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
-          <div>
-            <p className="mp-brand-name">NGABO</p>
-            <p className="mp-brand-subtitle">Member</p>
-          </div>
-          <button
-            type="button"
-            className="mp-icon-button mp-mobile-close"
-            aria-label="Close navigation"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <p className="mp-nav-label">WORKSPACE</p>
-        <nav aria-label="Member navigation" className="mp-navigation">
-          {memberNavigation.map(({ to, label, icon: Icon }) => (
-            <Link
-              key={to}
-              to={to}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`mp-nav-link ${active === to ? "is-active" : ""}`}
-              aria-current={active === to ? "page" : undefined}
-            >
-              <Icon size={18} strokeWidth={1.8} />
-              <span>{label}</span>
-              {(navigationCounts[to] ?? 0) > 0 && (
-                <span
-                  className="ml-auto min-w-5 rounded-full bg-[#f2e5d8] px-1.5 py-0.5 text-center text-[12px] font-bold leading-4 text-[#935a3e]"
-                  aria-label={`${navigationCounts[to]} ${label.toLowerCase()} notifications`}
-                >
-                  {(navigationCounts[to] ?? 0) > 99 ? "99+" : navigationCounts[to]}
-                </span>
-              )}
-              {active === to && <span className="mp-nav-indicator" />}
-            </Link>
-          ))}
-        </nav>
-        <div className="mp-sidebar-note">
-          <div className="mp-note-icon"><ShieldCheck size={17} /></div>
-          <p>Learning · Community · Service</p>
-        </div>
-        <div className="mp-sidebar-foot">
-          <div className="mp-avatar">{initials || "N"}</div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-[#283b36]">{name}</p>
-            <p className="truncate text-xs text-[#78847d]">NGABO member</p>
-          </div>
-          <Link to="/dashboard/profile" className="mp-icon-button" aria-label="Open profile settings">
-            <Settings2 size={17} />
-          </Link>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="mp-icon-button"
-            aria-label="Sign out"
-            title="Sign out"
-            onClick={() => void signOut()}
-          >
-            <LogOut size={17} />
-          </Button>
-        </div>
-      </aside>}
-      {!pendingAccess && mobileMenuOpen && (
-        <button
-          type="button"
-          className="mp-mobile-scrim"
-          aria-label="Close navigation menu"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
       <main className="mp-main">
-        <header className="mp-topbar">
-          {!pendingAccess && <button
-            type="button"
-            className="mp-icon-button mp-menu-trigger"
-            aria-label="Open navigation"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <Menu size={20} />
-          </button>}
-          <div className="mp-breadcrumb">
-            {pendingAccess ? <Link to="/pending-approval" className="inline-flex items-center gap-1 text-[#DE3F20]">Back to status</Link> : <><Compass size={15} /><span>Workspace</span></>}
-            <span className="mp-breadcrumb-slash">/</span>
-            <span className="mp-breadcrumb-current">{title}</span>
-          </div>
-          <div className="mp-topbar-right">
-            
-            <div className="mp-avatar mp-avatar-small">{initials || "N"}</div>
-          </div>
-        </header>
-        <div className="mp-content">
-          <div className="mp-page-heading">
-            <div>
-              <p className="mp-kicker">{kicker}</p>
-              <h1>{title}</h1>
-              {description && <p className="mp-page-description">{description}</p>}
+        {!pendingAccess && <header className="mp-topbar mp-member-header">
+          <Link to="/dashboard" className="mp-brand mp-header-brand">
+            <img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo" />
+            <span><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Member space</p></span>
+          </Link>
+          <nav className="mp-header-navigation" aria-label="Member navigation">
+            <Link to="/dashboard" className={`mp-header-link ${active === "/dashboard" ? "is-active" : ""}`}><Compass size={16}/> Overview</Link>
+            {groups.map(group => <div className="mp-nav-dropdown" key={group.label}>
+              <button type="button" className={`mp-header-link ${group.items.some(item => active === item.to) ? "is-active" : ""}`} aria-expanded={openMenu === group.label} onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}>
+                <group.icon size={16}/>{group.label}<ArrowRight className="mp-dropdown-chevron" size={13}/>
+              </button>
+              {openMenu === group.label && <div className="mp-dropdown-panel">{group.items.map(item=><Link key={item.to} to={item.to} onClick={()=>setOpenMenu(null)} className={`mp-dropdown-item ${active === item.to ? "is-active" : ""}`}><item.icon size={16}/><span>{item.label}</span>{("count" in item && item.count && item.count>0) ? <span className="mp-dropdown-count">{item.count}</span> : null}</Link>)}</div>}
+            </div>)}
+            <div className="mp-nav-dropdown">
+              <button type="button" className={`mp-header-link ${active === "/dashboard/profile" ? "is-active" : ""}`} aria-expanded={openMenu === "Account"} onClick={()=>setOpenMenu(openMenu === "Account" ? null : "Account")}><UserRound size={16}/>Account<ArrowRight className="mp-dropdown-chevron" size={13}/></button>
+              {openMenu === "Account" && <div className="mp-dropdown-panel"><Link to="/dashboard/profile" onClick={()=>setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link><button type="button" onClick={()=>void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button></div>}
             </div>
-            {profile?.email_verified_at && profile?.approval_status === "approved" && (
-              <div className="mp-member-badge"><ShieldCheck size={15} /> Verified member</div>
-            )}
-          </div>
+          </nav>
+          <div className="mp-header-user"><span className="mp-avatar mp-avatar-small">{initials || "N"}</span><span className="mp-header-user-name">{name}</span></div>
+        </header>}
+        {pendingAccess && <header className="mp-topbar"><div className="mp-breadcrumb"><Link to="/pending-approval" className="inline-flex items-center gap-1 text-[#DE3F20]">Back to status</Link></div></header>}
+        <div className="mp-content">
+          <div className="mp-page-heading"><div><p className="mp-kicker">{kicker}</p><h1>{title}</h1>{description && <p className="mp-page-description">{description}</p>}</div>{profile?.email_verified_at && profile?.approval_status === "approved" && <div className="mp-member-badge"><ShieldCheck size={15}/>Verified member</div>}</div>
           {children}
-          <footer className="mp-footer">
-            <span>NGABO Ministries &amp; Missions of Africa</span>
-            
-          </footer>
+          <footer className="mp-footer"><span>NGABO Ministries &amp; Missions of Africa</span></footer>
         </div>
       </main>
-      {!pendingAccess && <SupportFab unreadCount={unreadSupportCount} onClick={() => void navigate({ to: "/dashboard/support" })} />}
+      {!pendingAccess && <SupportFab unreadCount={unreadSupportCount} onClick={()=>void navigate({to:"/dashboard/support"})}/>}
     </div>
   );
 }
