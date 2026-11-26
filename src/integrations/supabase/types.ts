@@ -540,6 +540,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_user_roles: { Args: never; Returns: { role: Database["public"]["Enums"]["app_role"]; user_id: string }[] }
       admin_set_user_role: { Args: { p_role: Database["public"]["Enums"]["app_role"]; p_user_id: string }; Returns: Database["public"]["Enums"]["app_role"] }
       admin_reply_to_support_ticket: {
         Args: { p_message: string; p_resolve?: boolean; p_ticket_id: string }
