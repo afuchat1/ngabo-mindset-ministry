@@ -1394,3 +1394,23 @@
   .ng-admin-shared-header .ng-admin-menu-button { min-width: 78px; padding-inline: 9px; }
   .ng-admin-menu-links .mp-dropdown-item { gap: 6px; padding-inline: 6px; font-size: 10px; }
 }
+
+
+/* The admin now uses one header menu for all navigation; remove the
+   duplicate persistent sidebar and keep the overview shortcuts intact. */
+.ng-admin-app {
+  display: block;
+  min-height: 100dvh;
+}
+.ng-admin-app > .ng-admin-sidebar,
+.ng-admin-app > .ng-admin-mobile-drawer,
+.ng-admin-app > .ng-admin-drawer-scrim {
+  display: none !important;
+}
+.ng-admin-app > .ng-admin-main {
+  width: 100%;
+  min-height: 100dvh;
+}
+.ng-admin-shared-header .ng-admin-menu-panel {
+  z-index: 110;
+}
