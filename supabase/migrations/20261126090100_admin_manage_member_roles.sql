@@ -1,10 +1,21 @@
 
 CREATE UNIQUE INDEX IF NOT EXISTS user_roles_user_id_key ON public.user_roles(user_id);
 
-DROP POLICY IF EXISTS admin_read_user_roles ON public.user_roles;
-CREATE POLICY admin_read_user_roles ON public.user_roles
-FOR SELECT TO authenticated
-USING ((SELECT public.has_role((SELECT auth.uid()), 'admin'::public.app_role)));
+CREATE OR REPLACE FUNCTION public.admin_list_user_roles()
+RETURNS TABLE(user_id uuid, role public.app_role)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $function$
+BEGIN
+  IF auth.uid() IS NULL OR NOT public.has_role(auth.uid(), 'admin'::public.app_role) THEN
+    RAISE EXCEPTION 'Administrator access required' USING ERRCODE = '42501';
+  END IF;
+  RETURN QUERY SELECT ur.user_id, ur.role FROM public.user_roles ur ORDER BY ur.created_at;
+END
+$function$;
+REVOKE ALL ON FUNCTION public.admin_list_user_roles() FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.admin_list_user_roles() TO authenticated;
 
 CREATE OR REPLACE FUNCTION public.admin_set_user_role(p_user_id uuid, p_role public.app_role)
 RETURNS public.app_role
