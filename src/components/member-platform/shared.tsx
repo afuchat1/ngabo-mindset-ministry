@@ -73,7 +73,18 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [openMenu]);
-  useEffect(() => {\n    if (openMenu !== "Inbox") return;\n    const updatePosition = () => {\n      const rect = inboxTriggerRef.current?.getBoundingClientRect();\n      if (rect) setInboxTop(Math.max(12, rect.bottom + 8));\n    };\n    updatePosition();\n    window.addEventListener("resize", updatePosition);\n    window.addEventListener("scroll", updatePosition, true);\n    return () => { window.removeEventListener("resize", updatePosition); window.removeEventListener("scroll", updatePosition, true); };\n  }, [openMenu]);\n  const navigate = useNavigate();
+  useEffect(() => {
+    if (openMenu !== "Inbox") return;
+    const updatePosition = () => {
+      const rect = inboxTriggerRef.current?.getBoundingClientRect();
+      if (rect) setInboxTop(Math.max(12, rect.bottom + 8));
+    };
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+    return () => { window.removeEventListener("resize", updatePosition); window.removeEventListener("scroll", updatePosition, true); };
+  }, [openMenu]);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const profileQuery = useMemberDashboard();
   const supportQuery = useMemberSupportTickets();
