@@ -546,7 +546,9 @@ export type Database = {
         Args: { p_message: string; p_resolve?: boolean; p_ticket_id: string }
         Returns: string
       }
-      support_team_list_tickets: { Args: never; Returns: Json }\n      support_team_reply_to_ticket: { Args: { p_message: string; p_resolve?: boolean; p_ticket_id: string }; Returns: string }\n      admin_save_quiz: {
+      support_team_list_tickets: { Args: never; Returns: Json }
+      support_team_reply_to_ticket: { Args: { p_message: string; p_resolve?: boolean; p_ticket_id: string }; Returns: string }
+      admin_save_quiz: {
         Args: {
           p_course_id: string
           p_description: string
