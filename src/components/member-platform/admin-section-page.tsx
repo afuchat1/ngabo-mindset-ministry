@@ -4,6 +4,8 @@ import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, Lay
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/ngabo-logo.jpg";
 import { AdminLearningSection } from "@/components/member-platform/admin-learning-section";
+import { AdminProducts } from "@/components/admin-products";
+import { AdminHeroImages } from "@/components/admin-hero-images";
 import "@/components/member-platform/workspace.css";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -48,7 +50,7 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
         <Link to="/admin">Overview</Link>
         {items.map(({id,label,href})=><Link key={id} to={href as any} aria-current={section===id?"page":undefined}>{label}</Link>)}
       </nav>
-      <div className="ng-admin-page-content"><AdminLearningSection initialSection={section === "events" || section === "products" || section === "photos" ? "members" : section} fixedSection={section === "events" || section === "products" || section === "photos" ? undefined : section}/></div>
+      <div className="ng-admin-page-content">{section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : section === "events" ? <div className="ng-admin-placeholder"><h2>Events &amp; announcements</h2><p>Event management is available from the Events page in the main administration workspace.</p><Link to="/admin">Open Events management</Link></div> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
     </div>
   </main>;
 }
