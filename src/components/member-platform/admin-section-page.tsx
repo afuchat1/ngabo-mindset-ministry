@@ -28,7 +28,6 @@ const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboa
 ];
 
 export function AdminSectionPage({ section }: { section: AdminSection }) {
-  const current = items.find((item) => item.id === section)!;
   return <main className="ng-admin-app">
     <div className="ng-admin-main">
       <AdminWorkspaceHeader active={section} />
