@@ -936,3 +936,7 @@
     font-size: 11px;
   }
 }
+
+/* Restore the inbox popup to a viewport-centered modal; preserve other dropdowns. */
+.mp-workspace .mp-inbox-panel { top: 50vh; left: 50vw; right: auto; transform: translate(-50%, -50%); max-height: min(70dvh, 520px); }
+@media (max-width:760px) { .mp-workspace .mp-inbox-panel { top: 50dvh; left: 50vw; right: auto; transform: translate(-50%, -50%); width: min(360px, calc(100vw - 32px)); max-width: calc(100vw - 32px); } }
