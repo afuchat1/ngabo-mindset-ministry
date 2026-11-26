@@ -1281,3 +1281,116 @@
     font-size: 11px;
   }
 }
+
+
+/* Compact single-menu admin header: destinations stay hidden until requested. */
+.ng-admin-shared-header .ng-admin-compact-header {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.ng-admin-shared-header .ng-admin-compact-header .mp-header-navigation,
+.ng-admin-shared-header .ng-admin-compact-header > .ng-admin-menu-trigger {
+  display: none !important;
+}
+.ng-admin-shared-header .ng-admin-compact-header .mp-header-utilities {
+  margin-left: auto;
+}
+.ng-admin-shared-header .ng-admin-menu-button {
+  width: auto;
+  min-width: 88px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.ng-admin-shared-header .ng-admin-menu-panel {
+  right: 0;
+  left: auto;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(72dvh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+}
+.ng-admin-menu-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px 11px;
+  border-bottom: 1px solid #f0ede9;
+}
+.ng-admin-menu-heading strong {
+  color: #242321;
+  font-size: 13px;
+  font-weight: 750;
+}
+.ng-admin-menu-heading span {
+  color: #8a837c;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.ng-admin-menu-links {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 2px;
+  padding: 7px 0;
+}
+.ng-admin-menu-links .mp-dropdown-item {
+  min-width: 0;
+  min-height: 42px;
+  gap: 8px;
+  padding: 8px;
+  font-size: 11px;
+}
+.ng-admin-menu-links .mp-dropdown-item svg {
+  flex: 0 0 auto;
+}
+.ng-admin-menu-links .mp-dropdown-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ng-admin-menu-footer {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 2px;
+  border-top: 1px solid #f0ede9;
+  padding-top: 7px;
+}
+.ng-admin-menu-footer .mp-dropdown-item {
+  min-height: 38px;
+  padding: 7px 8px;
+  font-size: 11px;
+}
+@media(max-width:760px) {
+  .ng-admin-shared-header .ng-admin-compact-header {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 64px;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+  .ng-admin-shared-header .ng-admin-compact-header .mp-header-brand {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+  .ng-admin-shared-header .ng-admin-compact-header .mp-header-utilities {
+    flex: 0 0 auto;
+    gap: 4px;
+  }
+  .ng-admin-shared-header .ng-admin-menu-panel {
+    right: 0;
+    left: auto;
+    width: min(320px, calc(100vw - 32px));
+  }
+}
+@media(max-width:380px) {
+  .ng-admin-shared-header .ng-admin-compact-header { padding-inline: 14px; }
+  .ng-admin-shared-header .ng-admin-menu-button { min-width: 78px; padding-inline: 9px; }
+  .ng-admin-menu-links .mp-dropdown-item { gap: 6px; padding-inline: 6px; font-size: 10px; }
+}
