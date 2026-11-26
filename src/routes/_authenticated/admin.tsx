@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate, redirect } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, useNavigate, redirect, useRouterState } from '@tanstack/react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 import { Plus, Pencil, Trash2, LogOut, ArrowLeft, Save, X, ExternalLink } from 'lucide-react';
@@ -31,7 +31,9 @@ export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ m
 
 function AdminPage() {
   const { appRole } = Route.useRouteContext();
-  return appRole === 'support' ? <SupportTeamDashboard /> : <AdminManagementPage />;
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (appRole === "support") return <SupportTeamDashboard />;
+  return pathname === "/admin" ? <AdminManagementPage /> : <Outlet />;
 }
 
 function AdminManagementPage() {
