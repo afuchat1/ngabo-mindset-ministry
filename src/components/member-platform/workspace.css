@@ -840,3 +840,90 @@
     font-size: 12px;
   }
 }
+
+
+/* Keep all member workspace content comfortably inset from device edges. */
+.mp-workspace {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.mp-workspace .mp-main,
+.mp-workspace .mp-content,
+.mp-workspace .mp-member-header,
+.mp-workspace .mp-news-updates-top {
+  min-width: 0;
+  max-width: 100%;
+}
+.mp-workspace .mp-content {
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+.mp-workspace :is(.mp-panel,.mp-learning-card,.mp-profile-card,.mp-admin-panel,.mp-welcome-banner,.mp-stat-card,.mp-empty-state,.mp-state-card) {
+  min-width: 0;
+}
+.mp-workspace :is(p,span,strong,a,button) {
+  overflow-wrap: anywhere;
+}
+
+/* Dropdowns open in a viewport-safe floating panel, never against a screen edge. */
+.mp-workspace .mp-nav-dropdown {
+  position: static;
+}
+.mp-workspace .mp-dropdown-panel {
+  position: fixed;
+  z-index: 100;
+  top: 80px;
+  left: 50%;
+  right: auto;
+  width: min(360px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  max-height: min(70dvh, 520px);
+  overflow: auto;
+  transform: translateX(-50%);
+  overscroll-behavior: contain;
+}
+.mp-workspace .mp-dropdown-panel,
+.mp-workspace .mp-dropdown-panel * {
+  min-width: 0;
+}
+.mp-workspace .mp-dropdown-item {
+  overflow-wrap: anywhere;
+}
+.mp-workspace .mp-avatar-dropdown {
+  min-width: 0;
+}
+.mp-workspace .mp-inbox-panel {
+  top: 80px;
+  left: 50%;
+  right: auto;
+  width: min(360px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  transform: translateX(-50%);
+}
+.mp-workspace .mp-dropdown-chevron {
+  display: none !important;
+}
+@media (max-width: 760px) {
+  .mp-workspace .mp-content {
+    padding-inline: 16px;
+  }
+  .mp-workspace .mp-member-header {
+    padding-inline: 16px;
+  }
+  .mp-workspace .mp-header-navigation {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+@media (max-width: 360px) {
+  .mp-workspace .mp-content,
+  .mp-workspace .mp-member-header {
+    padding-inline: 14px;
+  }
+  .mp-workspace .mp-header-link {
+    gap: 4px;
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
