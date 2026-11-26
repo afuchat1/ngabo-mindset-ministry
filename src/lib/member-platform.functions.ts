@@ -282,13 +282,14 @@ export const getAdminPlatformData = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await requireAdmin(context);
-    const [profileResult, approvalResult, courseResult, quizResult, ticketResult, enrollmentResult] = await Promise.all([
+    const [profileResult, approvalResult, courseResult, quizResult, ticketResult, enrollmentResult, roleResult] = await Promise.all([
       context.supabase.from('member_profiles').select('*').order('created_at', { ascending: false }),
       context.supabase.from('member_approvals').select('*').order('created_at', { ascending: false }),
       context.supabase.from('courses').select('*').order('created_at', { ascending: false }),
       context.supabase.from('quizzes').select('*').order('created_at', { ascending: false }),
       context.supabase.from('support_tickets').select('*').order('updated_at', { ascending: false }),
       context.supabase.from('course_enrollments').select('id'),
+      context.supabase.from('user_roles').select('user_id,role'),
     ]);
     if (
       profileResult.error || !profileResult.data
@@ -297,10 +298,12 @@ export const getAdminPlatformData = createServerFn({ method: 'POST' })
       || quizResult.error || !quizResult.data
       || ticketResult.error || !ticketResult.data
       || enrollmentResult.error || !enrollmentResult.data
+      || roleResult.error || !roleResult.data
     ) {
       throw new Error('Could not load administration data.');
     }
     const approvalByUser = new Map(approvalResult.data.map(approval => [approval.user_id, approval]));
+    const roleByUser = new Map(roleResult.data.map(role => [role.user_id, role.role]));
     const tickets = ticketResult.data as SupportTicket[];
     const ticketIds = tickets.map(ticket => ticket.id);
     const { data: messages, error: messagesError } = ticketIds.length
@@ -312,9 +315,11 @@ export const getAdminPlatformData = createServerFn({ method: 'POST' })
     const profileByUser = new Map(profileResult.data.map(profile => [profile.user_id, profile]));
     return {
       profiles: profileResult.data,
+      roles: roleResult.data,
       approvals: profileResult.data.map(profile => ({
         ...profile,
         approval: approvalByUser.get(profile.user_id) ?? null,
+        role: roleByUser.get(profile.user_id) ?? 'user',
       })),
       courses: courseResult.data as Course[],
       quizzes: quizResult.data,
