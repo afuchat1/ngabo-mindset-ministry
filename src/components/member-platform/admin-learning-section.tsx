@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Archive,
   BookOpen,
@@ -51,9 +52,10 @@ type AdminQuiz = {
   description: string;
   is_active: boolean;
 };
-type ApprovalMember = MemberProfile & { approval: { status: string } | null };
+type ApprovalMember = MemberProfile & { approval: { status: string } | null; role: "admin" | "user" | "staff" | "support" };
 type AdminData = {
   profiles: MemberProfile[];
+  roles: Array<{ user_id: string; role: "admin" | "user" | "staff" | "support" }>;
   approvals: ApprovalMember[];
   courses: Course[];
   quizzes: AdminQuiz[];
@@ -148,6 +150,8 @@ function AdminStat({ icon: Icon, value, label, warm = false }: { icon: typeof Us
 
 function MemberReview({ data, search, setSearch }: { data: AdminData; search: string; setSearch: (value: string) => void }) {
   const review = useReviewMemberApproval();
+  const queryClient = useQueryClient();
+  const [roleBusy, setRoleBusy] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
@@ -165,6 +169,15 @@ function MemberReview({ data, search, setSearch }: { data: AdminData; search: st
     { key: "approved" as const, label: "Approved", count: data.approvals.filter((member) => member.approval_status === "approved").length },
     { key: "rejected" as const, label: "Declined", count: data.approvals.filter((member) => member.approval_status === "rejected").length },
   ];
+  async function setRole(user_id: string, role: "admin" | "user" | "staff" | "support") {
+    setError(""); setRoleBusy(true);
+    try {
+      const { error: roleError } = await supabase.rpc("admin_set_user_role", { p_user_id: user_id, p_role: role });
+      if (roleError) throw roleError;
+      await queryClient.invalidateQueries({ queryKey: ["member-platform", "admin"] });
+    } catch (err) { setError(err instanceof Error ? err.message : "Could not update this user role."); }
+    finally { setRoleBusy(false); }
+  }
   async function setStatus(user_id: string, status: "approved" | "rejected") {
     setError("");
     try { await review.mutateAsync({ user_id, status }); }
@@ -203,7 +216,7 @@ function MemberReview({ data, search, setSearch }: { data: AdminData; search: st
         <DialogContent className="mp-modal-content sm:max-w-xl">
           {active && <>
             <DialogHeader><DialogTitle>{memberName(active)}</DialogTitle><DialogDescription>Complete registration profile and account review</DialogDescription></DialogHeader>
-            <div className="mp-member-profile-summary"><div><strong>{active.email}</strong><StatusPill status={active.approval_status} /></div></div>
+            <div className="mp-member-profile-summary"><div><strong>{active.email}</strong><StatusPill status={active.approval_status} /></div><div className="mp-field mt-3"><Label htmlFor="member-role">Assigned role</Label><select id="member-role" className="mp-select" value={active.role} disabled={roleBusy} onChange={(event) => void setRole(active.user_id, event.target.value as "admin" | "user" | "staff" | "support")}><option value="user">Member</option><option value="support">Support team</option><option value="staff">Staff</option><option value="admin">Admin</option></select><p className="mp-pagination-note">Role changes take effect in the database immediately.</p></div></div>
             <div className="mp-member-review-details">
               <div className="mp-info-row"><span>First name</span><strong>{active.first_name || "—"}</strong></div>
               <div className="mp-info-row"><span>Last name</span><strong>{active.last_name || "—"}</strong></div>
