@@ -292,7 +292,7 @@ function AdminSupport({ tickets }: { tickets: AdminTicket[] }) {
                 ))}
               </div>
               {active.status === "resolved" ? (
-                <p className="rounded-lg bg-[#fff0f0] p-3 text-[12px] text-[#666666]">This request is resolved. A new message can reopen the conversation for the member.</p>
+                <p className="rounded-lg bg-[#f3f5ef] p-3 text-[12px] text-[#738078]">This ticket is closed. No further messages can be sent. The member must open a new request if more help is needed.</p>
               ) : (
                 <form className="grid gap-3" onSubmit={send}>
                   <div className="mp-field"><Label htmlFor="admin-support-reply">Your reply</Label><Textarea id="admin-support-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={(event) => setMessage(event.target.value)} /></div>
