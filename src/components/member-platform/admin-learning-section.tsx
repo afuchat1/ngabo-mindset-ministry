@@ -7,6 +7,7 @@ import {
   CircleHelp,
   ClipboardList,
   LifeBuoy,
+  Network,
   MailCheck,
   MessageCircle,
   Pencil,
@@ -39,7 +40,7 @@ import {
 import { EmptyState, ErrorState, LoadingState, SectionHeading, StatusPill } from "./shared";
 import { formatCoursePrice, type Course, type MemberProfile, type SupportTicket } from "@/lib/member-platform";
 import { supabase } from "@/integrations/supabase/client";
-import "./workspace.css";
+import "./workspace.css";\nimport { AdminNetworkGroups } from "./network-groups";
 
 type AdminTicket = SupportTicket & {
   member: MemberProfile | null;
@@ -69,7 +70,7 @@ type AdminData = {
     members: number;
   };
 };
-type Section = "members" | "support" | "courses" | "quizzes";
+type Section = "members" | "support" | "courses" | "quizzes" | "network";
 type QuizQuestionDraft = { prompt: string; choices: string[]; correct_index: number };
 
 function formatDate(value?: string | null) {
@@ -92,7 +93,7 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
     { key: "members", label: "Member review", icon: UsersRound },
     { key: "support", label: "Support", icon: LifeBuoy },
     { key: "courses", label: "Courses", icon: BookOpen },
-    { key: "quizzes", label: "Quizzes", icon: CircleHelp },
+    { key: "quizzes", label: "Quizzes", icon: CircleHelp },\n    { key: "network", label: "Network", icon: Network },
   ];
 
 
@@ -123,7 +124,7 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
                     ? data.counts.openTickets
                     : key === "courses"
                       ? data.counts.activeCourses
-                      : data.counts.activeQuizzes;
+                       : key === "quizzes" ? data.counts.activeQuizzes : 0;
                 return (
                 <button type="button" key={key} role="tab" aria-selected={section === key} className="mp-tab" onClick={() => setSection(key)}>
                   <Icon className="mr-1 inline-block align-[-3px]" size={14} /> {label}
@@ -134,7 +135,7 @@ export function AdminLearningSection({ initialSection = "members" }: { initialSe
             {section === "members" && <MemberReview data={data} search={search} setSearch={setSearch} />}
             {section === "support" && <AdminSupport tickets={data.tickets} />}
             {section === "courses" && <CourseManagement courses={data.courses} />}
-            {section === "quizzes" && <QuizManagement quizzes={data.quizzes} courses={data.courses} />}
+            {section === "quizzes" && <QuizManagement quizzes={data.quizzes} courses={data.courses} />}\n            {section === "network" && <AdminNetworkGroups />}
           </>
         ) : null}
         <footer className="mp-footer"><span>NGABO (MMA)</span><span></span></footer>
