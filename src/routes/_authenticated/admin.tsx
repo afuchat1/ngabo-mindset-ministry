@@ -28,7 +28,7 @@ export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ m
     supabase.rpc('has_role', { _user_id: data.user.id, _role: 'support' }),
   ]);
   if (admin.error || support.error || (!admin.data && !support.data)) throw redirect({ to: '/auth' });
-  return { appRole: support.data ? 'support' as const : 'admin' as const };
+  return { appRole: admin.data ? 'admin' as const : 'support' as const };
 }, component: AdminPage });
 
 function AdminPage() {
