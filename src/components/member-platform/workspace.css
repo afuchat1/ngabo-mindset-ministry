@@ -865,41 +865,44 @@
   overflow-wrap: anywhere;
 }
 
-/* Dropdowns open in a viewport-safe floating panel, never against a screen edge. */
+/* Real, trigger-anchored dropdowns: open below the clicked category and
+   align toward its side while staying within the viewport gutters. */
 .mp-workspace .mp-nav-dropdown {
-  position: static;
+  position: relative;
 }
 .mp-workspace .mp-dropdown-panel {
-  position: fixed;
+  position: absolute;
   z-index: 100;
-  top: 80px;
-  left: 50%;
+  top: calc(100% + 8px);
+  left: 0;
   right: auto;
   width: max-content;
   min-width: 190px;
   max-width: min(280px, calc(100vw - 32px));
   max-height: min(70dvh, 520px);
   overflow: auto;
-  transform: translateX(-50%);
+  transform: none;
   overscroll-behavior: contain;
 }
-.mp-workspace .mp-dropdown-panel,
+.mp-workspace .mp-header-navigation > .mp-nav-dropdown:last-child > .mp-dropdown-panel {
+  left: auto;
+  right: 0;
+}
+.mp-workspace .mp-header-utilities > .mp-nav-dropdown > .mp-dropdown-panel {
+  left: auto;
+  right: 0;
+}
+.mp-workspace .mp-workspace .mp-dropdown-panel,
 .mp-workspace .mp-dropdown-panel * {
   min-width: 0;
 }
 .mp-workspace .mp-dropdown-item {
   overflow-wrap: anywhere;
 }
-.mp-workspace .mp-avatar-dropdown {
-  min-width: 0;
-}
 .mp-workspace .mp-inbox-panel {
-  top: 80px;
-  left: 50%;
-  right: auto;
   width: min(340px, calc(100vw - 32px));
   max-width: calc(100vw - 32px);
-  transform: translateX(-50%);
+  padding: 0;
 }
 .mp-workspace .mp-avatar-dropdown {
   width: max-content;
