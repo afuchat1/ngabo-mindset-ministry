@@ -115,7 +115,7 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
             <Link to="/dashboard" className={`mp-header-link ${active === "/dashboard" ? "is-active" : ""}`}><Compass size={16}/> Overview</Link>
             {groups.map(group => <div className="mp-nav-dropdown" data-menu-key={group.label} key={group.label}>
               <button type="button" className={`mp-header-link ${group.items.some(item => active === item.to) ? "is-active" : ""}`} aria-expanded={openMenu === group.label} onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}>
-                <group.icon size={16}/>{group.label}<ArrowRight className="mp-dropdown-chevron" size={13}/>
+                <group.icon size={16}/>{group.label}
               </button>
               {openMenu === group.label && <div className="mp-dropdown-panel">{group.items.map(item=><Link key={item.to} to={item.to} onClick={()=>setOpenMenu(null)} className={`mp-dropdown-item ${active === item.to ? "is-active" : ""}`}><item.icon size={16}/><span>{item.label}</span>{("count" in item && item.count && item.count>0) ? <span className="mp-dropdown-count">{item.count}</span> : null}</Link>)}</div>}
             </div>)}
