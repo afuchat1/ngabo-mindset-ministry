@@ -173,3 +173,63 @@
 /* Official NGABO brand color across public, member and admin surfaces. */
 :root{--ngabo-rust:#DE3F20;--ngabo-forest:#DE3F20;--ngabo-forest-deep:#cc0808;--ngabo-sage:#fff0f0}
 .dark{--primary:#DE3F20;--primary-foreground:oklch(0.99 0 0);--ring:#DE3F20}
+
+
+/* Dashboard-only rotating emphasis for the public news and updates link. */
+.mp-news-updates-banner {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: .35rem;
+  margin: 0 0 1.25rem;
+  color: #59665d;
+  font-size: .82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mp-news-updates-words {
+  position: relative;
+  display: inline-grid;
+  min-width: 4.6rem;
+  color: #DE3F20;
+  font-weight: 800;
+}
+.mp-news-updates-words > span {
+  grid-area: 1 / 1;
+  width: fit-content;
+  position: relative;
+  opacity: 0;
+  animation: mp-news-word-cycle 4s ease-in-out infinite;
+}
+.mp-news-updates-words > span::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: mp-news-underline-cycle 4s ease-in-out infinite;
+}
+.mp-news-updates-words > span:nth-child(2),
+.mp-news-updates-words > span:nth-child(2)::after { animation-delay: 2s; }
+.mp-news-updates-banner:hover .mp-news-updates-words { color: #b83219; }
+@keyframes mp-news-word-cycle {
+  0%, 8% { opacity: 0; }
+  14%, 38% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+@keyframes mp-news-underline-cycle {
+  0%, 12% { transform: scaleX(0); }
+  20%, 36% { transform: scaleX(1); }
+  44%, 100% { transform: scaleX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-news-updates-words > span,
+  .mp-news-updates-words > span::after { animation: none; }
+  .mp-news-updates-words > span:first-child { opacity: 1; }
+  .mp-news-updates-words > span:first-child::after { transform: scaleX(1); }
+}
