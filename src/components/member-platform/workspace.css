@@ -781,3 +781,62 @@
 .mp-admin-events :is(input,textarea,select) {
   font-size: 15px !important;
 }
+
+
+/* Keep the three primary member destinations on one shared, inset navigation
+   rail. Equal columns give Overview, Learning and Community identical widths
+   and identical outer gutters on every viewport. */
+.mp-member-header > .mp-header-navigation {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  justify-self: center;
+  width: min(100%, 480px);
+  min-width: 0;
+  margin-inline: auto;
+  gap: 4px;
+}
+.mp-member-header > .mp-header-navigation > .mp-header-link,
+.mp-member-header > .mp-header-navigation > .mp-nav-dropdown {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+}
+.mp-member-header > .mp-header-navigation > .mp-nav-dropdown > .mp-header-link {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+}
+@media (max-width: 760px) {
+  .mp-member-header {
+    padding-inline: 16px;
+  }
+  .mp-member-header > .mp-header-navigation {
+    order: 3;
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+    padding-inline: 0;
+    overflow: visible;
+    gap: 4px;
+  }
+  .mp-member-header > .mp-header-navigation > .mp-header-link,
+  .mp-member-header > .mp-header-navigation > .mp-nav-dropdown > .mp-header-link {
+    min-height: 40px;
+    padding-inline: 4px;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 380px) {
+  .mp-member-header > .mp-header-navigation {
+    gap: 2px;
+  }
+  .mp-member-header > .mp-header-navigation > .mp-header-link,
+  .mp-member-header > .mp-header-navigation > .mp-nav-dropdown > .mp-header-link {
+    gap: 4px;
+    padding-inline: 2px;
+    font-size: 12px;
+  }
+}
