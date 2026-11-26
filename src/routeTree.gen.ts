@@ -23,6 +23,7 @@ import { Route as MemberDashboardCoursesRouteImport } from './routes/_member/das
 import { Route as MemberDashboardProfileRouteImport } from './routes/_member/dashboard/profile'
 import { Route as MemberDashboardQuizzesRouteImport } from './routes/_member/dashboard/quizzes'
 import { Route as MemberDashboardSupportRouteImport } from './routes/_member/dashboard/support'
+import { Route as MemberDashboardNetworkRouteImport } from './routes/_member/dashboard/network'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -92,6 +93,11 @@ const MemberDashboardSupportRoute = MemberDashboardSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => MemberDashboardRouteRoute,
 } as any)
+const MemberDashboardNetworkRoute = MemberDashboardNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
+  getParentRoute: () => MemberDashboardRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
   '/dashboard/support': typeof MemberDashboardSupportRoute
+  '/dashboard/network': typeof MemberDashboardNetworkRoute
   '/dashboard/': typeof MemberDashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
   '/dashboard/support': typeof MemberDashboardSupportRoute
+  '/dashboard/network': typeof MemberDashboardNetworkRoute
   '/dashboard': typeof MemberDashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/_member/dashboard/profile': typeof MemberDashboardProfileRoute
   '/_member/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
   '/_member/dashboard/support': typeof MemberDashboardSupportRoute
+  '/_member/dashboard/network': typeof MemberDashboardNetworkRoute
   '/_member/dashboard/': typeof MemberDashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/dashboard/quizzes'
     | '/dashboard/support'
+    | '/dashboard/network'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/dashboard/quizzes'
     | '/dashboard/support'
+    | '/dashboard/network'
     | '/dashboard'
   id:
     | '__root__'
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/_member/dashboard/profile'
     | '/_member/dashboard/quizzes'
     | '/_member/dashboard/support'
+    | '/_member/dashboard/network'
     | '/_member/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -292,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemberDashboardSupportRouteImport
       parentRoute: typeof MemberDashboardRouteRoute
     }
+    '/_member/dashboard/network': {
+      id: '/_member/dashboard/network'
+      path: '/network'
+      fullPath: '/dashboard/network'
+      preLoaderRoute: typeof MemberDashboardNetworkRouteImport
+      parentRoute: typeof MemberDashboardRouteRoute
+    }
   }
 }
 
@@ -311,6 +330,7 @@ interface MemberDashboardRouteRouteChildren {
   MemberDashboardProfileRoute: typeof MemberDashboardProfileRoute
   MemberDashboardQuizzesRoute: typeof MemberDashboardQuizzesRoute
   MemberDashboardSupportRoute: typeof MemberDashboardSupportRoute
+  MemberDashboardNetworkRoute: typeof MemberDashboardNetworkRoute
   MemberDashboardIndexRoute: typeof MemberDashboardIndexRoute
 }
 
@@ -319,6 +339,7 @@ const MemberDashboardRouteRouteChildren: MemberDashboardRouteRouteChildren = {
   MemberDashboardProfileRoute: MemberDashboardProfileRoute,
   MemberDashboardQuizzesRoute: MemberDashboardQuizzesRoute,
   MemberDashboardSupportRoute: MemberDashboardSupportRoute,
+  MemberDashboardNetworkRoute: MemberDashboardNetworkRoute,
   MemberDashboardIndexRoute: MemberDashboardIndexRoute,
 }
 
