@@ -216,7 +216,7 @@ export const getMemberInbox = createServerFn({ method: 'GET' })
     await requireMemberSupportAccess(context);
     const { data, error } = await context.supabase.rpc('member_inbox_list');
     if (error) throw new Error('Could not load your inbox.');
-    return data as { unread_count: number; items: { id: string; ticket_id: string; subject: string; body: string; created_at: string }[] };
+    return data as { unread_count: number; unread_ticket_ids: string[]; items: { id: string; ticket_id: string; subject: string; body: string; created_at: string; is_unread: boolean }[] };
   });
 
 export const markMemberInboxTicketRead = createServerFn({ method: 'POST' })
