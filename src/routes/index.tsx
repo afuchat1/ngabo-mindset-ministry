@@ -43,16 +43,26 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function useReveal() {
+function useReveal(enabled: boolean) {
   useEffect(() => {
+    if (!enabled) return;
     const els = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("is-visible")),
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      }),
       { threshold: 0, rootMargin: "0px 0px -10% 0px" },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [enabled]);
 }
 
 function Photo({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
@@ -77,7 +87,11 @@ const services = [
 ];
 
 function Index() {
-  useReveal();
+  const navigate = useNavigate();
+  const [authUser, setAuthUser] = useState<User | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [authDestination, setAuthDestination] = useState<"loading" | "signed-out" | "admin" | "member" | "pending">("loading");
+  useReveal(authDestination !== "loading");
   const navigate = useNavigate();
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
