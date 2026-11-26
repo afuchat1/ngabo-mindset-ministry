@@ -122,8 +122,8 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
                 <div className="mp-inbox-heading"><strong>Inbox</strong><span>{unreadInboxCount} unread</span></div>
                 {inboxQuery.isPending ? <p className="mp-inbox-empty">Loading messages…</p>
                   : inboxQuery.isError ? <p className="mp-inbox-empty">Messages could not be loaded. Close and try again.</p>
-                  : inboxQuery.data?.items.length ? inboxQuery.data.items.map(item => <Link key={item.id} to="/dashboard/support" onClick={() => setOpenMenu(null)} className="mp-inbox-item">
-                    <span className="mp-inbox-item-title">{item.subject}</span>
+                  : inboxQuery.data?.items.length ? inboxQuery.data.items.map(item => <Link key={item.id} to="/dashboard/support" onClick={() => setOpenMenu(null)} className={`mp-inbox-item ${item.is_unread ? "is-unread" : ""}`}>
+                    <span className="mp-inbox-item-title">{item.subject}{item.is_unread && <span className="mp-inbox-item-unread">Unread</span>}</span>
                     <span className="mp-inbox-item-preview">{item.body}</span>
                     <span className="mp-inbox-item-date">{new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.created_at))}</span>
                   </Link>)
