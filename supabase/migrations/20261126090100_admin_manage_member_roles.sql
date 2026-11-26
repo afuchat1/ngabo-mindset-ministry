@@ -24,15 +24,15 @@ SECURITY DEFINER
 SET search_path = public
 AS $function$
 DECLARE
-  current_role public.app_role;
+  existing_role public.app_role;
   admin_count integer;
 BEGIN
   IF auth.uid() IS NULL OR NOT public.has_role(auth.uid(), 'admin'::public.app_role) THEN
     RAISE EXCEPTION 'Administrator access required' USING ERRCODE = '42501';
   END IF;
-  SELECT role INTO current_role FROM public.user_roles WHERE user_id = p_user_id FOR UPDATE;
-  IF current_role = 'admin'::public.app_role AND p_role <> 'admin'::public.app_role THEN
-    SELECT count(*) INTO admin_count FROM public.user_roles WHERE role = 'admin'::public.app_role;
+  SELECT ur.role INTO existing_role FROM public.user_roles ur WHERE ur.user_id = p_user_id FOR UPDATE;
+  IF existing_role = 'admin'::public.app_role AND p_role <> 'admin'::public.app_role THEN
+    SELECT count(*) INTO admin_count FROM public.user_roles ur WHERE ur.role = 'admin'::public.app_role;
     IF admin_count <= 1 THEN RAISE EXCEPTION 'The last administrator cannot be demoted'; END IF;
   END IF;
   INSERT INTO public.user_roles(user_id, role, updated_at) VALUES (p_user_id, p_role, now())
