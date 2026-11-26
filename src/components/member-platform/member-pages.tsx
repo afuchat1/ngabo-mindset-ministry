@@ -101,14 +101,6 @@ export function MemberDashboard() {
       title="Overview"
       kicker="MEMBER"
     >
-      <a href="/" className="mp-news-updates-banner" aria-label="Read our daily news and updates on the homepage">
-        <span>Read our daily</span>
-        <span className="mp-news-updates-words" aria-hidden="true">
-          <span>News</span>
-          <span>Updates</span>
-        </span>
-        <span className="sr-only">News and updates</span>
-      </a>
       {dashboard.isPending ? (
         <LoadingState label="Loading your member overview" />
       ) : dashboard.isError ? (
