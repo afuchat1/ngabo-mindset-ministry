@@ -1036,3 +1036,37 @@
  .ng-admin-app .mp-tabs{display:flex;flex-wrap:wrap;overflow:visible;white-space:normal}
  .ng-admin-app .mp-tab{flex:0 1 auto;min-height:38px;padding-inline:9px}
 }
+
+
+/* Mobile administration: a dedicated, restrained off-canvas sidebar. */
+.ng-admin-menu-trigger,.ng-admin-drawer-scrim,.ng-admin-mobile-drawer{display:none}
+.ng-admin-topbar-title{min-width:0}
+.ng-admin-topbar-title h1{overflow-wrap:anywhere}
+@media(max-width:760px){
+ .ng-admin-topbar{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;min-height:68px;gap:10px;padding:10px 16px}
+ .ng-admin-menu-trigger{display:inline-grid;width:40px;height:40px;place-items:center;border:0;border-radius:6px;background:transparent;color:#242321;cursor:pointer}
+ .ng-admin-menu-trigger:hover,.ng-admin-drawer-close:hover{background:#f3f0ed}
+ .ng-admin-topbar-title .ng-admin-eyebrow{overflow:hidden;margin:0 0 3px;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+ .ng-admin-topbar-title h1{font-size:20px;line-height:1.2}
+ .ng-admin-top-actions{gap:0}
+ .ng-admin-top-actions>button{min-height:36px;padding-inline:9px;font-size:12px}
+ .ng-admin-drawer-scrim{position:fixed;z-index:120;inset:0;display:block;width:100%;height:100%;border:0;background:rgb(20 18 16 / 42%)}
+ .ng-admin-mobile-drawer{position:fixed;z-index:121;inset:0 auto 0 0;display:flex;width:min(300px,calc(100vw - 48px));max-width:calc(100vw - 32px);height:100dvh;flex-direction:column;gap:8px;overflow-y:auto;overscroll-behavior:contain;padding:16px 14px max(16px,env(safe-area-inset-bottom));border-right:1px solid #eae6e1;background:#fff;box-shadow:12px 0 32px rgb(25 22 19 / 12%);transform:translateX(-105%);visibility:hidden;transition:transform .2s ease,visibility .2s ease}
+ .ng-admin-mobile-drawer.is-open{transform:translateX(0);visibility:visible}
+ .ng-admin-drawer-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+ .ng-admin-drawer-heading .ng-admin-brand{min-width:0;padding:4px 2px}
+ .ng-admin-drawer-close{display:grid;width:40px;height:40px;flex:0 0 40px;place-items:center;border:0;border-radius:6px;background:transparent;color:#5f5a54;cursor:pointer}
+ .ng-admin-mobile-drawer .ng-admin-nav-label{margin:0 8px 6px}
+ .ng-admin-mobile-drawer .ng-admin-nav{gap:3px}
+ .ng-admin-mobile-drawer .ng-admin-nav-link{min-height:46px;padding-inline:12px;font-size:14px}
+ .ng-admin-mobile-drawer .ng-admin-sidebar-bottom{margin-top:auto;padding-top:14px}
+ .ng-admin-page-content{padding:12px 16px 28px}
+}
+@media(max-width:380px){
+ .ng-admin-topbar{grid-template-columns:38px minmax(0,1fr) auto;gap:6px;padding-inline:12px}
+ .ng-admin-menu-trigger{width:36px;height:36px}
+ .ng-admin-topbar-title h1{font-size:18px}
+ .ng-admin-top-actions>button{padding-inline:7px}
+ .ng-admin-page-content{padding-inline:14px}
+}
+@media(prefers-reduced-motion:reduce){.ng-admin-mobile-drawer{transition:none}}
