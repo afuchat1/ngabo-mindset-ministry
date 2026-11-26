@@ -176,16 +176,28 @@
 
 
 /* Dashboard-only rotating emphasis for the public news and updates link. */
-.mp-news-updates-banner {
+.mp-news-updates-top {
   display: flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  background: #fff0f0;
+  text-align: center;
+}
+.mp-news-updates-banner {
+  display: inline-flex;
   width: fit-content;
   max-width: 100%;
   align-items: center;
+  justify-content: center;
   gap: .35rem;
-  margin: 0 0 1.25rem;
+  margin: 0 auto;
   color: #59665d;
   font-size: .82rem;
   font-weight: 600;
+  text-align: center;
   text-decoration: none;
 }
 .mp-news-updates-words {
