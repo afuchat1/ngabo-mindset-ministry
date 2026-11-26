@@ -536,7 +536,10 @@
 /* Member workspace: sidebar-free grouped header navigation. */
 .mp-sidebar,.mp-mobile-scrim,.mp-menu-trigger{display:none!important}
 .mp-main{margin-left:0!important;min-width:0}
-.mp-member-header{height:auto;min-height:72px;padding:10px clamp(14px,3vw,38px);gap:18px;flex-wrap:wrap}
+.mp-member-header{box-sizing:border-box;width:100%;height:auto;min-height:72px;padding:10px clamp(16px,4vw,56px);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:18px}
+.mp-member-header>.mp-header-brand{justify-self:start;min-width:0}
+.mp-member-header>.mp-header-navigation{justify-self:center;flex:none}
+.mp-member-header>.mp-header-utilities{justify-self:end;min-width:0}
 .mp-header-brand{padding:0!important;flex:none;text-decoration:none}
 .mp-header-navigation{display:flex;align-items:center;gap:5px;flex:1;justify-content:center;min-width:0}
 .mp-header-link{display:inline-flex;align-items:center;gap:8px;min-height:40px;border:0;border-radius:8px;background:transparent;padding:0 12px;color:#625d57;font:600 13px "Montserrat",sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
@@ -551,9 +554,11 @@
 .mp-header-user{display:flex;align-items:center;gap:8px;min-width:0}
 .mp-header-user-name{max-width:150px;overflow:hidden;color:#49443f;font-size:12px;font-weight:650;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:760px){
- .mp-member-header{gap:8px;padding:10px 12px}
+ .mp-member-header{display:flex;box-sizing:border-box;width:100%;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px}
+ .mp-header-brand{flex:0 1 auto}
  .mp-header-brand .mp-brand-logo{width:34px;height:34px;flex-basis:34px}
- .mp-header-navigation{order:3;flex-basis:100%;justify-content:flex-start;overflow:visible;gap:3px}
+ .mp-header-navigation{order:3;flex:1 0 100%;justify-content:center;overflow:visible;gap:3px}
+ .mp-header-utilities{margin-left:auto}
  .mp-header-link{min-height:36px;padding:0 9px;font-size:12px}
  .mp-header-user-name{display:none}
  .mp-dropdown-panel{min-width:160px}
