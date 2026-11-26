@@ -112,7 +112,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/member-support': typeof MemberSupportRoute
   '/dashboard': typeof MemberDashboardRouteRouteWithChildren
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
@@ -127,7 +127,8 @@ export interface FileRoutesByTo {
   '/pending-approval': typeof PendingApprovalRoute
   '/verify-email': typeof VerifyEmailRoute
   '/member-support': typeof MemberSupportRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/dashboard/profile': typeof MemberDashboardProfileRoute
   '/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -144,7 +145,8 @@ export interface FileRoutesById {
   '/pending-approval': typeof PendingApprovalRoute
   '/verify-email': typeof VerifyEmailRoute
   '/_member/dashboard': typeof MemberDashboardRouteRouteWithChildren
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/$section': typeof AuthenticatedAdminSectionRoute
   '/_member/dashboard/courses': typeof MemberDashboardCoursesRoute
   '/_member/dashboard/profile': typeof MemberDashboardProfileRoute
   '/_member/dashboard/quizzes': typeof MemberDashboardQuizzesRoute
@@ -270,6 +272,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/$section': {
+      id: '/_authenticated/admin/$section'
+      path: '/$section'
+      fullPath: '/admin/$section'
+      preLoaderRoute: typeof AuthenticatedAdminSectionRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/$section': {
       id: '/_authenticated/admin/$section'
