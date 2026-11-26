@@ -76,12 +76,16 @@ export function SupportTeamDashboard() {
           <div className="mp-message-list">{active.messages.map(item=><article key={item.id} className={`mp-message ${item.sender_role!=="member"?"is-staff":""}`}>
             <div className="mp-message-meta"><strong>{item.sender_role==="member"?"Member":"NGABO support"}</strong><span>{dateLabel(item.created_at)}</span></div><p>{item.body}</p>
           </article>)}</div>
-          <form className="grid gap-3" onSubmit={sendReply}>
-            <div className="mp-field"><Label htmlFor="support-team-reply">Your reply</Label><Textarea id="support-team-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={event=>setMessage(event.target.value)}/></div>
-            <label className="mp-check-row"><input type="checkbox" checked={resolve} onChange={event=>setResolve(event.target.checked)}/> Mark resolved after replying</label>
-            {error && <p role="alert" className="mp-form-error">{error}</p>}
-            <div className="flex justify-end"><Button className="mp-btn-primary mp-btn-small" disabled={reply.isPending || !message.trim()}>{reply.isPending?"Sending…":"Send reply"} <Send size={14}/></Button></div>
-          </form>
+          {active.status === "resolved" ? (
+            <p className="rounded-lg bg-[#f3f5ef] p-3 text-[12px] text-[#738078]">This ticket is closed. No further messages can be sent. If more help is needed, the member must open a new request.</p>
+          ) : (
+            <form className="grid gap-3" onSubmit={sendReply}>
+              <div className="mp-field"><Label htmlFor="support-team-reply">Your reply</Label><Textarea id="support-team-reply" required maxLength={5000} placeholder="Write a helpful response…" value={message} onChange={event=>setMessage(event.target.value)}/></div>
+              <label className="mp-check-row"><input type="checkbox" checked={resolve} onChange={event=>setResolve(event.target.checked)}/> Mark resolved after replying</label>
+              {error && <p role="alert" className="mp-form-error">{error}</p>}
+              <div className="flex justify-end"><Button className="mp-btn-primary mp-btn-small" disabled={reply.isPending || !message.trim()}>{reply.isPending?"Sending…":"Send reply"} <Send size={14}/></Button></div>
+            </form>
+          )}
         </section>}
       </div>}
       <footer className="mp-footer"><span>NGABO (MMA) · Support workspace</span></footer>
