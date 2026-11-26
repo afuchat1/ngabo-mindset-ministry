@@ -95,6 +95,16 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
   ] as const;
   return (
     <div className="mp-workspace min-h-[100dvh]">
+      {!pendingAccess && <div className="mp-news-updates-top">
+        <a href="/" className="mp-news-updates-banner" aria-label="Read our daily news and updates on the homepage">
+          <span>Read our daily</span>
+          <span className="mp-news-updates-words" aria-hidden="true">
+            <span>News</span>
+            <span>Updates</span>
+          </span>
+          <span className="sr-only">News and updates</span>
+        </a>
+      </div>}
       <main className="mp-main">
         {!pendingAccess && <header className="mp-topbar mp-member-header">
           <Link to="/dashboard" className="mp-brand mp-header-brand">
