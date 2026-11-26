@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, LayoutDashboard, LogOut, Network, Package, UsersRound, LifeBuoy, ClipboardList, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, LayoutDashboard, LogOut, Network, Package, UsersRound, LifeBuoy, ClipboardList, MessageCircle, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/ngabo-logo.jpg";
 import { AdminLearningSection } from "@/components/member-platform/admin-learning-section";
@@ -27,6 +28,7 @@ const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboa
 export function AdminSectionPage({ section }: { section: AdminSection }) {
   const client = useQueryClient();
   const navigate = useNavigate();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   async function signOut() {
     await client.cancelQueries();
     client.clear();
@@ -44,15 +46,27 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
       </nav>
       <div className="ng-admin-sidebar-bottom"><Link to="/" className="ng-admin-nav-link"><ArrowUpRight size={17}/>View website</Link><button type="button" className="ng-admin-nav-link" onClick={() => void signOut()}><LogOut size={17}/>Sign out</button></div>
     </aside>
+    {mobileNavOpen && <button type="button" className="ng-admin-drawer-scrim" aria-label="Close administration navigation" onClick={() => setMobileNavOpen(false)} />}
+    <aside className={`ng-admin-mobile-drawer${mobileNavOpen ? " is-open" : ""}`} aria-label="Mobile administration navigation" aria-hidden={!mobileNavOpen}>
+      <div className="ng-admin-drawer-heading">
+        <Link to="/admin/overview" className="ng-admin-brand" onClick={() => setMobileNavOpen(false)}><img src={logoImage} alt="" /><span><strong>NGABO</strong><small>Administration</small></span></Link>
+        <button type="button" className="ng-admin-drawer-close" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)}><X size={20}/></button>
+      </div>
+      <p className="ng-admin-nav-label">WORKSPACE</p>
+      <nav aria-label="Administration pages" className="ng-admin-nav">
+        {items.map(({id,label,icon:Icon,href})=><Link key={id} to={href as any} aria-current={section===id?"page":undefined} className="ng-admin-nav-link" onClick={() => setMobileNavOpen(false)}><Icon size={18}/><span>{label}</span></Link>)}
+      </nav>
+      <div className="ng-admin-sidebar-bottom">
+        <Link to="/" className="ng-admin-nav-link" onClick={() => setMobileNavOpen(false)}><ArrowUpRight size={17}/>View website</Link>
+        <button type="button" className="ng-admin-nav-link" onClick={() => void signOut()}><LogOut size={17}/>Sign out</button>
+      </div>
+    </aside>
     <div className="ng-admin-main">
       <header className="ng-admin-topbar">
-        <div><p className="ng-admin-eyebrow">ADMINISTRATION / {current.label.toUpperCase()}</p><h1>{current.label}</h1></div>
+        <button type="button" className="ng-admin-menu-trigger" aria-label="Open administration navigation" aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen(true)}><Menu size={21}/></button>
+        <div className="ng-admin-topbar-title"><p className="ng-admin-eyebrow">ADMINISTRATION / {current.label.toUpperCase()}</p><h1>{current.label}</h1></div>
         <div className="ng-admin-top-actions"><span className="ng-admin-live"><Activity size={14}/> Workspace</span><Button variant="outline" size="sm" onClick={() => void signOut()}><LogOut size={15}/>Sign out</Button></div>
       </header>
-      <nav className="ng-admin-mobile-nav" aria-label="Administration pages">
-        
-        {items.map(({id,label,href})=><Link key={id} to={href as any} aria-current={section===id?"page":undefined}>{label}</Link>)}
-      </nav>
       <div className="ng-admin-page-content">{section === "overview" ? <AdminOverview/> : section === "events" ? <AdminEventsPage/> : section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
     </div>
   </main>;
