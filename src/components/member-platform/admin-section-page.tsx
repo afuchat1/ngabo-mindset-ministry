@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, LayoutDashboard, Network, Package, UsersRound, LifeBuoy, ClipboardList, MessageCircle, Menu, X, UserRound, ShieldCheck, Mail, Phone, MapPin, CalendarClock, BadgeCheck, LogOut, UserCircle } from "lucide-react";
+import { Activity, ArrowUpRight, BookOpen, CalendarDays, CircleHelp, Images, LayoutDashboard, Network, Package, UsersRound, LifeBuoy, ClipboardList, MessageCircle, Menu, X, UserRound, ShieldCheck, Mail, Phone, MapPin, CalendarClock, BadgeCheck, LogOut, Compass, Inbox, Settings2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/ngabo-logo.jpg";
 import { AdminLearningSection } from "@/components/member-platform/admin-learning-section";
@@ -11,6 +11,7 @@ import "@/components/member-platform/workspace.css";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminPlatformData } from "@/components/member-platform/use-platform";
 import { AdminEventsPage } from "@/components/member-platform/admin-events-page";
+import { getMemberInbox } from "@/lib/member-platform.functions";
 
 type AdminSection = "overview" | "events" | "members" | "support" | "courses" | "quizzes" | "network" | "products" | "photos" | "profile";
 const items: Array<{ id: AdminSection; label: string; icon: typeof LayoutDashboard; href: string }> = [
@@ -52,11 +53,7 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
       <div className="ng-admin-sidebar-bottom"><Link to="/" className="ng-admin-nav-link" onClick={() => setMobileNavOpen(false)}><ArrowUpRight size={17}/>View website</Link></div>
     </aside>
     <div className="ng-admin-main">
-      <header className="ng-admin-topbar">
-        <button type="button" className="ng-admin-menu-trigger" aria-label="Open administration navigation" aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen(true)}><Menu size={21}/></button>
-        <div className="ng-admin-topbar-title"><p className="ng-admin-eyebrow">ADMINISTRATION / {current.label.toUpperCase()}</p><h1>{current.label}</h1></div>
-        <div className="ng-admin-top-actions"><span className="ng-admin-live"><Activity size={14}/> Workspace</span><Button asChild variant="outline" size="sm"><Link to="/admin/profile"><UserCircle size={15}/>My profile</Link></Button></div>
-      </header>
+      <AdminWorkspaceHeader active={section} currentLabel={current.label} onOpenNavigation={() => setMobileNavOpen(true)} />
       <div className="ng-admin-page-content">{section === "overview" ? <AdminOverview/> : section === "profile" ? <AdminProfile/> : section === "events" ? <AdminEventsPage/> : section === "products" ? <><AdminProducts placement="top"/><AdminProducts placement="bottom"/></> : section === "photos" ? <AdminHeroImages/> : <AdminLearningSection initialSection={section} fixedSection={section}/>}</div>
     </div>
   </main>;
@@ -64,6 +61,50 @@ export function AdminSectionPage({ section }: { section: AdminSection }) {
 
 
 
+function AdminWorkspaceHeader({ active, currentLabel, onOpenNavigation }: { active: AdminSection; currentLabel: string; onOpenNavigation: () => void }) {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const inboxTriggerRef = useRef<HTMLButtonElement>(null);
+  const [inboxTop, setInboxTop] = useState(80);
+  const inboxQuery = useQuery({ queryKey: ["member-inbox"], queryFn: () => getMemberInbox(), refetchInterval: 30000 });
+  const unreadCount = inboxQuery.data?.unread_count ?? 0;
+  useEffect(() => {
+    if (!openMenu) return;
+    const closeOutside = (event: PointerEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const menu = target?.closest<HTMLElement>(".mp-nav-dropdown[data-menu-key]");
+      if (menu?.dataset.menuKey !== openMenu) setOpenMenu(null);
+    };
+    const closeEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpenMenu(null); };
+    document.addEventListener("pointerdown", closeOutside); document.addEventListener("keydown", closeEscape);
+    return () => { document.removeEventListener("pointerdown", closeOutside); document.removeEventListener("keydown", closeEscape); };
+  }, [openMenu]);
+  useEffect(() => {
+    if (openMenu !== "Inbox") return;
+    const update = () => { const rect = inboxTriggerRef.current?.getBoundingClientRect(); if (rect) setInboxTop(Math.max(12, rect.bottom + 8)); };
+    update(); window.addEventListener("resize", update); window.addEventListener("scroll", update, true);
+    return () => { window.removeEventListener("resize", update); window.removeEventListener("scroll", update, true); };
+  }, [openMenu]);
+  const groups = [
+    { label: "Learning", icon: BookOpen, items: [{ to: "/admin/courses", label: "Courses", icon: BookOpen }, { to: "/admin/quizzes", label: "Quizzes", icon: CircleHelp }] },
+    { label: "Community", icon: UsersRound, items: [{ to: "/admin/network", label: "Network", icon: UsersRound }, { to: "/admin/support", label: "Support", icon: LifeBuoy }] },
+  ] as const;
+  return <div className="mp-workspace ng-admin-shared-header">
+    <div className="mp-news-updates-top"><a href="/" className="mp-news-updates-banner" aria-label="Read our daily news and updates on the homepage"><span>Read our daily</span><span className="mp-news-updates-words" aria-hidden="true"><span>News</span><span>Updates</span></span><span className="sr-only">News and updates</span></a></div>
+    <header className="mp-topbar mp-member-header">
+      <button type="button" className="ng-admin-menu-trigger" aria-label="Open administration navigation" onClick={onOpenNavigation}><Menu size={20}/></button>
+      <Link to="/admin/overview" className="mp-brand mp-header-brand"><img src={logoImage} alt="NGABO (MMA) Network & Ministries" className="mp-brand-logo"/><span><p className="mp-brand-name">NGABO</p><p className="mp-brand-subtitle">Administration</p></span></Link>
+      <nav className="mp-header-navigation" aria-label="Administration navigation">
+        <Link to="/admin/overview" className={`mp-header-link ${active === "overview" ? "is-active" : ""}`}><Compass size={16}/> Overview</Link>
+        {groups.map(group => <div className="mp-nav-dropdown" data-menu-key={group.label} key={group.label}><button type="button" className={`mp-header-link ${group.items.some(item => item.to === `/admin/${active}`) ? "is-active" : ""}`} aria-expanded={openMenu === group.label} onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}><group.icon size={16}/>{group.label}<ChevronDown className="mp-dropdown-chevron" size={13}/></button>{openMenu === group.label && <div className="mp-dropdown-panel">{group.items.map(item => <Link key={item.to} to={item.to as any} onClick={() => setOpenMenu(null)} className={`mp-dropdown-item ${item.to === `/admin/${active}` ? "is-active" : ""}`}><item.icon size={16}/><span>{item.label}</span></Link>)}</div>}</div>)}
+      </nav>
+      <div className="mp-header-utilities">
+        <div className="mp-nav-dropdown mp-inbox-menu" data-menu-key="Inbox"><button type="button" ref={inboxTriggerRef} className="mp-header-utility-button mp-inbox-trigger" aria-label={unreadCount ? `Inbox, ${unreadCount} unread messages` : "Open inbox"} aria-expanded={openMenu === "Inbox"} onClick={() => setOpenMenu(openMenu === "Inbox" ? null : "Inbox")}><Inbox size={18}/><span>Inbox</span>{unreadCount > 0 && <span className="mp-inbox-badge">{unreadCount > 99 ? "99+" : unreadCount}</span>}</button>
+          {openMenu === "Inbox" && <div className="mp-dropdown-panel mp-inbox-panel" style={{ top: inboxTop }}><div className="mp-inbox-heading"><strong>Inbox</strong><span>{unreadCount} unread</span></div>{inboxQuery.isPending ? <p className="mp-inbox-empty">Loading messages…</p> : inboxQuery.isError ? <p className="mp-inbox-empty">Messages could not be loaded. Close and try again.</p> : inboxQuery.data?.items.length ? inboxQuery.data.items.map(item => <Link key={item.id} to="/admin/support" onClick={() => setOpenMenu(null)} className={`mp-inbox-item ${item.is_unread ? "is-unread" : ""}`}><span className="mp-inbox-item-title">{item.subject}{item.is_unread && <span className="mp-inbox-item-unread">Unread</span>}</span><span className="mp-inbox-item-preview">{item.body}</span><span className="mp-inbox-item-date">{new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.created_at))}</span></Link>) : <p className="mp-inbox-empty">You’re all caught up. New replies and messages will appear here.</p>}<Link to="/admin/support" onClick={() => setOpenMenu(null)} className="mp-inbox-footer">Open support conversations <ArrowUpRight size={14}/></Link></div>}</div>
+        <div className="mp-nav-dropdown mp-header-user-menu" data-menu-key="Menu"><button type="button" className="mp-header-utility-button" aria-label="Open menu" aria-expanded={openMenu === "Menu"} onClick={() => setOpenMenu(openMenu === "Menu" ? null : "Menu")}><Menu size={20}/></button>{openMenu === "Menu" && <div className="mp-dropdown-panel mp-avatar-dropdown"><div className="mp-avatar-menu-name">Administration</div><Link to="/admin/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link></div>}</div>
+      </div>
+    </header>
+  </div>;
+}
 function AdminProfile() {
   const client = useQueryClient();
   const navigate = useNavigate();
