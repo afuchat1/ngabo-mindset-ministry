@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LifeBuoy, LogOut, MessageCircle, Send, CheckCircle2, RefreshCw } from "lucide-react";
@@ -37,7 +37,7 @@ export function SupportTeamDashboard() {
     await supabase.auth.signOut();
     await navigate({ to: "/auth", replace: true });
   }
-  async function sendReply(event: React.FormEvent<HTMLFormElement>) {
+  async function sendReply(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!active || !message.trim()) return;
     setError("");
