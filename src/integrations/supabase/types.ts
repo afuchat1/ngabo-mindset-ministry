@@ -540,6 +540,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_set_user_role: { Args: { p_role: Database["public"]["Enums"]["app_role"]; p_user_id: string }; Returns: Database["public"]["Enums"]["app_role"] }
       admin_reply_to_support_ticket: {
         Args: { p_message: string; p_resolve?: boolean; p_ticket_id: string }
         Returns: string
@@ -612,9 +613,9 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "staff" | "support"
       member_approval_state: "pending" | "approved" | "rejected"
-      support_sender_role: "member" | "admin"
+      support_sender_role: "member" | "admin" | "staff" | "support"
       support_ticket_state: "open" | "awaiting_member" | "resolved"
     }
     CompositeTypes: {
@@ -743,9 +744,9 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "staff", "support"],
       member_approval_state: ["pending", "approved", "rejected"],
-      support_sender_role: ["member", "admin"],
+      support_sender_role: ["member", "admin", "staff", "support"],
       support_ticket_state: ["open", "awaiting_member", "resolved"],
     },
   },
