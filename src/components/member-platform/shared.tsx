@@ -78,12 +78,18 @@ export function MemberWorkspace({ active, title, kicker, description, pendingAcc
               </button>
               {openMenu === group.label && <div className="mp-dropdown-panel">{group.items.map(item=><Link key={item.to} to={item.to} onClick={()=>setOpenMenu(null)} className={`mp-dropdown-item ${active === item.to ? "is-active" : ""}`}><item.icon size={16}/><span>{item.label}</span>{("count" in item && item.count && item.count>0) ? <span className="mp-dropdown-count">{item.count}</span> : null}</Link>)}</div>}
             </div>)}
-            <div className="mp-nav-dropdown">
-              <button type="button" className={`mp-header-link ${active === "/dashboard/profile" ? "is-active" : ""}`} aria-expanded={openMenu === "Account"} onClick={()=>setOpenMenu(openMenu === "Account" ? null : "Account")}><UserRound size={16}/>Account<ArrowRight className="mp-dropdown-chevron" size={13}/></button>
-              {openMenu === "Account" && <div className="mp-dropdown-panel"><Link to="/dashboard/profile" onClick={()=>setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link><button type="button" onClick={()=>void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button></div>}
-            </div>
+
           </nav>
-          <div className="mp-header-user"><span className="mp-avatar mp-avatar-small">{initials || "N"}</span><span className="mp-header-user-name">{name}</span></div>
+          <div className="mp-nav-dropdown mp-header-user-menu">
+            <button type="button" className="mp-header-avatar-button" aria-label="Open account menu" aria-expanded={openMenu === "Avatar"} onClick={() => setOpenMenu(openMenu === "Avatar" ? null : "Avatar")}>
+              <span className="mp-avatar mp-avatar-small">{initials || "N"}</span>
+            </button>
+            {openMenu === "Avatar" && <div className="mp-dropdown-panel mp-avatar-dropdown">
+              <div className="mp-avatar-menu-name">{name}</div>
+              <Link to="/dashboard/profile" onClick={() => setOpenMenu(null)} className="mp-dropdown-item"><Settings2 size={16}/>My profile</Link>
+              <button type="button" onClick={() => void signOut()} className="mp-dropdown-item"><LogOut size={16}/>Sign out</button>
+            </div>}
+          </div>
         </header>}
         {pendingAccess && <header className="mp-topbar"><div className="mp-breadcrumb"><Link to="/pending-approval" className="inline-flex items-center gap-1 text-[#DE3F20]">Back to status</Link></div></header>}
         <div className="mp-content">
