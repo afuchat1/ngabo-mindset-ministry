@@ -459,3 +459,61 @@ export const replyToSupportTicketAsAdmin = createServerFn({ method: 'POST' })
     });
     return { id: messageId, email };
   });
+
+
+export type SupportTeamTicket = {
+  id: string;
+  ticket_number: number;
+  subject: string;
+  status: "open" | "awaiting_member" | "resolved";
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  member: { user_id: string; first_name: string; last_name: string; email: string };
+  messages: Array<{ id: string; sender_role: string; body: string; created_at: string }>;
+};
+
+export const getSupportTeamDashboard = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: isSupport, error: supportError } = await context.supabase.rpc("has_role", {
+      _user_id: context.userId, _role: "support",
+    });
+    const { data: isAdmin, error: adminError } = await context.supabase.rpc("has_role", {
+      _user_id: context.userId, _role: "admin",
+    });
+    if (supportError || adminError || (!isSupport && !isAdmin)) {
+      throw new Error("Support team access required.");
+    }
+    const { data, error } = await context.supabase.rpc("support_team_list_tickets");
+    if (error) throw new Error("Could not load support conversations.");
+    return data as SupportTeamTicket[];
+  });
+
+export const replyToSupportTeamTicket = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(input => z.object({
+    ticket_id: z.string().uuid(),
+    message: z.string().trim().min(1).max(5000),
+    resolve: z.boolean().optional(),
+  }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: messageId, error } = await context.supabase.rpc("support_team_reply_to_ticket", {
+      p_ticket_id: data.ticket_id,
+      p_message: data.message,
+      p_resolve: data.resolve ?? false,
+    });
+    if (error) throw new Error("Could not send support reply.");
+    const { data: tickets } = await context.supabase.rpc("support_team_list_tickets");
+    const ticket = (tickets as SupportTeamTicket[] | null)?.find(item => item.id === data.ticket_id);
+    const email = ticket?.member.email
+      ? await sendPlatformEmail(context.supabase, {
+          to: ticket.member.email,
+          subject: data.resolve ? `Support ticket resolved · #${String(ticket.ticket_number).padStart(6, "0")}` : `New support reply · #${String(ticket.ticket_number).padStart(6, "0")}`,
+          message: data.resolve
+            ? `Hello ${ticket.member.first_name},\n\nOur support team has marked your request as resolved.\n\nSubject: ${ticket.subject}\n\nTeam response: ${data.message}\n\nIf you still need help, reply from your NGABO member dashboard.`
+            : `Hello ${ticket.member.first_name},\n\nOur support team has replied to your request.\n\nSubject: ${ticket.subject}\n\nTeam response: ${data.message}\n\nSign in to your NGABO member dashboard to continue the conversation.`,
+        })
+      : { sent: false as const, reason: "recipient_not_found" as const };
+    return { id: messageId, email };
+  });
