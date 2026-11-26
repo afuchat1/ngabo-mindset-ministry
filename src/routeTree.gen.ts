@@ -280,13 +280,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSectionRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/admin/$section': {
-      id: '/_authenticated/admin/$section'
-      path: '/$section'
-      fullPath: '/admin/$section'
-      preLoaderRoute: typeof AuthenticatedAdminSectionRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
     '/_member/dashboard': {
       id: '/_member/dashboard'
       path: '/dashboard'
