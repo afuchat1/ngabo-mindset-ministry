@@ -940,3 +940,7 @@
 /* Restore the inbox popup to a viewport-centered modal; preserve other dropdowns. */
 .mp-workspace .mp-inbox-panel { top: 50vh; left: 50vw; right: auto; transform: translate(-50%, -50%); max-height: min(70dvh, 520px); }
 @media (max-width:760px) { .mp-workspace .mp-inbox-panel { top: 50dvh; left: 50vw; right: auto; transform: translate(-50%, -50%); width: min(360px, calc(100vw - 32px)); max-width: calc(100vw - 32px); } }
+
+/* Inbox dropdown: directly below the trigger, centered with equal viewport gutters. */
+.mp-workspace .mp-inbox-panel { position:absolute; top:calc(100% + 8px); left:50%; right:auto; transform:translateX(-50%); width:min(340px,calc(100vw - 32px)); max-width:calc(100vw - 32px); max-height:min(70dvh,520px); }
+@media(max-width:760px){.mp-workspace .mp-inbox-panel{position:absolute;top:calc(100% + 8px);left:50%;right:auto;transform:translateX(-50%);width:min(340px,calc(100vw - 32px));max-width:calc(100vw - 32px);}}
