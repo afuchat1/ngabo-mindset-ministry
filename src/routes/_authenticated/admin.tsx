@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Navigate, redirect, useRouterState } from '@ta
 import { supabase } from '@/integrations/supabase/client';
 import { SupportTeamDashboard } from '@/components/member-platform/support-team-dashboard';
 
-export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Events & announcements | NGABO (MMA)' }, { name: 'description', content: 'Manage ministry events, announcements and featured resources.' }, { property: 'og:title', content: 'Events & announcements | NGABO (MMA)' }, { property: 'og:description', content: 'Manage scheduled ministry announcements and featured resources.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), beforeLoad: async () => {
+export const Route = createFileRoute('/_authenticated/admin')({ head: () => ({ meta: [{ title: 'Administration | NGABO (MMA)' }, { name: 'description', content: 'Manage NGABO ministry operations, members, learning and content.' }, { property: 'og:title', content: 'Events & announcements | NGABO (MMA)' }, { property: 'og:description', content: 'Manage ministry operations, members, learning and content.' }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary' }, { name: 'robots', content: 'noindex' }] }), beforeLoad: async () => {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) throw redirect({ to: '/auth' });
   const [admin, support] = await Promise.all([
